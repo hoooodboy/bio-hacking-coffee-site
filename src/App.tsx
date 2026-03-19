@@ -1090,6 +1090,16 @@ const PRODUCTS = {
       },
     ],
   },
+  trial: {
+    name: "100ml 무료 체험",
+    sub: "이벤트",
+    image: "/event-hero.png",
+    bg: "#1a1a1a",
+    price: "0원",
+    origPrice: "0원",
+    discount: "",
+    specs: [],
+  },
 } as const;
 
 type ProductKey = keyof typeof PRODUCTS;
@@ -2425,7 +2435,15 @@ function App() {
                       <br />
                       배송비만 부담하세요.
                     </BannerDesc>
-                    <BannerBtn>무료 체험 신청하기</BannerBtn>
+                    <BannerBtn
+                      onClick={() => {
+                        setCart([{ key: "trial", qty: 1 }]);
+                        setCartOpen(false);
+                        setShowCheckout(true);
+                      }}
+                    >
+                      무료 체험 신청하기
+                    </BannerBtn>
                     <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
                   </BannerInfo>
                 </EventBanner>
