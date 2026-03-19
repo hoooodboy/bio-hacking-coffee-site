@@ -112,7 +112,9 @@ const TopLeft = styled.div`
   letter-spacing: 2px;
   line-height: 1.3;
   text-transform: uppercase;
-  @media (min-width: 768px) { font-size: 16px; }
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const TopRight = styled.div`
@@ -123,7 +125,9 @@ const TopRight = styled.div`
   line-height: 1.3;
   text-transform: uppercase;
   text-align: right;
-  @media (min-width: 768px) { font-size: 16px; }
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const MiddleSection = styled.div`
@@ -139,7 +143,9 @@ const FounderText = styled.div`
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 0.5px;
-  @media (min-width: 768px) { font-size: 18px; }
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const FocusText = styled.div`
@@ -151,7 +157,9 @@ const FocusText = styled.div`
   em {
     font-style: italic;
   }
-  @media (min-width: 768px) { font-size: 34px; }
+  @media (min-width: 768px) {
+    font-size: 34px;
+  }
 `;
 
 const BottomSection = styled.div`
@@ -175,7 +183,9 @@ const MainTitle = styled.h1`
   font-weight: 700;
   margin: 0 0 4px;
   letter-spacing: 2px;
-  @media (min-width: 768px) { font-size: 32px; }
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
 `;
 
 const SubText = styled.div`
@@ -184,7 +194,9 @@ const SubText = styled.div`
   line-height: 1.4;
   opacity: 0.85;
   letter-spacing: 0.5px;
-  @media (min-width: 768px) { font-size: 18px; }
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const bounce = keyframes`
@@ -209,7 +221,9 @@ const FooterText = styled.div`
   opacity: 0.6;
   z-index: 1;
   animation: ${fadeIn} 0.8s ease-out 0.6s both;
-  @media (min-width: 768px) { font-size: 13px; }
+  @media (min-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 /* ─── Bottom Sheet Modal ─── */
@@ -301,7 +315,9 @@ const NavLabel = styled.span`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   opacity: 0.4;
-  @media (min-width: 768px) { font-size: 13px; }
+  @media (min-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const BigHeading = styled.h2`
@@ -313,7 +329,9 @@ const BigHeading = styled.h2`
   em {
     font-style: italic;
   }
-  @media (min-width: 768px) { font-size: 54px; }
+  @media (min-width: 768px) {
+    font-size: 54px;
+  }
 `;
 
 const LabelSmall = styled.div`
@@ -325,7 +343,9 @@ const LabelSmall = styled.div`
   opacity: 0.7;
   margin-bottom: 8px;
   color: #fff;
-  @media (min-width: 768px) { font-size: 12px; }
+  @media (min-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const TitleLarge = styled.div`
@@ -333,7 +353,9 @@ const TitleLarge = styled.div`
   font-size: 32px;
   font-weight: 400;
   line-height: 1.2;
-  @media (min-width: 768px) { font-size: 46px; }
+  @media (min-width: 768px) {
+    font-size: 46px;
+  }
 `;
 
 const BodyText = styled.p`
@@ -345,7 +367,10 @@ const BodyText = styled.p`
   margin-top: 10px;
   max-width: 220px;
   color: #fff;
-  @media (min-width: 768px) { font-size: 17px; max-width: 320px; }
+  @media (min-width: 768px) {
+    font-size: 17px;
+    max-width: 320px;
+  }
 `;
 
 /* Free-form canvas for scattered text blocks */
@@ -385,7 +410,9 @@ const DetailTitle = styled.div`
   font-size: 26px;
   font-weight: 400;
   line-height: 1.25;
-  @media (min-width: 768px) { font-size: 36px; }
+  @media (min-width: 768px) {
+    font-size: 36px;
+  }
 `;
 
 const DetailBody = styled.p`
@@ -397,9 +424,11 @@ const DetailBody = styled.p`
   margin-top: 10px;
   max-width: 200px;
   color: #fff;
-  @media (min-width: 768px) { font-size: 17px; max-width: 300px; }
+  @media (min-width: 768px) {
+    font-size: 17px;
+    max-width: 300px;
+  }
 `;
-
 
 const revealScale = (visible: boolean, delay = 0) => css`
   opacity: ${visible ? 1 : 0};
@@ -448,7 +477,9 @@ const SecTitle = styled.h2`
   font-weight: 400;
   color: #fff;
   margin: 0;
-  @media (min-width: 768px) { font-size: 40px; }
+  @media (min-width: 768px) {
+    font-size: 40px;
+  }
 `;
 
 const SecSub = styled.p`
@@ -459,7 +490,9 @@ const SecSub = styled.p`
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.35;
   margin: 4px 0 0;
-  @media (min-width: 768px) { font-size: 28px; }
+  @media (min-width: 768px) {
+    font-size: 28px;
+  }
 `;
 
 const ItemName = styled.div`
@@ -467,7 +500,9 @@ const ItemName = styled.div`
   font-size: 13px;
   font-weight: 600;
   color: #fff;
-  @media (min-width: 768px) { font-size: 17px; }
+  @media (min-width: 768px) {
+    font-size: 17px;
+  }
 `;
 
 const PriceRow = styled.div`
@@ -489,7 +524,9 @@ const OrigPrice = styled.span`
   font-weight: 300;
   color: rgba(255, 255, 255, 0.3);
   text-decoration: line-through;
-  @media (min-width: 768px) { font-size: 14px; }
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const SalePrice = styled.span`
@@ -497,7 +534,9 @@ const SalePrice = styled.span`
   font-size: 14px;
   font-weight: 700;
   color: #fff;
-  @media (min-width: 768px) { font-size: 18px; }
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const DiscountBadge = styled.span`
@@ -505,7 +544,9 @@ const DiscountBadge = styled.span`
   font-size: 11px;
   font-weight: 700;
   color: #e8743a;
-  @media (min-width: 768px) { font-size: 14px; }
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const ItemSub = styled.div`
@@ -513,7 +554,9 @@ const ItemSub = styled.div`
   font-size: 11px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.4);
-  @media (min-width: 768px) { font-size: 14px; }
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 /* ── Section 1: Event (wide banner + 2-col grid) ── */
@@ -556,10 +599,13 @@ const BannerTitle = styled.div`
   font-weight: 400;
   color: #fff;
   line-height: 1.2;
-  em { font-style: italic; }
-  @media (min-width: 768px) { font-size: 32px; }
+  em {
+    font-style: italic;
+  }
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
 `;
-
 
 const BannerDesc = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
@@ -567,7 +613,9 @@ const BannerDesc = styled.div`
   font-weight: 300;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.5;
-  @media (min-width: 768px) { font-size: 15px; }
+  @media (min-width: 768px) {
+    font-size: 15px;
+  }
 `;
 
 const BannerBtn = styled.div`
@@ -580,7 +628,10 @@ const BannerBtn = styled.div`
   font-size: 11px;
   font-weight: 600;
   color: #e8743a;
-  @media (min-width: 768px) { font-size: 14px; padding: 10px 28px; }
+  @media (min-width: 768px) {
+    font-size: 14px;
+    padding: 10px 28px;
+  }
 `;
 
 const BannerNote = styled.div`
@@ -588,7 +639,9 @@ const BannerNote = styled.div`
   font-size: 9px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.4);
-  @media (min-width: 768px) { font-size: 11px; }
+  @media (min-width: 768px) {
+    font-size: 11px;
+  }
 `;
 
 const GridRow = styled.div`
@@ -641,10 +694,14 @@ const CompanyTitle = styled.h2`
   font-size: 52px;
   font-weight: 400;
   color: #fff;
-  line-height: 1.0;
+  line-height: 1;
   margin: 0 0 24px;
-  em { font-style: italic; }
-  @media (min-width: 768px) { font-size: 72px; }
+  em {
+    font-style: italic;
+  }
+  @media (min-width: 768px) {
+    font-size: 72px;
+  }
 `;
 
 const CompanyGrid = styled.div`
@@ -662,7 +719,16 @@ const GBox = styled.div<{ bg?: string; span?: number; h?: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   ${({ span }) => span && `grid-column: span ${span};`}
+  @media (min-width: 768px) {
+    height: ${({ h }) => (h ? h * 1.8 : 180)}px;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const CompanyBody = styled.p`
@@ -672,7 +738,9 @@ const CompanyBody = styled.p`
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.7;
   margin: 0 0 28px;
-  @media (min-width: 768px) { font-size: 20px; }
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const MetaLine = styled.div`
@@ -682,7 +750,9 @@ const MetaLine = styled.div`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.2);
-  @media (min-width: 768px) { font-size: 12px; }
+  @media (min-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 /* ── Section 4: Leave No Trace ── */
@@ -699,7 +769,9 @@ const TraceTitle = styled.h2`
   color: #fff;
   line-height: 1.1;
   margin: 0 auto 12px;
-  @media (min-width: 768px) { font-size: 62px; }
+  @media (min-width: 768px) {
+    font-size: 62px;
+  }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -726,7 +798,10 @@ const TraceBody = styled.p`
   line-height: 1.8;
   max-width: 300px;
   margin: 16px auto 0;
-  @media (min-width: 768px) { font-size: 16px; max-width: 450px; }
+  @media (min-width: 768px) {
+    font-size: 16px;
+    max-width: 450px;
+  }
 `;
 
 /* ── Section 5: Footer ── */
@@ -746,7 +821,9 @@ const FtLabel = styled.div`
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.2);
   margin-bottom: 4px;
-  @media (min-width: 768px) { font-size: 12px; }
+  @media (min-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const FtBrand = styled.h3`
@@ -757,7 +834,9 @@ const FtBrand = styled.h3`
   text-transform: uppercase;
   color: #fff;
   margin: 0 0 8px;
-  @media (min-width: 768px) { font-size: 36px; }
+  @media (min-width: 768px) {
+    font-size: 36px;
+  }
 `;
 
 const FtLogo = styled.img`
@@ -785,7 +864,9 @@ const FtInput = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.2);
-  @media (min-width: 768px) { font-size: 14px; }
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
 `;
 
 const FtBtn = styled.div`
@@ -801,7 +882,9 @@ const FtBtn = styled.div`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.4);
-  @media (min-width: 768px) { font-size: 13px; }
+  @media (min-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const FtLinks = styled.div`
@@ -817,13 +900,17 @@ const FtLink = styled.span`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.2);
-  @media (min-width: 768px) { font-size: 12px; }
+  @media (min-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const FtWatermark = styled.div`
   font-family: "Instrument Serif", serif;
   font-size: 80px;
-  @media (min-width: 768px) { font-size: 120px; }
+  @media (min-width: 768px) {
+    font-size: 120px;
+  }
   font-style: italic;
   color: rgba(255, 255, 255, 0.03);
   line-height: 0.9;
@@ -837,7 +924,9 @@ const FtCopy = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 9px;
   color: rgba(255, 255, 255, 0.1);
-  @media (min-width: 768px) { font-size: 12px; }
+  @media (min-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 /* ─── Intro Overlay (iOS video activation) ─── */
@@ -904,11 +993,30 @@ const PRODUCTS = {
     origPrice: "70,000원",
     discount: "44%",
     specs: [
-      { label: "PRODUCT FLAVOR", value: "노루궁뎅이 버섯의 깊은 풍미와 스페셜티 디카페인 원두의 부드러운 밸런스. 카페인 없이도 풍부한 맛." },
-      { label: "INFO", value: "100% 천연 · 디카페인 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출" },
-      { label: "PRODUCTION", value: "24시간 저온 추출 콜드브루 공법. 스위스 워터 프로세스 디카페인 원두 사용." },
-      { label: "INGREDIENTS", value: "정제수, 디카페인 커피 추출액, 노루궁뎅이 버섯 추출물" },
-      { label: "THE RESULT", value: "카페인 걱정 없이 즐기는 깊고 부드러운 커피. 집중력과 인지 기능을 자연스럽게 서포트합니다." },
+      {
+        label: "PRODUCT FLAVOR",
+        value:
+          "노루궁뎅이 버섯의 깊은 풍미와 스페셜티 디카페인 원두의 부드러운 밸런스. 카페인 없이도 풍부한 맛.",
+      },
+      {
+        label: "INFO",
+        value:
+          "100% 천연 · 디카페인 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출",
+      },
+      {
+        label: "PRODUCTION",
+        value:
+          "24시간 저온 추출 콜드브루 공법. 스위스 워터 프로세스 디카페인 원두 사용.",
+      },
+      {
+        label: "INGREDIENTS",
+        value: "정제수, 디카페인 커피 추출액, 노루궁뎅이 버섯 추출물",
+      },
+      {
+        label: "THE RESULT",
+        value:
+          "카페인 걱정 없이 즐기는 깊고 부드러운 커피. 집중력과 인지 기능을 자연스럽게 서포트합니다.",
+      },
     ],
   },
   house: {
@@ -920,11 +1028,30 @@ const PRODUCTS = {
     origPrice: "60,000원",
     discount: "40%",
     specs: [
-      { label: "PRODUCT FLAVOR", value: "스페셜티 원두 본연의 깔끔한 맛과 노루궁뎅이 버섯의 어시 노트가 조화를 이룬 시그니처 블렌드." },
-      { label: "INFO", value: "100% 천연 · 카페인 함유 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출" },
-      { label: "PRODUCTION", value: "24시간 저온 추출 콜드브루 공법. 에티오피아 싱글 오리진 스페셜티 원두 사용." },
-      { label: "INGREDIENTS", value: "정제수, 커피 추출액, 노루궁뎅이 버섯 추출물" },
-      { label: "THE RESULT", value: "자연스러운 에너지 부스트와 함께 선명한 집중력. 하루를 깨우는 클린 카페인 경험." },
+      {
+        label: "PRODUCT FLAVOR",
+        value:
+          "스페셜티 원두 본연의 깔끔한 맛과 노루궁뎅이 버섯의 어시 노트가 조화를 이룬 시그니처 블렌드.",
+      },
+      {
+        label: "INFO",
+        value:
+          "100% 천연 · 카페인 함유 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출",
+      },
+      {
+        label: "PRODUCTION",
+        value:
+          "24시간 저온 추출 콜드브루 공법. 에티오피아 싱글 오리진 스페셜티 원두 사용.",
+      },
+      {
+        label: "INGREDIENTS",
+        value: "정제수, 커피 추출액, 노루궁뎅이 버섯 추출물",
+      },
+      {
+        label: "THE RESULT",
+        value:
+          "자연스러운 에너지 부스트와 함께 선명한 집중력. 하루를 깨우는 클린 카페인 경험.",
+      },
     ],
   },
   vibrant: {
@@ -936,11 +1063,30 @@ const PRODUCTS = {
     origPrice: "80,000원",
     discount: "47%",
     specs: [
-      { label: "PRODUCT FLAVOR", value: "밝은 산미와 과일 향이 살아있는 프리미엄 블렌드. 노루궁뎅이 버섯이 더하는 깊은 여운." },
-      { label: "INFO", value: "100% 천연 · 카페인 함유 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출" },
-      { label: "PRODUCTION", value: "24시간 저온 추출 콜드브루 공법. 케냐 AA 스페셜티 원두로 선명한 산미 구현." },
-      { label: "INGREDIENTS", value: "정제수, 커피 추출액, 노루궁뎅이 버섯 추출물" },
-      { label: "THE RESULT", value: "생동감 넘치는 산미와 함께 깨끗한 피니시. 감각을 일깨우는 바이오해킹 커피 경험." },
+      {
+        label: "PRODUCT FLAVOR",
+        value:
+          "밝은 산미와 과일 향이 살아있는 프리미엄 블렌드. 노루궁뎅이 버섯이 더하는 깊은 여운.",
+      },
+      {
+        label: "INFO",
+        value:
+          "100% 천연 · 카페인 함유 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출",
+      },
+      {
+        label: "PRODUCTION",
+        value:
+          "24시간 저온 추출 콜드브루 공법. 케냐 AA 스페셜티 원두로 선명한 산미 구현.",
+      },
+      {
+        label: "INGREDIENTS",
+        value: "정제수, 커피 추출액, 노루궁뎅이 버섯 추출물",
+      },
+      {
+        label: "THE RESULT",
+        value:
+          "생동감 넘치는 산미와 함께 깨끗한 피니시. 감각을 일깨우는 바이오해킹 커피 경험.",
+      },
     ],
   },
 } as const;
@@ -1016,7 +1162,9 @@ const PDClose = styled.button`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
-  @media (min-width: 768px) { font-size: 13px; }
+  @media (min-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 const PDName = styled.h2`
@@ -1026,7 +1174,9 @@ const PDName = styled.h2`
   color: #111;
   margin: 0;
   line-height: 1.1;
-  @media (min-width: 768px) { font-size: 48px; }
+  @media (min-width: 768px) {
+    font-size: 48px;
+  }
 `;
 
 const PDSub = styled.div`
@@ -1035,7 +1185,9 @@ const PDSub = styled.div`
   font-weight: 300;
   color: #666;
   margin-top: 4px;
-  @media (min-width: 768px) { font-size: 20px; }
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 const PDBuyBtn = styled.button`
@@ -1054,7 +1206,10 @@ const PDBuyBtn = styled.button`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
-  @media (min-width: 768px) { font-size: 13px; padding: 14px 28px; }
+  @media (min-width: 768px) {
+    font-size: 13px;
+    padding: 14px 28px;
+  }
 `;
 
 const PDPriceArea = styled.div`
@@ -1075,7 +1230,9 @@ const PDOrigPrice = styled.span`
   font-size: 14px;
   color: #999;
   text-decoration: line-through;
-  @media (min-width: 768px) { font-size: 16px; }
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const PDSalePrice = styled.span`
@@ -1083,7 +1240,9 @@ const PDSalePrice = styled.span`
   font-size: 22px;
   font-weight: 700;
   color: #111;
-  @media (min-width: 768px) { font-size: 28px; }
+  @media (min-width: 768px) {
+    font-size: 28px;
+  }
 `;
 
 const PDDiscount = styled.span`
@@ -1091,7 +1250,9 @@ const PDDiscount = styled.span`
   font-size: 14px;
   font-weight: 700;
   color: #e8743a;
-  @media (min-width: 768px) { font-size: 16px; }
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const PDSpecsTable = styled.div`
@@ -1117,7 +1278,10 @@ const PDSpecLabel = styled.div`
   color: #111;
   min-width: 90px;
   flex-shrink: 0;
-  @media (min-width: 768px) { font-size: 10px; min-width: 110px; }
+  @media (min-width: 768px) {
+    font-size: 10px;
+    min-width: 110px;
+  }
 `;
 
 const PDSpecValue = styled.div`
@@ -1128,7 +1292,9 @@ const PDSpecValue = styled.div`
   text-transform: uppercase;
   color: #111;
   line-height: 1.6;
-  @media (min-width: 768px) { font-size: 11px; }
+  @media (min-width: 768px) {
+    font-size: 11px;
+  }
 `;
 
 /* ─── Quantity Selector ─── */
@@ -1143,7 +1309,7 @@ const PDQtyRow = styled.div`
 const QtyBtn = styled.button`
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 50%;
   background: transparent;
   font-size: 16px;
@@ -1152,7 +1318,9 @@ const QtyBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  &:hover { background: rgba(0,0,0,0.04); }
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
 `;
 
 const QtyNum = styled.span`
@@ -1177,13 +1345,15 @@ const CartFab = styled.button`
   background: #111;
   color: #fff;
   border: none;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  &:hover { background: #222; }
+  &:hover {
+    background: #222;
+  }
 `;
 
 const CartBadge = styled.span`
@@ -1215,7 +1385,7 @@ const CartFloat = styled.div`
   padding: 16px 20px;
   min-width: 280px;
   max-width: 340px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
   animation: ${pdSlideUp} 0.3s ease-out;
   @media (max-width: 767px) {
     left: 16px;
@@ -1231,7 +1401,7 @@ const CartTitle = styled.div`
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 12px;
 `;
 
@@ -1240,7 +1410,7 @@ const CartItemRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 `;
 
 const CartItemName = styled.span`
@@ -1254,7 +1424,7 @@ const CartItemPrice = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 13px;
   font-weight: 300;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 `;
 
 const CartItemQty = styled.div`
@@ -1266,7 +1436,7 @@ const CartItemQty = styled.div`
 const CartQtyBtn = styled.button`
   width: 24px;
   height: 24px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   background: transparent;
   color: #fff;
@@ -1280,11 +1450,13 @@ const CartQtyBtn = styled.button`
 const CartRemoveBtn = styled.button`
   background: none;
   border: none;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255, 255, 255, 0.3);
   font-size: 14px;
   cursor: pointer;
   padding: 0 4px;
-  &:hover { color: #e8743a; }
+  &:hover {
+    color: #e8743a;
+  }
 `;
 
 const CartTotal = styled.div`
@@ -1319,18 +1491,27 @@ const CartCheckoutBtn = styled.button`
 declare global {
   interface Window {
     TossPayments: (clientKey: string) => {
-      requestPayment: (method: string, options: {
-        amount: number;
-        orderId: string;
-        orderName: string;
-        customerName: string;
-        successUrl: string;
-        failUrl: string;
-      }) => Promise<void>;
+      requestPayment: (
+        method: string,
+        options: {
+          amount: number;
+          orderId: string;
+          orderName: string;
+          customerName: string;
+          successUrl: string;
+          failUrl: string;
+        },
+      ) => Promise<void>;
     };
     daum: {
       Postcode: new (options: {
-        oncomplete: (data: { zonecode: string; address: string; addressType: string; bname: string; buildingName: string }) => void;
+        oncomplete: (data: {
+          zonecode: string;
+          address: string;
+          addressType: string;
+          bname: string;
+          buildingName: string;
+        }) => void;
       }) => { open: () => void };
     };
   }
@@ -1369,14 +1550,16 @@ const CheckoutPreviewTitle = styled.div`
   font-weight: 400;
   color: #fff;
   margin-bottom: 32px;
-  @media (min-width: 768px) { font-size: 36px; }
+  @media (min-width: 768px) {
+    font-size: 36px;
+  }
 `;
 
 const CheckoutProductCard = styled.div`
   display: flex;
   gap: 16px;
   padding: 16px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   align-items: center;
 `;
 
@@ -1411,7 +1594,7 @@ const CheckoutProductName = styled.div`
 const CheckoutProductSub = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 11px;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
   margin-top: 2px;
 `;
 
@@ -1419,7 +1602,7 @@ const CheckoutProductPrice = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255,255,255,0.8);
+  color: rgba(255, 255, 255, 0.8);
   text-align: right;
   white-space: nowrap;
 `;
@@ -1427,7 +1610,7 @@ const CheckoutProductPrice = styled.div`
 const CheckoutTotalBlock = styled.div`
   margin-top: 24px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const CheckoutTotalRow = styled.div`
@@ -1435,7 +1618,7 @@ const CheckoutTotalRow = styled.div`
   justify-content: space-between;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   padding: 4px 0;
 `;
 
@@ -1447,7 +1630,9 @@ const CheckoutGrandTotal = styled.div`
   font-weight: 700;
   color: #fff;
   margin-top: 12px;
-  @media (min-width: 768px) { font-size: 26px; }
+  @media (min-width: 768px) {
+    font-size: 26px;
+  }
 `;
 
 const CheckoutFormPanel = styled.div`
@@ -1460,7 +1645,7 @@ const CheckoutFormTitle = styled.h3`
   font-weight: 500;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255, 255, 255, 0.3);
   margin: 0 0 24px;
 `;
 
@@ -1475,23 +1660,27 @@ const CheckoutLabel = styled.label`
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
   margin-bottom: 6px;
 `;
 
 const CheckoutInput = styled.input`
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 14px;
   color: #fff;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   outline: none;
   box-sizing: border-box;
-  &:focus { border-color: #e8743a; }
-  &::placeholder { color: rgba(255,255,255,0.2); }
+  &:focus {
+    border-color: #e8743a;
+  }
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
 `;
 
 const CheckoutInputRow = styled.div`
@@ -1501,9 +1690,9 @@ const CheckoutInputRow = styled.div`
 
 const CheckoutAddrBtn = styled.button`
   padding: 12px 16px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
   font-family: "Roboto Mono", monospace;
   font-size: 10px;
@@ -1512,7 +1701,9 @@ const CheckoutAddrBtn = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
-  &:hover { background: rgba(255,255,255,0.12); }
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
 `;
 
 const CheckoutPayBtn = styled.button`
@@ -1529,8 +1720,13 @@ const CheckoutPayBtn = styled.button`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
-  &:hover:not(:disabled) { background: #d4632e; }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &:hover:not(:disabled) {
+    background: #d4632e;
+  }
 `;
 
 const CheckoutClose = styled.button`
@@ -1538,9 +1734,9 @@ const CheckoutClose = styled.button`
   top: 20px;
   right: 20px;
   z-index: 211;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   padding: 10px 20px;
   font-family: "Roboto Mono", monospace;
@@ -1549,7 +1745,9 @@ const CheckoutClose = styled.button`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
-  &:hover { background: rgba(255,255,255,0.12); }
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
 `;
 
 /* ─── App ─── */
@@ -1574,28 +1772,36 @@ function App() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [shipping, setShipping] = useState({
-    name: "", phone: "", email: "",
-    zipCode: "", address: "", addressDetail: "", memo: "",
+    name: "",
+    phone: "",
+    email: "",
+    zipCode: "",
+    address: "",
+    addressDetail: "",
+    memo: "",
   });
 
   const addToCart = (key: ProductKey, qty: number) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.key === key);
-      if (existing) return prev.map(i => i.key === key ? { ...i, qty: i.qty + qty } : i);
+    setCart((prev) => {
+      const existing = prev.find((i) => i.key === key);
+      if (existing)
+        return prev.map((i) =>
+          i.key === key ? { ...i, qty: i.qty + qty } : i,
+        );
       return [...prev, { key, qty }];
     });
   };
 
   const updateCartQty = (key: ProductKey, qty: number) => {
     if (qty <= 0) {
-      setCart(prev => prev.filter(i => i.key !== key));
+      setCart((prev) => prev.filter((i) => i.key !== key));
     } else {
-      setCart(prev => prev.map(i => i.key === key ? { ...i, qty } : i));
+      setCart((prev) => prev.map((i) => (i.key === key ? { ...i, qty } : i)));
     }
   };
 
   const removeFromCart = (key: ProductKey) => {
-    setCart(prev => prev.filter(i => i.key !== key));
+    setCart((prev) => prev.filter((i) => i.key !== key));
   };
 
   const cartTotal = cart.reduce((sum, i) => {
@@ -1611,10 +1817,15 @@ function App() {
         let extra = "";
         if (data.addressType === "R") {
           if (data.bname) extra += data.bname;
-          if (data.buildingName) extra += extra ? `, ${data.buildingName}` : data.buildingName;
+          if (data.buildingName)
+            extra += extra ? `, ${data.buildingName}` : data.buildingName;
           if (extra) fullAddress += ` (${extra})`;
         }
-        setShipping(prev => ({ ...prev, zipCode: data.zonecode, address: fullAddress }));
+        setShipping((prev) => ({
+          ...prev,
+          zipCode: data.zonecode,
+          address: fullAddress,
+        }));
       },
     }).open();
   };
@@ -1626,8 +1837,12 @@ function App() {
       const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
       const tossPayments = window.TossPayments(clientKey);
       const orderId = `LOCKIN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      const firstName = cart.length > 0 ? `${PRODUCTS[cart[0].key].name} ${PRODUCTS[cart[0].key].sub}` : "";
-      const orderName = cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
+      const firstName =
+        cart.length > 0
+          ? `${PRODUCTS[cart[0].key].name} ${PRODUCTS[cart[0].key].sub}`
+          : "";
+      const orderName =
+        cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
       const SHIPPING_FEE = 3000;
       await tossPayments.requestPayment("카드", {
         amount: cartTotal + SHIPPING_FEE,
@@ -1801,7 +2016,8 @@ function App() {
     let rafId: number;
     const onScroll = () => {
       const scrollable = el.scrollHeight - el.clientHeight;
-      grainScroll.current = scrollable > 0 ? (el.scrollTop / scrollable) * 10 : 0;
+      grainScroll.current =
+        scrollable > 0 ? (el.scrollTop / scrollable) * 10 : 0;
       rafId = requestAnimationFrame(drawGrain);
     };
 
@@ -2058,8 +2274,16 @@ function App() {
             <FreeCanvas>
               {/* The Name — left, slightly tilted */}
               <StickyBlock padLeft="24px" ref={nameBlock.ref}>
-                <div css={revealLeft(nameBlock.visible, 0)} style={{ transform: "rotate(-1deg)" }}>
-                  <WatermarkText size={80} style={{ marginBottom: -20, marginLeft: -12 }}>LOCK-IN</WatermarkText>
+                <div
+                  css={revealLeft(nameBlock.visible, 0)}
+                  style={{ transform: "rotate(-1deg)" }}
+                >
+                  <WatermarkText
+                    size={80}
+                    style={{ marginBottom: -20, marginLeft: -12 }}
+                  >
+                    LOCK-IN
+                  </WatermarkText>
                   <LabelSmall>The Name</LabelSmall>
                   <TitleLarge>
                     Lock-in
@@ -2067,7 +2291,7 @@ function App() {
                     Coffee
                   </TitleLarge>
                   <BodyText>
-                    노트로픽 버섯 원두커피.
+                    누트로픽 버섯 원두커피.
                     <br />
                     집중력과 인지 기능을 위한
                     <br />
@@ -2078,7 +2302,10 @@ function App() {
 
               {/* The Flavor — right, tilted other way */}
               <StickyBlock align="right" padRight="24px" ref={flavorBlock.ref}>
-                <div css={revealRight(flavorBlock.visible, 0.2)} style={{ transform: "rotate(1.5deg)" }}>
+                <div
+                  css={revealRight(flavorBlock.visible, 0.2)}
+                  style={{ transform: "rotate(1.5deg)" }}
+                >
                   <LabelSmall>The Flavor</LabelSmall>
                   <TitleLarge>
                     Nature's
@@ -2092,13 +2319,21 @@ function App() {
                     <br />
                     조화를 이루는 맛.
                   </BodyText>
-                  <WatermarkText size={60} style={{ marginTop: -10, opacity: 0.1 }}>COFFEE</WatermarkText>
+                  <WatermarkText
+                    size={60}
+                    style={{ marginTop: -10, opacity: 0.1 }}
+                  >
+                    COFFEE
+                  </WatermarkText>
                 </div>
               </StickyBlock>
 
               {/* The Source — left, scaled in */}
               <StickyBlock padLeft="32px" ref={sourceBlock.ref}>
-                <div css={revealScale(sourceBlock.visible, 0)} style={{ transform: "rotate(-0.5deg)" }}>
+                <div
+                  css={revealScale(sourceBlock.visible, 0)}
+                  style={{ transform: "rotate(-0.5deg)" }}
+                >
                   <LabelSmall>The Source</LabelSmall>
                   <DetailTitle style={{ fontSize: 34 }}>
                     Lion's
@@ -2131,11 +2366,14 @@ function App() {
                   <DetailBody style={{ marginLeft: "auto" }}>
                     24시간 저온 추출로
                     <br />
-                    부드러운 맛과 높은 카페인
-                    <br />
-                    효율을 동시에 실현.
+                    부드러운 맛을 실현.
                   </DetailBody>
-                  <WatermarkText size={50} style={{ marginTop: -8, opacity: 0.1 }}>MUSHROOM</WatermarkText>
+                  <WatermarkText
+                    size={50}
+                    style={{ marginTop: -8, opacity: 0.1 }}
+                  >
+                    MUSHROOM
+                  </WatermarkText>
                 </div>
               </StickyBlock>
             </FreeCanvas>
@@ -2145,216 +2383,342 @@ function App() {
           <SubPageWrap>
             <GrainCanvas ref={grainRef} />
             <SubPageContent>
-
-            {/* Section 1: Event + Products */}
-            <EventSection ref={eventReveal.ref}>
-              <div css={revealUp(eventReveal.visible)}>
-                <SecTitle>Lock-in Coffee</SecTitle>
-                <SecSub>100ml 무료 체험.<br />배송비만 부담하세요.</SecSub>
-              </div>
-
-              {/* Wide banner: image left, info right */}
-              <EventBanner>
-                <BannerImg>
-                  <img src="/event-hero.png" alt="100ml 무료 체험" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </BannerImg>
-                <BannerInfo>
-                  <BannerTitle>100ml <em>무료</em><br />체험 이벤트</BannerTitle>
-                  <BannerDesc>노루궁뎅이 버섯 × 스페셜티 원두<br />배송비만 부담하세요.</BannerDesc>
-                  <BannerBtn>무료 체험 신청하기</BannerBtn>
-                  <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
-                </BannerInfo>
-              </EventBanner>
-
-            </EventSection>
-
-            {/* Section 2: Flavors */}
-            <FlavorSection ref={flavorReveal.ref}>
-              <div css={revealUp(flavorReveal.visible)}>
-                <SecTitle>The Flavors</SecTitle>
-                <SecSub>Clean. 100% Natural. Taste The<br />Difference</SecSub>
-              </div>
-
-              <GridRow style={{ marginTop: 40 }}>
-                <div style={{ cursor: "pointer" }} onClick={() => setActiveProduct("signature")}>
-                  <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
-                    <img src="/decaf.png" alt="Signature 디카페인" style={{ width: "110%", height: "110%", objectFit: "cover" }} />
-                  </GridImgBox>
-                  <GridLabel>
-                    <ItemName>Signature</ItemName>
-                    <ItemSub>디카페인</ItemSub>
-                    <PriceRow>
-                      <PriceOrigRow><OrigPrice>70,000원</OrigPrice><DiscountBadge>44%</DiscountBadge></PriceOrigRow>
-                      <SalePrice>39,000원</SalePrice>
-                    </PriceRow>
-                  </GridLabel>
+              {/* Section 1: Event + Products */}
+              <EventSection ref={eventReveal.ref}>
+                <div css={revealUp(eventReveal.visible)}>
+                  <SecTitle>Lock-in Coffee</SecTitle>
+                  <SecSub>
+                    100ml 무료 체험.
+                    <br />
+                    배송비만 부담하세요.
+                  </SecSub>
                 </div>
-                <div style={{ cursor: "pointer" }} onClick={() => setActiveProduct("house")}>
-                  <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
-                    <img src="/caffeine.png" alt="카페인 부스트" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  </GridImgBox>
-                  <GridLabel>
-                    <ItemName>House</ItemName>
-                    <ItemSub>카페인</ItemSub>
-                    <PriceRow>
-                      <PriceOrigRow><OrigPrice>60,000원</OrigPrice><DiscountBadge>40%</DiscountBadge></PriceOrigRow>
-                      <SalePrice>36,000원</SalePrice>
-                    </PriceRow>
-                  </GridLabel>
+
+                {/* Wide banner: image left, info right */}
+                <EventBanner>
+                  <BannerImg>
+                    <img
+                      src="/event-hero.png"
+                      alt="100ml 무료 체험"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </BannerImg>
+                  <BannerInfo>
+                    <BannerTitle>
+                      100ml <em>무료</em>
+                      <br />
+                      체험 이벤트
+                    </BannerTitle>
+                    <BannerDesc>
+                      노루궁뎅이 버섯 × 스페셜티 원두
+                      <br />
+                      배송비만 부담하세요.
+                    </BannerDesc>
+                    <BannerBtn>무료 체험 신청하기</BannerBtn>
+                    <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
+                  </BannerInfo>
+                </EventBanner>
+              </EventSection>
+
+              {/* Section 2: Flavors */}
+              <FlavorSection ref={flavorReveal.ref}>
+                <div css={revealUp(flavorReveal.visible)}>
+                  <SecTitle>The Flavors</SecTitle>
+                  <SecSub>
+                    Clean. 100% Natural. Taste The
+                    <br />
+                    Difference
+                  </SecSub>
                 </div>
-              </GridRow>
-              <FlavorWide style={{ cursor: "pointer" }} onClick={() => setActiveProduct("vibrant")}>
-                <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
-                  <img src="/acidity.png" alt="Vibrant 산미" style={{ width: "120%", height: "120%", objectFit: "cover" }} />
-                </FlavorWideImg>
-                <ItemName>Vibrant</ItemName>
-                <ItemSub>산미</ItemSub>
-                <PriceRow>
-                  <PriceOrigRow><OrigPrice>80,000원</OrigPrice><DiscountBadge>47%</DiscountBadge></PriceOrigRow>
-                  <SalePrice>42,000원</SalePrice>
-                </PriceRow>
-              </FlavorWide>
-            </FlavorSection>
 
-            {/* Section 3: In Good Company */}
-            <CompanySection ref={editorialReveal.ref}>
-              <div css={revealUp(editorialReveal.visible)}>
-                <CompanyTitle>In<br />Good<br /><em>Company</em></CompanyTitle>
+                <GridRow style={{ marginTop: 40 }}>
+                  <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setActiveProduct("signature")}
+                  >
+                    <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
+                      <img
+                        src="/decaf.png"
+                        alt="Signature 디카페인"
+                        style={{
+                          width: "110%",
+                          height: "110%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </GridImgBox>
+                    <GridLabel>
+                      <ItemName>Signature</ItemName>
+                      <ItemSub>디카페인</ItemSub>
+                      <PriceRow>
+                        <PriceOrigRow>
+                          <OrigPrice>70,000원</OrigPrice>
+                          <DiscountBadge>44%</DiscountBadge>
+                        </PriceOrigRow>
+                        <SalePrice>39,000원</SalePrice>
+                      </PriceRow>
+                    </GridLabel>
+                  </div>
+                  <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setActiveProduct("house")}
+                  >
+                    <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
+                      <img
+                        src="/caffeine.png"
+                        alt="카페인 부스트"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </GridImgBox>
+                    <GridLabel>
+                      <ItemName>House</ItemName>
+                      <ItemSub>카페인</ItemSub>
+                      <PriceRow>
+                        <PriceOrigRow>
+                          <OrigPrice>60,000원</OrigPrice>
+                          <DiscountBadge>40%</DiscountBadge>
+                        </PriceOrigRow>
+                        <SalePrice>36,000원</SalePrice>
+                      </PriceRow>
+                    </GridLabel>
+                  </div>
+                </GridRow>
+                <FlavorWide
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setActiveProduct("vibrant")}
+                >
+                  <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
+                    <img
+                      src="/acidity.png"
+                      alt="Vibrant 산미"
+                      style={{
+                        width: "120%",
+                        height: "120%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </FlavorWideImg>
+                  <ItemName>Vibrant</ItemName>
+                  <ItemSub>산미</ItemSub>
+                  <PriceRow>
+                    <PriceOrigRow>
+                      <OrigPrice>80,000원</OrigPrice>
+                      <DiscountBadge>47%</DiscountBadge>
+                    </PriceOrigRow>
+                    <SalePrice>42,000원</SalePrice>
+                  </PriceRow>
+                </FlavorWide>
+              </FlavorSection>
 
-                <CompanyGrid>
-                  <GBox h={90} bg="#222"><Placeholder style={{ color: "rgba(255,255,255,0.15)" }}>Image</Placeholder></GBox>
-                  <GBox h={90} bg="#e8743a"><Placeholder style={{ color: "rgba(255,255,255,0.3)" }}>Image</Placeholder></GBox>
-                  <GBox h={90} bg="#1a1a1a"><Placeholder style={{ color: "rgba(255,255,255,0.15)" }}>Image</Placeholder></GBox>
-                  <GBox h={120} span={2} bg="#181818"><Placeholder style={{ color: "rgba(255,255,255,0.15)" }}>Image</Placeholder></GBox>
-                  <GBox h={120} bg="#e8743a"><Placeholder style={{ color: "rgba(255,255,255,0.3)" }}>Image</Placeholder></GBox>
-                </CompanyGrid>
+              {/* Section 3: In Good Company */}
+              <CompanySection ref={editorialReveal.ref}>
+                <div css={revealUp(editorialReveal.visible)}>
+                  <CompanyTitle>
+                    In
+                    <br />
+                    Good
+                    <br />
+                    <em>Company</em>
+                  </CompanyTitle>
 
-                <CompanyBody>
-                  크리에이터, 큐레이터, 그리고<br />
-                  더존바이오의 정신을 담아내는<br />
-                  공간들과 함께합니다.
-                </CompanyBody>
-                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <MetaLine>From the Lab</MetaLine>
-                  <MetaLine>Seoul · San Francisco</MetaLine>
-                  <MetaLine>Est. 2025</MetaLine>
+                  <CompanyGrid>
+                    <GBox h={90}>
+                      <img src="/company1.jpg" alt="company" />
+                    </GBox>
+                    <GBox h={90}>
+                      <img src="/company2.jpg" alt="company" />
+                    </GBox>
+                    <GBox h={90}>
+                      <img src="/company3.jpg" alt="company" />
+                    </GBox>
+                    <GBox h={120} span={2}>
+                      <img src="/company4.jpg" alt="company" />
+                    </GBox>
+                    <GBox h={120}>
+                      <img src="/company5.jpg" alt="company" />
+                    </GBox>
+                  </CompanyGrid>
+
+                  <CompanyBody>
+                    크리에이터, 큐레이터, 그리고
+                    <br />
+                    더존바이오의 정신을 담아내는
+                    <br />
+                    공간들과 함께합니다.
+                  </CompanyBody>
+                  <div
+                    style={{ display: "flex", flexDirection: "column", gap: 4 }}
+                  >
+                    <MetaLine>From the Lab</MetaLine>
+                    <MetaLine>Seoul · San Francisco</MetaLine>
+                    <MetaLine>Est. 2025</MetaLine>
+                  </div>
                 </div>
-              </div>
-            </CompanySection>
+              </CompanySection>
 
-            {/* Section 4: Leave No Trace */}
-            <TraceSection ref={sustainReveal.ref}>
-              <TraceTitle css={revealScale(sustainReveal.visible)}>
-                <span>Leave</span>
-              </TraceTitle>
-              <TraceTitle css={revealScale(sustainReveal.visible, 0.1)}>
-                <span>No</span>
-                <TraceInline><Placeholder>Img</Placeholder></TraceInline>
-                <span>Trace</span>
-              </TraceTitle>
-              <TraceBody>
-                지속 가능한 원료 수급과 친환경 패키징으로
-                자연에 흔적을 남기지 않습니다.
-                우리가 아끼는 땅을 지키는 것,
-                그것이 더존바이오의 약속입니다.
-              </TraceBody>
-            </TraceSection>
+              {/* Section 4: Leave No Trace */}
+              <TraceSection ref={sustainReveal.ref}>
+                <TraceTitle css={revealScale(sustainReveal.visible)}>
+                  <span>Leave</span>
+                </TraceTitle>
+                <TraceTitle css={revealScale(sustainReveal.visible, 0.1)}>
+                  <span>No</span>
+                  <TraceInline>
+                    <Placeholder>Img</Placeholder>
+                  </TraceInline>
+                  <span>Trace</span>
+                </TraceTitle>
+                <TraceBody>
+                  지속 가능한 원료 수급과 친환경 패키징으로 자연에 흔적을 남기지
+                  않습니다. 우리가 아끼는 땅을 지키는 것, 그것이 더존바이오의
+                  약속입니다.
+                </TraceBody>
+              </TraceSection>
 
-            {/* Section 5: Footer */}
-            <FooterSection>
-              <FtLabel>Stay in Focus</FtLabel>
-              <FtBrand>LOCK-IN<br />COFFEE</FtBrand>
-              <FtLogo src="/logo.png" alt="더존바이오" />
+              {/* Section 5: Footer */}
+              <FooterSection>
+                <FtLabel>Stay in Focus</FtLabel>
+                <FtBrand>
+                  LOCK-IN
+                  <br />
+                  COFFEE
+                </FtBrand>
+                <FtLogo src="/logo.png" alt="더존바이오" />
 
-              <FtRow>
-                <FtInput>이메일을 입력하세요</FtInput>
-                <FtBtn>Subscribe</FtBtn>
-              </FtRow>
+                <FtRow>
+                  <FtInput>이메일을 입력하세요</FtInput>
+                  <FtBtn>Subscribe</FtBtn>
+                </FtRow>
 
-              <FtLinks>
-                <FtLink>Shop</FtLink>
-                <FtLink>About</FtLink>
-                <FtLink>Contact</FtLink>
-                <FtLink>Instagram</FtLink>
-              </FtLinks>
+                <FtLinks>
+                  <FtLink>Shop</FtLink>
+                  <FtLink>About</FtLink>
+                  <FtLink>Contact</FtLink>
+                  <FtLink>Instagram</FtLink>
+                </FtLinks>
 
-              <FtWatermark>focus is the new luxury</FtWatermark>
+                <FtWatermark>focus is the new luxury</FtWatermark>
 
-              <FtCopy>
-                <span>© 2025 더존바이오</span>
-                <span>Made with focus</span>
-              </FtCopy>
-            </FooterSection>
-
+                <FtCopy>
+                  <span>© 2025 더존바이오</span>
+                  <span>Made with focus</span>
+                </FtCopy>
+              </FooterSection>
             </SubPageContent>
           </SubPageWrap>
         </ScrollableContent>
       </BottomSheet>
 
       {/* Product Detail Modal */}
-      {activeProduct && (() => {
-        const p = PRODUCTS[activeProduct];
-        return (
-          <PDOverlay>
-            <PDClose onClick={() => { setActiveProduct(null); setPdQty(1); }}>CLOSE</PDClose>
-            <PDLayout>
-              <PDInfoPanel>
-                <PDName>{p.name}</PDName>
-                <PDSub>{p.sub}</PDSub>
-                <PDPriceArea>
-                  <PDPriceOrigRow>
-                    <PDOrigPrice>{p.origPrice}</PDOrigPrice>
-                    <PDDiscount>{p.discount}</PDDiscount>
-                  </PDPriceOrigRow>
-                  <PDSalePrice>{p.price}</PDSalePrice>
-                </PDPriceArea>
-                <PDQtyRow>
-                  <QtyBtn onClick={() => setPdQty(q => Math.max(1, q - 1))}>−</QtyBtn>
-                  <QtyNum>{pdQty}</QtyNum>
-                  <QtyBtn onClick={() => setPdQty(q => q + 1)}>+</QtyBtn>
-                </PDQtyRow>
-                <PDBuyBtn onClick={() => {
-                  addToCart(activeProduct, pdQty);
+      {activeProduct &&
+        (() => {
+          const p = PRODUCTS[activeProduct];
+          return (
+            <PDOverlay>
+              <PDClose
+                onClick={() => {
                   setActiveProduct(null);
                   setPdQty(1);
-                }}>장바구니 담기</PDBuyBtn>
-                <PDSpecsTable>
-                  {p.specs.map((s, i) => (
-                    <PDSpecRow key={i}>
-                      <PDSpecLabel>{s.label}</PDSpecLabel>
-                      <PDSpecValue>{s.value}</PDSpecValue>
-                    </PDSpecRow>
-                  ))}
-                </PDSpecsTable>
-              </PDInfoPanel>
-              <PDImagePanel bg={p.bg}>
-                <PDProductImage src={p.image} alt={p.name} />
-              </PDImagePanel>
-            </PDLayout>
-          </PDOverlay>
-        );
-      })()}
+                }}
+              >
+                CLOSE
+              </PDClose>
+              <PDLayout>
+                <PDInfoPanel>
+                  <PDName>{p.name}</PDName>
+                  <PDSub>{p.sub}</PDSub>
+                  <PDPriceArea>
+                    <PDPriceOrigRow>
+                      <PDOrigPrice>{p.origPrice}</PDOrigPrice>
+                      <PDDiscount>{p.discount}</PDDiscount>
+                    </PDPriceOrigRow>
+                    <PDSalePrice>{p.price}</PDSalePrice>
+                  </PDPriceArea>
+                  <PDQtyRow>
+                    <QtyBtn onClick={() => setPdQty((q) => Math.max(1, q - 1))}>
+                      −
+                    </QtyBtn>
+                    <QtyNum>{pdQty}</QtyNum>
+                    <QtyBtn onClick={() => setPdQty((q) => q + 1)}>+</QtyBtn>
+                  </PDQtyRow>
+                  <PDBuyBtn
+                    onClick={() => {
+                      addToCart(activeProduct, pdQty);
+                      setActiveProduct(null);
+                      setPdQty(1);
+                    }}
+                  >
+                    장바구니 담기
+                  </PDBuyBtn>
+                  <PDSpecsTable>
+                    {p.specs.map((s, i) => (
+                      <PDSpecRow key={i}>
+                        <PDSpecLabel>{s.label}</PDSpecLabel>
+                        <PDSpecValue>{s.value}</PDSpecValue>
+                      </PDSpecRow>
+                    ))}
+                  </PDSpecsTable>
+                </PDInfoPanel>
+                <PDImagePanel bg={p.bg}>
+                  <PDProductImage src={p.image} alt={p.name} />
+                </PDImagePanel>
+              </PDLayout>
+            </PDOverlay>
+          );
+        })()}
 
       {/* Floating Cart */}
       {cart.length > 0 && !activeProduct && !showCheckout && (
         <>
           {cartOpen && (
             <CartFloat>
-              <CartTitle>Cart ({cart.reduce((s, i) => s + i.qty, 0)})</CartTitle>
-              {cart.map(item => {
+              <CartTitle>
+                Cart ({cart.reduce((s, i) => s + i.qty, 0)})
+              </CartTitle>
+              {cart.map((item) => {
                 const p = PRODUCTS[item.key];
                 const price = parseInt(p.price.replace(/[^0-9]/g, ""));
                 return (
                   <CartItemRow key={item.key}>
                     <div>
-                      <CartItemName>{p.name} {p.sub}</CartItemName>
-                      <CartItemPrice>{(price * item.qty).toLocaleString()}원</CartItemPrice>
+                      <CartItemName>
+                        {p.name} {p.sub}
+                      </CartItemName>
+                      <CartItemPrice>
+                        {(price * item.qty).toLocaleString()}원
+                      </CartItemPrice>
                     </div>
                     <CartItemQty>
-                      <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty - 1)}>−</CartQtyBtn>
-                      <span style={{ fontSize: 13, minWidth: 16, textAlign: "center" }}>{item.qty}</span>
-                      <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty + 1)}>+</CartQtyBtn>
-                      <CartRemoveBtn onClick={() => removeFromCart(item.key)}>×</CartRemoveBtn>
+                      <CartQtyBtn
+                        onClick={() => updateCartQty(item.key, item.qty - 1)}
+                      >
+                        −
+                      </CartQtyBtn>
+                      <span
+                        style={{
+                          fontSize: 13,
+                          minWidth: 16,
+                          textAlign: "center",
+                        }}
+                      >
+                        {item.qty}
+                      </span>
+                      <CartQtyBtn
+                        onClick={() => updateCartQty(item.key, item.qty + 1)}
+                      >
+                        +
+                      </CartQtyBtn>
+                      <CartRemoveBtn onClick={() => removeFromCart(item.key)}>
+                        ×
+                      </CartRemoveBtn>
                     </CartItemQty>
                   </CartItemRow>
                 );
@@ -2363,10 +2727,17 @@ function App() {
                 <span>합계</span>
                 <span>{cartTotal.toLocaleString()}원</span>
               </CartTotal>
-              <CartCheckoutBtn onClick={() => { setCartOpen(false); setShowCheckout(true); }}>CHECKOUT</CartCheckoutBtn>
+              <CartCheckoutBtn
+                onClick={() => {
+                  setCartOpen(false);
+                  setShowCheckout(true);
+                }}
+              >
+                CHECKOUT
+              </CartCheckoutBtn>
             </CartFloat>
           )}
-          <CartFab onClick={() => setCartOpen(o => !o)}>
+          <CartFab onClick={() => setCartOpen((o) => !o)}>
             <CartBadge>{cart.reduce((s, i) => s + i.qty, 0)}</CartBadge>
             {cartOpen ? "✕" : "🛒"}
           </CartFab>
@@ -2376,12 +2747,14 @@ function App() {
       {/* Checkout Modal */}
       {showCheckout && (
         <CheckoutOverlay>
-          <CheckoutClose onClick={() => setShowCheckout(false)}>CLOSE</CheckoutClose>
+          <CheckoutClose onClick={() => setShowCheckout(false)}>
+            CLOSE
+          </CheckoutClose>
           <CheckoutLayout>
             {/* Left: Order Preview */}
             <CheckoutPreview>
               <CheckoutPreviewTitle>주문 확인</CheckoutPreviewTitle>
-              {cart.map(item => {
+              {cart.map((item) => {
                 const p = PRODUCTS[item.key];
                 const price = parseInt(p.price.replace(/[^0-9]/g, ""));
                 return (
@@ -2391,9 +2764,13 @@ function App() {
                     </CheckoutProductThumb>
                     <CheckoutProductInfo>
                       <CheckoutProductName>{p.name}</CheckoutProductName>
-                      <CheckoutProductSub>{p.sub} · {item.qty}개</CheckoutProductSub>
+                      <CheckoutProductSub>
+                        {p.sub} · {item.qty}개
+                      </CheckoutProductSub>
                     </CheckoutProductInfo>
-                    <CheckoutProductPrice>{(price * item.qty).toLocaleString()}원</CheckoutProductPrice>
+                    <CheckoutProductPrice>
+                      {(price * item.qty).toLocaleString()}원
+                    </CheckoutProductPrice>
                   </CheckoutProductCard>
                 );
               })}
@@ -2421,7 +2798,9 @@ function App() {
                 <CheckoutLabel>이름</CheckoutLabel>
                 <CheckoutInput
                   value={shipping.name}
-                  onChange={e => setShipping(p => ({ ...p, name: e.target.value }))}
+                  onChange={(e) =>
+                    setShipping((p) => ({ ...p, name: e.target.value }))
+                  }
                   placeholder="홍길동"
                 />
               </CheckoutSection>
@@ -2430,7 +2809,9 @@ function App() {
                 <CheckoutLabel>연락처</CheckoutLabel>
                 <CheckoutInput
                   value={shipping.phone}
-                  onChange={e => setShipping(p => ({ ...p, phone: e.target.value }))}
+                  onChange={(e) =>
+                    setShipping((p) => ({ ...p, phone: e.target.value }))
+                  }
                   placeholder="010-0000-0000"
                 />
               </CheckoutSection>
@@ -2439,7 +2820,9 @@ function App() {
                 <CheckoutLabel>이메일</CheckoutLabel>
                 <CheckoutInput
                   value={shipping.email}
-                  onChange={e => setShipping(p => ({ ...p, email: e.target.value }))}
+                  onChange={(e) =>
+                    setShipping((p) => ({ ...p, email: e.target.value }))
+                  }
                   placeholder="email@example.com"
                 />
               </CheckoutSection>
@@ -2453,7 +2836,9 @@ function App() {
                     placeholder="우편번호"
                     style={{ flex: 1 }}
                   />
-                  <CheckoutAddrBtn onClick={handleAddressSearch}>주소 검색</CheckoutAddrBtn>
+                  <CheckoutAddrBtn onClick={handleAddressSearch}>
+                    주소 검색
+                  </CheckoutAddrBtn>
                 </CheckoutInputRow>
                 <CheckoutInput
                   value={shipping.address}
@@ -2463,7 +2848,12 @@ function App() {
                 />
                 <CheckoutInput
                   value={shipping.addressDetail}
-                  onChange={e => setShipping(p => ({ ...p, addressDetail: e.target.value }))}
+                  onChange={(e) =>
+                    setShipping((p) => ({
+                      ...p,
+                      addressDetail: e.target.value,
+                    }))
+                  }
                   placeholder="상세주소"
                   style={{ marginTop: 8 }}
                 />
@@ -2473,16 +2863,25 @@ function App() {
                 <CheckoutLabel>배송 메모</CheckoutLabel>
                 <CheckoutInput
                   value={shipping.memo}
-                  onChange={e => setShipping(p => ({ ...p, memo: e.target.value }))}
+                  onChange={(e) =>
+                    setShipping((p) => ({ ...p, memo: e.target.value }))
+                  }
                   placeholder="부재 시 문 앞에 놓아주세요"
                 />
               </CheckoutSection>
 
               <CheckoutPayBtn
                 onClick={handlePayment}
-                disabled={isProcessing || !shipping.name || !shipping.phone || !shipping.address}
+                disabled={
+                  isProcessing ||
+                  !shipping.name ||
+                  !shipping.phone ||
+                  !shipping.address
+                }
               >
-                {isProcessing ? "처리 중..." : `${(cartTotal + 3000).toLocaleString()}원 결제하기`}
+                {isProcessing
+                  ? "처리 중..."
+                  : `${(cartTotal + 3000).toLocaleString()}원 결제하기`}
               </CheckoutPayBtn>
             </CheckoutFormPanel>
           </CheckoutLayout>
