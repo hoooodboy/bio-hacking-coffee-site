@@ -495,7 +495,6 @@ const BannerImg = styled.div`
 
 const BannerInfo = styled.div`
   flex: 1;
-  background: #e8743a;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -505,20 +504,26 @@ const BannerInfo = styled.div`
 
 const BannerTitle = styled.div`
   font-family: "Instrument Serif", serif;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 400;
   color: #fff;
   line-height: 1.2;
   em { font-style: italic; }
+  @media (min-width: 768px) {
+    font-size: 40px;
+  }
 `;
 
 
 const BannerDesc = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.5;
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const BannerBtn = styled.div`
@@ -528,9 +533,13 @@ const BannerBtn = styled.div`
   border-radius: 40px;
   background: #fff;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 600;
   color: #e8743a;
+  @media (min-width: 768px) {
+    font-size: 18px;
+    padding: 14px 32px;
+  }
 `;
 
 const BannerNote = styled.div`
@@ -538,6 +547,9 @@ const BannerNote = styled.div`
   font-size: 9px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.5);
+  @media (min-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const GridRow = styled.div`
@@ -1383,23 +1395,6 @@ function App() {
                 </BannerInfo>
               </EventBanner>
 
-              {/* 2-col grid like flavors */}
-              <GridRow>
-                <div>
-                  <GridImgBox bg="#1a1a1a"><Placeholder style={{ color: "rgba(255,255,255,0.2)" }}>Image</Placeholder></GridImgBox>
-                  <GridLabel>
-                    <ItemName>Lock-in Coffee</ItemName>
-                    <ItemSub>Original</ItemSub>
-                  </GridLabel>
-                </div>
-                <div>
-                  <GridImgBox bg="#e8743a"><Placeholder style={{ color: "rgba(255,255,255,0.3)" }}>Image</Placeholder></GridImgBox>
-                  <GridLabel>
-                    <ItemName>Lock-in Coffee</ItemName>
-                    <ItemSub>Lion's Mane Blend</ItemSub>
-                  </GridLabel>
-                </div>
-              </GridRow>
             </EventSection>
 
             {/* Section 2: Flavors */}
