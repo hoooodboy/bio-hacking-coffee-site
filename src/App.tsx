@@ -900,6 +900,259 @@ const IntroText = styled.div`
   animation: ${introPulse} 2s ease-in-out infinite;
 `;
 
+/* ─── Product Detail Modal ─── */
+
+const PRODUCTS = {
+  signature: {
+    name: "Signature",
+    sub: "디카페인",
+    image: "/decaf.png",
+    bg: "#4a1a1a",
+    price: "39,000원",
+    origPrice: "70,000원",
+    discount: "44%",
+    specs: [
+      { label: "PRODUCT FLAVOR", value: "노루궁뎅이 버섯의 깊은 풍미와 스페셜티 디카페인 원두의 부드러운 밸런스. 카페인 없이도 풍부한 맛." },
+      { label: "INFO", value: "100% 천연 · 디카페인 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출" },
+      { label: "PRODUCTION", value: "24시간 저온 추출 콜드브루 공법. 스위스 워터 프로세스 디카페인 원두 사용." },
+      { label: "INGREDIENTS", value: "정제수, 디카페인 커피 추출액, 노루궁뎅이 버섯 추출물" },
+      { label: "THE RESULT", value: "카페인 걱정 없이 즐기는 깊고 부드러운 커피. 집중력과 인지 기능을 자연스럽게 서포트합니다." },
+    ],
+  },
+  house: {
+    name: "House",
+    sub: "카페인",
+    image: "/caffeine.png",
+    bg: "#1a3a5c",
+    price: "36,000원",
+    origPrice: "60,000원",
+    discount: "40%",
+    specs: [
+      { label: "PRODUCT FLAVOR", value: "스페셜티 원두 본연의 깔끔한 맛과 노루궁뎅이 버섯의 어시 노트가 조화를 이룬 시그니처 블렌드." },
+      { label: "INFO", value: "100% 천연 · 카페인 함유 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출" },
+      { label: "PRODUCTION", value: "24시간 저온 추출 콜드브루 공법. 에티오피아 싱글 오리진 스페셜티 원두 사용." },
+      { label: "INGREDIENTS", value: "정제수, 커피 추출액, 노루궁뎅이 버섯 추출물" },
+      { label: "THE RESULT", value: "자연스러운 에너지 부스트와 함께 선명한 집중력. 하루를 깨우는 클린 카페인 경험." },
+    ],
+  },
+  vibrant: {
+    name: "Vibrant",
+    sub: "산미",
+    image: "/acidity.png",
+    bg: "#3a2010",
+    price: "42,000원",
+    origPrice: "80,000원",
+    discount: "47%",
+    specs: [
+      { label: "PRODUCT FLAVOR", value: "밝은 산미와 과일 향이 살아있는 프리미엄 블렌드. 노루궁뎅이 버섯이 더하는 깊은 여운." },
+      { label: "INFO", value: "100% 천연 · 카페인 함유 · 노루궁뎅이 버섯 추출물 · 인공 첨가물 無 · 콜드브루 추출" },
+      { label: "PRODUCTION", value: "24시간 저온 추출 콜드브루 공법. 케냐 AA 스페셜티 원두로 선명한 산미 구현." },
+      { label: "INGREDIENTS", value: "정제수, 커피 추출액, 노루궁뎅이 버섯 추출물" },
+      { label: "THE RESULT", value: "생동감 넘치는 산미와 함께 깨끗한 피니시. 감각을 일깨우는 바이오해킹 커피 경험." },
+    ],
+  },
+} as const;
+
+type ProductKey = keyof typeof PRODUCTS;
+
+const pdFadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const pdSlideUp = keyframes`
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const PDOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  z-index: 200;
+  background: #f5f0ea;
+  animation: ${pdFadeIn} 0.3s ease-out;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+`;
+
+const PDLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const PDInfoPanel = styled.div`
+  padding: 32px 28px;
+  animation: ${pdSlideUp} 0.5s ease-out;
+  @media (min-width: 768px) {
+    width: 40%;
+    max-width: 400px;
+    padding: 48px 40px;
+    overflow-y: auto;
+    height: 100dvh;
+    position: sticky;
+    top: 0;
+  }
+`;
+
+const PDImagePanel = styled.div<{ bg: string }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: ${({ bg }) => bg};
+  min-height: 50dvh;
+  animation: ${pdFadeIn} 0.5s ease-out 0.1s both;
+  @media (min-width: 768px) {
+    flex: 1;
+    min-height: 100dvh;
+    position: sticky;
+    top: 0;
+    padding: 60px;
+  }
+`;
+
+const PDProductImage = styled.img`
+  max-width: 280px;
+  max-height: 60dvh;
+  object-fit: contain;
+  @media (min-width: 768px) {
+    max-width: 400px;
+    max-height: 70dvh;
+  }
+`;
+
+const PDClose = styled.button`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 201;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  @media (min-width: 768px) { font-size: 13px; }
+`;
+
+const PDName = styled.h2`
+  font-family: "Instrument Serif", serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: #111;
+  margin: 0;
+  line-height: 1.1;
+  @media (min-width: 768px) { font-size: 48px; }
+`;
+
+const PDSub = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #666;
+  margin-top: 4px;
+  @media (min-width: 768px) { font-size: 20px; }
+`;
+
+const PDBuyBtn = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  @media (min-width: 768px) { font-size: 13px; padding: 14px 28px; }
+`;
+
+const PDPriceArea = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+`;
+
+const PDOrigPrice = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+  @media (min-width: 768px) { font-size: 16px; }
+`;
+
+const PDSalePrice = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  @media (min-width: 768px) { font-size: 28px; }
+`;
+
+const PDDiscount = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e8743a;
+  @media (min-width: 768px) { font-size: 16px; }
+`;
+
+const PDSpecsTable = styled.div`
+  margin-top: 40px;
+`;
+
+const PDSpecRow = styled.div`
+  display: flex;
+  gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  &:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+`;
+
+const PDSpecLabel = styled.div`
+  font-family: "Roboto Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #111;
+  min-width: 90px;
+  flex-shrink: 0;
+  @media (min-width: 768px) { font-size: 10px; min-width: 110px; }
+`;
+
+const PDSpecValue = styled.div`
+  font-family: "Roboto Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #111;
+  line-height: 1.6;
+  @media (min-width: 768px) { font-size: 11px; }
+`;
+
 /* ─── App ─── */
 
 function App() {
@@ -915,6 +1168,7 @@ function App() {
   );
   const [introVisible, setIntroVisible] = useState(true);
   const [introHiding, setIntroHiding] = useState(false);
+  const [activeProduct, setActiveProduct] = useState<ProductKey | null>(null);
 
   // Activate all videos (called on intro dismiss + as fallback)
   const activateVideos = () => {
@@ -1464,7 +1718,7 @@ function App() {
               </div>
 
               <GridRow style={{ marginTop: 40 }}>
-                <div>
+                <div style={{ cursor: "pointer" }} onClick={() => setActiveProduct("signature")}>
                   <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
                     <img src="/decaf.png" alt="Signature 디카페인" style={{ width: "110%", height: "110%", objectFit: "cover" }} />
                   </GridImgBox>
@@ -1477,7 +1731,7 @@ function App() {
                     </PriceRow>
                   </GridLabel>
                 </div>
-                <div>
+                <div style={{ cursor: "pointer" }} onClick={() => setActiveProduct("house")}>
                   <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
                     <img src="/caffeine.png" alt="카페인 부스트" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </GridImgBox>
@@ -1491,7 +1745,7 @@ function App() {
                   </GridLabel>
                 </div>
               </GridRow>
-              <FlavorWide>
+              <FlavorWide style={{ cursor: "pointer" }} onClick={() => setActiveProduct("vibrant")}>
                 <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
                   <img src="/acidity.png" alt="Vibrant 산미" style={{ width: "120%", height: "120%", objectFit: "cover" }} />
                 </FlavorWideImg>
@@ -1578,6 +1832,39 @@ function App() {
           </SubPageWrap>
         </ScrollableContent>
       </BottomSheet>
+
+      {/* Product Detail Modal */}
+      {activeProduct && (() => {
+        const p = PRODUCTS[activeProduct];
+        return (
+          <PDOverlay>
+            <PDClose onClick={() => setActiveProduct(null)}>CLOSE</PDClose>
+            <PDLayout>
+              <PDInfoPanel>
+                <PDName>{p.name}</PDName>
+                <PDSub>{p.sub}</PDSub>
+                <PDPriceArea>
+                  <PDDiscount>{p.discount}</PDDiscount>
+                  <PDOrigPrice>{p.origPrice}</PDOrigPrice>
+                  <PDSalePrice>{p.price}</PDSalePrice>
+                </PDPriceArea>
+                <PDBuyBtn>구매하기 ↗</PDBuyBtn>
+                <PDSpecsTable>
+                  {p.specs.map((s, i) => (
+                    <PDSpecRow key={i}>
+                      <PDSpecLabel>{s.label}</PDSpecLabel>
+                      <PDSpecValue>{s.value}</PDSpecValue>
+                    </PDSpecRow>
+                  ))}
+                </PDSpecsTable>
+              </PDInfoPanel>
+              <PDImagePanel bg={p.bg}>
+                <PDProductImage src={p.image} alt={p.name} />
+              </PDImagePanel>
+            </PDLayout>
+          </PDOverlay>
+        );
+      })()}
     </div>
   );
 }
