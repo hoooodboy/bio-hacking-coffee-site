@@ -1,4 +1,3 @@
-// test push
 import styled from "@emotion/styled";
 import { keyframes, css } from "@emotion/react";
 import { useEffect, useRef, useState, useCallback } from "react";
