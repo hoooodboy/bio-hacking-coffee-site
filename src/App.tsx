@@ -2657,6 +2657,9 @@ function App() {
                 CLOSE
               </PDClose>
               <PDLayout>
+                <PDImagePanel bg={p.bg}>
+                  <PDProductImage src={p.image} alt={p.name} />
+                </PDImagePanel>
                 <PDInfoPanel>
                   <PDName>{p.name}</PDName>
                   <PDSub>{p.sub}</PDSub>
@@ -2692,9 +2695,6 @@ function App() {
                     ))}
                   </PDSpecsTable>
                 </PDInfoPanel>
-                <PDImagePanel bg={p.bg}>
-                  <PDProductImage src={p.image} alt={p.name} />
-                </PDImagePanel>
               </PDLayout>
             </PDOverlay>
           );
