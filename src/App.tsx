@@ -374,7 +374,7 @@ const WatermarkText = styled.div<{ size?: number }>`
   font-weight: 500;
   line-height: 0.85;
   letter-spacing: -4px;
-  opacity: 0.06;
+  opacity: 0.1;
   text-transform: uppercase;
   white-space: nowrap;
 `;
@@ -478,6 +478,38 @@ const ItemName = styled.div`
   @media (min-width: 768px) { font-size: 17px; }
 `;
 
+const PriceRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+`;
+
+const OrigPrice = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.3);
+  text-decoration: line-through;
+  @media (min-width: 768px) { font-size: 14px; }
+`;
+
+const SalePrice = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  @media (min-width: 768px) { font-size: 18px; }
+`;
+
+const DiscountBadge = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #e8743a;
+  @media (min-width: 768px) { font-size: 14px; }
+`;
+
 const ItemSub = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 11px;
@@ -522,52 +554,43 @@ const BannerInfo = styled.div`
 
 const BannerTitle = styled.div`
   font-family: "Instrument Serif", serif;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 400;
   color: #fff;
   line-height: 1.2;
   em { font-style: italic; }
-  @media (min-width: 768px) {
-    font-size: 40px;
-  }
+  @media (min-width: 768px) { font-size: 32px; }
 `;
 
 
 const BannerDesc = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.5;
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
+  @media (min-width: 768px) { font-size: 15px; }
 `;
 
 const BannerBtn = styled.div`
   display: inline-block;
   align-self: flex-start;
-  padding: 10px 24px;
+  padding: 8px 20px;
   border-radius: 40px;
   background: #fff;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 15px;
+  font-size: 11px;
   font-weight: 600;
   color: #e8743a;
-  @media (min-width: 768px) {
-    font-size: 18px;
-    padding: 14px 32px;
-  }
+  @media (min-width: 768px) { font-size: 14px; padding: 10px 28px; }
 `;
 
 const BannerNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 9px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.5);
-  @media (min-width: 768px) {
-    font-size: 12px;
-  }
+  color: rgba(255, 255, 255, 0.4);
+  @media (min-width: 768px) { font-size: 11px; }
 `;
 
 const GridRow = styled.div`
@@ -1442,6 +1465,11 @@ function App() {
                   <GridLabel>
                     <ItemName>디카페인 블렌드</ItemName>
                     <ItemSub>Decaf</ItemSub>
+                    <PriceRow>
+                      <DiscountBadge>44%</DiscountBadge>
+                      <OrigPrice>70,000원</OrigPrice>
+                      <SalePrice>39,000원</SalePrice>
+                    </PriceRow>
                   </GridLabel>
                 </div>
                 <div>
@@ -1451,6 +1479,11 @@ function App() {
                   <GridLabel>
                     <ItemName>카페인 부스트</ItemName>
                     <ItemSub>Caffeine</ItemSub>
+                    <PriceRow>
+                      <DiscountBadge>40%</DiscountBadge>
+                      <OrigPrice>60,000원</OrigPrice>
+                      <SalePrice>36,000원</SalePrice>
+                    </PriceRow>
                   </GridLabel>
                 </div>
               </GridRow>
@@ -1460,6 +1493,11 @@ function App() {
                 </FlavorWideImg>
                 <ItemName>산미 에디션</ItemName>
                 <ItemSub>Acidity</ItemSub>
+                <PriceRow>
+                  <DiscountBadge>47%</DiscountBadge>
+                  <OrigPrice>80,000원</OrigPrice>
+                  <SalePrice>42,000원</SalePrice>
+                </PriceRow>
               </FlavorWide>
             </FlavorSection>
 
