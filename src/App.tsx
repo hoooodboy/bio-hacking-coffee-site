@@ -460,6 +460,8 @@ const GrainCanvas = styled.canvas`
 const SubPageContent = styled.div`
   position: relative;
   z-index: 1;
+  transform: translateZ(0);
+  will-change: transform;
 `;
 
 const Placeholder = styled.span`
@@ -657,6 +659,7 @@ const GridImgBox = styled.div<{ bg: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateZ(0);
 `;
 
 const GridLabel = styled.div`
@@ -681,6 +684,7 @@ const FlavorWideImg = styled.div<{ bg: string }>`
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
+  transform: translateZ(0);
 `;
 
 /* ── Section 3: In Good Company ── */
@@ -808,7 +812,7 @@ const TraceBody = styled.p`
 /* ── Section 5: Footer ── */
 const FooterSection = styled.footer`
   background: transparent;
-  padding: 56px 24px 28px;
+  padding: 56px 24px 60px;
   text-align: center;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
