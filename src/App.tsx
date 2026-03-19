@@ -724,7 +724,8 @@ const GBox = styled.div<{ bg?: string; span?: number; h?: number }>`
   @media (min-width: 768px) {
     height: ${({ h }) => (h ? h * 1.8 : 180)}px;
   }
-  img {
+  img,
+  video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -1339,6 +1340,9 @@ const CartFab = styled.button`
   bottom: 24px;
   right: 24px;
   z-index: 190;
+  @media (min-width: 780px) {
+    right: calc(50% - 390px + 24px);
+  }
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -1387,6 +1391,9 @@ const CartFloat = styled.div`
   max-width: 340px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
   animation: ${pdSlideUp} 0.3s ease-out;
+  @media (min-width: 780px) {
+    right: calc(50% - 390px + 24px);
+  }
   @media (max-width: 767px) {
     left: 16px;
     right: 16px;
@@ -2530,20 +2537,20 @@ function App() {
                   </CompanyTitle>
 
                   <CompanyGrid>
-                    <GBox h={90}>
+                    <GBox h={140} span={2}>
+                      <video src="/company-video.mp4" autoPlay loop muted playsInline />
+                    </GBox>
+                    <GBox h={140}>
                       <img src="/company1.jpg" alt="company" />
                     </GBox>
-                    <GBox h={90}>
+                    <GBox h={120}>
                       <img src="/company2.jpg" alt="company" />
                     </GBox>
-                    <GBox h={90}>
+                    <GBox h={120}>
                       <img src="/company3.jpg" alt="company" />
                     </GBox>
-                    <GBox h={120} span={2}>
-                      <img src="/company4.jpg" alt="company" />
-                    </GBox>
                     <GBox h={120}>
-                      <img src="/company5.jpg" alt="company" />
+                      <img src="/company4.jpg" alt="company" />
                     </GBox>
                   </CompanyGrid>
 
