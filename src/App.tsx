@@ -222,7 +222,7 @@ const BottomSheet = styled.div<{ bottomOffset: number; expanded: boolean }>`
     expanded &&
     `transition: bottom 0.5s cubic-bezier(0.32, 0.72, 0, 1), border-radius 0.5s cubic-bezier(0.32, 0.72, 0, 1);`}
   border-radius: ${({ expanded }) => (expanded ? "0" : "20px 20px 0 0")};
-  overflow: ${({ expanded }) => (expanded ? "visible" : "hidden")};
+  overflow: hidden;
   will-change: bottom, border-radius;
   pointer-events: ${({ expanded }) => (expanded ? "auto" : "none")};
 `;
@@ -265,7 +265,6 @@ const ScrollableContent = styled.div`
   position: relative;
   z-index: 2;
   min-height: 100dvh;
-  -webkit-overflow-scrolling: touch;
 `;
 
 const TextContent = styled.div<{ show: boolean }>`
@@ -413,13 +412,14 @@ const SubPageWrap = styled.div`
 `;
 
 const GrainCanvas = styled.canvas`
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
   height: 100dvh;
   pointer-events: none;
   z-index: 0;
+  margin-bottom: -100dvh;
 `;
 
 const SubPageContent = styled.div`
