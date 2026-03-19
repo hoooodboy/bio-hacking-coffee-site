@@ -254,9 +254,8 @@ const SheetVideo = styled.video<{ scale: number }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(${({ scale }) => scale}) translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  transform: scale(${({ scale }) => scale});
+  will-change: transform;
   filter: brightness(0.8);
 `;
 
