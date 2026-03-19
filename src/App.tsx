@@ -483,24 +483,6 @@ const EventBanner = styled.div`
   margin-bottom: 12px;
 `;
 
-const BannerImg = styled.div`
-  flex: 1;
-  aspect-ratio: 1;
-  background: #1a1a1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const BannerInfo = styled.div`
-  flex: 1;
-  background: #e8743a;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 24px 20px;
-  gap: 12px;
-`;
 
 const BannerTitle = styled.div`
   font-family: "Instrument Serif", serif;
@@ -511,13 +493,6 @@ const BannerTitle = styled.div`
   em { font-style: italic; }
 `;
 
-const BannerDesc = styled.div`
-  font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
-`;
 
 const BannerBtn = styled.div`
   display: inline-block;
