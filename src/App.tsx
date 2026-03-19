@@ -968,8 +968,10 @@ const pdSlideUp = keyframes`
 const PDOverlay = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 780px;
   height: 100dvh;
   z-index: 200;
   background: #f5f0ea;
@@ -982,23 +984,11 @@ const PDLayout = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
 `;
 
 const PDInfoPanel = styled.div`
-  padding: 32px 28px;
+  padding: 32px 24px 48px;
   animation: ${pdSlideUp} 0.5s ease-out;
-  @media (min-width: 768px) {
-    width: 40%;
-    max-width: 400px;
-    padding: 48px 40px;
-    overflow-y: auto;
-    height: 100dvh;
-    position: sticky;
-    top: 0;
-  }
 `;
 
 const PDImagePanel = styled.div<{ bg: string }>`
@@ -1006,27 +996,15 @@ const PDImagePanel = styled.div<{ bg: string }>`
   align-items: center;
   justify-content: center;
   background: ${({ bg }) => bg};
-  min-height: 50dvh;
   animation: ${pdFadeIn} 0.5s ease-out 0.1s both;
   overflow: hidden;
-  @media (min-width: 768px) {
-    flex: 1;
-    min-height: 100dvh;
-    position: sticky;
-    top: 0;
-  }
+  padding: 48px 32px;
 `;
 
 const PDProductImage = styled.img`
-  height: 100%;
-  min-height: 50dvh;
-  width: auto;
-  max-width: none;
-  object-fit: cover;
-  object-position: center;
-  @media (min-width: 768px) {
-    min-height: 100dvh;
-  }
+  max-height: 50dvh;
+  max-width: 100%;
+  object-fit: contain;
 `;
 
 const PDClose = styled.button`
