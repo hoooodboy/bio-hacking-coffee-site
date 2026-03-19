@@ -351,8 +351,22 @@ const BodyText = styled.p`
 /* Free-form canvas for scattered text blocks */
 const FreeCanvas = styled.div`
   position: relative;
-  min-height: 220dvh;
   overflow: hidden;
+`;
+
+const StickyBlock = styled.div<{
+  align?: string;
+  padLeft?: string;
+  padRight?: string;
+  rotate?: string;
+}>`
+  position: sticky;
+  top: 20dvh;
+  padding: 16dvh 24px 20dvh;
+  ${({ align }) => align === "right" && `text-align: right;`}
+  ${({ padLeft }) => padLeft && `padding-left: ${padLeft};`}
+  ${({ padRight }) => padRight && `padding-right: ${padRight};`}
+  ${({ rotate }) => rotate && `transform: rotate(${rotate});`}
 `;
 
 const FloatBlock = styled.div<{
@@ -2079,24 +2093,10 @@ function App() {
 
             {/* Free-form scattered layout */}
             <FreeCanvas>
-              {/* Watermarks — background texture */}
-              <FloatBlock top="2%" left="-5%">
-                <WatermarkText size={120}>LOCK-IN</WatermarkText>
-              </FloatBlock>
-              <FloatBlock top="50%" right="-8%" rotate="90deg">
-                <WatermarkText size={90}>COFFEE</WatermarkText>
-              </FloatBlock>
-              <FloatBlock top="85%" left="5%">
-                <WatermarkText size={70}>MUSHROOM</WatermarkText>
-              </FloatBlock>
-
-              {/* Decorative lines */}
-              <LineDivider top="30%" rotate="-2deg" />
-              <LineDivider top="70%" rotate="1deg" />
-
-              {/* The Name — top left */}
-              <FloatBlock top="5%" left="20px" ref={nameBlock.ref}>
-                <div css={revealLeft(nameBlock.visible, 0)}>
+              {/* The Name — left, slightly tilted */}
+              <StickyBlock padLeft="24px" ref={nameBlock.ref}>
+                <div css={revealLeft(nameBlock.visible, 0)} style={{ transform: "rotate(-1deg)" }}>
+                  <WatermarkText size={80} style={{ marginBottom: -20, marginLeft: -12 }}>LOCK-IN</WatermarkText>
                   <LabelSmall>The Name</LabelSmall>
                   <TitleLarge>
                     Lock-in
@@ -2111,14 +2111,11 @@ function App() {
                     바이오해킹 음료.
                   </BodyText>
                 </div>
-              </FloatBlock>
+              </StickyBlock>
 
-              {/* The Flavor — right */}
-              <FloatBlock top="22%" right="20px" ref={flavorBlock.ref}>
-                <div
-                  css={revealRight(flavorBlock.visible, 0.2)}
-                  style={{ textAlign: "right" }}
-                >
+              {/* The Flavor — right, tilted other way */}
+              <StickyBlock align="right" padRight="24px" ref={flavorBlock.ref}>
+                <div css={revealRight(flavorBlock.visible, 0.2)} style={{ transform: "rotate(1.5deg)" }}>
                   <LabelSmall>The Flavor</LabelSmall>
                   <TitleLarge>
                     Nature's
@@ -2132,12 +2129,13 @@ function App() {
                     <br />
                     조화를 이루는 맛.
                   </BodyText>
+                  <WatermarkText size={60} style={{ marginTop: -10, opacity: 0.1 }}>COFFEE</WatermarkText>
                 </div>
-              </FloatBlock>
+              </StickyBlock>
 
-              {/* The Source — center-left */}
-              <FloatBlock top="46%" left="32px" ref={sourceBlock.ref}>
-                <div css={revealScale(sourceBlock.visible, 0)}>
+              {/* The Source — left, scaled in */}
+              <StickyBlock padLeft="32px" ref={sourceBlock.ref}>
+                <div css={revealScale(sourceBlock.visible, 0)} style={{ transform: "rotate(-0.5deg)" }}>
                   <LabelSmall>The Source</LabelSmall>
                   <DetailTitle style={{ fontSize: 34 }}>
                     Lion's
@@ -2152,14 +2150,14 @@ function App() {
                     핵심 원료로 사용합니다.
                   </DetailBody>
                 </div>
-              </FloatBlock>
+              </StickyBlock>
 
-              {/* The Process — far right */}
-              <FloatBlock top="68%" right="16px">
+              {/* The Process — right, rising up */}
+              <StickyBlock align="right" padRight="20px">
                 <div
                   ref={processBlock.ref}
                   css={revealUp(processBlock.visible, 0.1)}
-                  style={{ textAlign: "right" }}
+                  style={{ transform: "rotate(2deg)" }}
                 >
                   <LabelSmall>The Process</LabelSmall>
                   <DetailTitle>
@@ -2174,8 +2172,9 @@ function App() {
                     <br />
                     효율을 동시에 실현.
                   </DetailBody>
+                  <WatermarkText size={50} style={{ marginTop: -8, opacity: 0.1 }}>MUSHROOM</WatermarkText>
                 </div>
-              </FloatBlock>
+              </StickyBlock>
             </FreeCanvas>
           </TextContent>
 
