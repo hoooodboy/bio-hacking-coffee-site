@@ -1018,10 +1018,12 @@ const PDImagePanel = styled.div<{ bg: string }>`
 `;
 
 const PDProductImage = styled.img`
-  width: 100%;
   height: 100%;
-  object-fit: cover;
   min-height: 50dvh;
+  width: auto;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
   @media (min-width: 768px) {
     min-height: 100dvh;
   }
@@ -1332,30 +1334,145 @@ const CheckoutOverlay = styled.div`
   width: 100%;
   height: 100dvh;
   z-index: 210;
-  background: #f5f0ea;
+  background: #0a0a0a;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   animation: ${pdFadeIn} 0.3s ease-out;
+  color: #fff;
 `;
 
-const CheckoutInner = styled.div`
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 40px 24px 80px;
-  @media (min-width: 768px) { padding: 60px 40px 100px; }
+const CheckoutLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
-const CheckoutTitle = styled.h2`
+const CheckoutPreview = styled.div`
+  padding: 40px 24px;
+  background: #111;
+  @media (min-width: 768px) {
+    width: 45%;
+    min-height: 100dvh;
+    position: sticky;
+    top: 0;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const CheckoutPreviewTitle = styled.div`
   font-family: "Instrument Serif", serif;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 400;
-  color: #111;
-  margin: 0 0 32px;
-  @media (min-width: 768px) { font-size: 42px; }
+  color: #fff;
+  margin-bottom: 32px;
+  @media (min-width: 768px) { font-size: 36px; }
+`;
+
+const CheckoutProductCard = styled.div`
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  align-items: center;
+`;
+
+const CheckoutProductThumb = styled.div<{ bg: string }>`
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background: ${({ bg }) => bg};
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+  }
+`;
+
+const CheckoutProductInfo = styled.div`
+  flex: 1;
+`;
+
+const CheckoutProductName = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+`;
+
+const CheckoutProductSub = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 2px;
+`;
+
+const CheckoutProductPrice = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  text-align: right;
+  white-space: nowrap;
+`;
+
+const CheckoutTotalBlock = styled.div`
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+`;
+
+const CheckoutTotalRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  padding: 4px 0;
+`;
+
+const CheckoutGrandTotal = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 12px;
+  @media (min-width: 768px) { font-size: 26px; }
+`;
+
+const CheckoutFormPanel = styled.div`
+  padding: 40px 24px 80px;
+  @media (min-width: 768px) {
+    flex: 1;
+    padding: 60px 48px 100px;
+    max-width: 560px;
+  }
+`;
+
+const CheckoutFormTitle = styled.h3`
+  font-family: "Roboto Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin: 0 0 24px;
 `;
 
 const CheckoutSection = styled.div`
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 `;
 
 const CheckoutLabel = styled.label`
@@ -1365,22 +1482,23 @@ const CheckoutLabel = styled.label`
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #666;
+  color: rgba(255,255,255,0.4);
   margin-bottom: 6px;
 `;
 
 const CheckoutInput = styled.input`
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 14px;
-  color: #111;
-  background: #fff;
+  color: #fff;
+  background: rgba(255,255,255,0.04);
   outline: none;
   box-sizing: border-box;
   &:focus { border-color: #e8743a; }
+  &::placeholder { color: rgba(255,255,255,0.2); }
 `;
 
 const CheckoutInputRow = styled.div`
@@ -1390,9 +1508,9 @@ const CheckoutInputRow = styled.div`
 
 const CheckoutAddrBtn = styled.button`
   padding: 12px 16px;
-  border: 1px solid rgba(0,0,0,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 8px;
-  background: #111;
+  background: rgba(255,255,255,0.08);
   color: #fff;
   font-family: "Roboto Mono", monospace;
   font-size: 10px;
@@ -1401,39 +1519,14 @@ const CheckoutAddrBtn = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
-`;
-
-const CheckoutSummary = styled.div`
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 24px;
-`;
-
-const CheckoutSummaryRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px;
-  color: #333;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-`;
-
-const CheckoutSummaryTotal = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-top: 12px;
-  font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #111;
+  &:hover { background: rgba(255,255,255,0.12); }
 `;
 
 const CheckoutPayBtn = styled.button`
   width: 100%;
+  margin-top: 24px;
   padding: 16px;
-  background: #111;
+  background: #e8743a;
   color: #fff;
   border: none;
   border-radius: 40px;
@@ -1444,6 +1537,7 @@ const CheckoutPayBtn = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:hover:not(:disabled) { background: #d4632e; }
 `;
 
 const CheckoutClose = styled.button`
@@ -1451,9 +1545,9 @@ const CheckoutClose = styled.button`
   top: 20px;
   right: 20px;
   z-index: 211;
-  background: #111;
+  background: rgba(255,255,255,0.08);
   color: #fff;
-  border: none;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 6px;
   padding: 10px 20px;
   font-family: "Roboto Mono", monospace;
@@ -1462,6 +1556,7 @@ const CheckoutClose = styled.button`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
+  &:hover { background: rgba(255,255,255,0.12); }
 `;
 
 /* ─── App ─── */
@@ -2295,98 +2390,115 @@ function App() {
       {showCheckout && (
         <CheckoutOverlay>
           <CheckoutClose onClick={() => setShowCheckout(false)}>CLOSE</CheckoutClose>
-          <CheckoutInner>
-            <CheckoutTitle>Checkout</CheckoutTitle>
-
-            <CheckoutSummary>
+          <CheckoutLayout>
+            {/* Left: Order Preview */}
+            <CheckoutPreview>
+              <CheckoutPreviewTitle>주문 확인</CheckoutPreviewTitle>
               {cart.map(item => {
                 const p = PRODUCTS[item.key];
                 const price = parseInt(p.price.replace(/[^0-9]/g, ""));
                 return (
-                  <CheckoutSummaryRow key={item.key}>
-                    <span>{p.name} {p.sub} × {item.qty}</span>
-                    <span>{(price * item.qty).toLocaleString()}원</span>
-                  </CheckoutSummaryRow>
+                  <CheckoutProductCard key={item.key}>
+                    <CheckoutProductThumb bg={p.bg}>
+                      <img src={p.image} alt={p.name} />
+                    </CheckoutProductThumb>
+                    <CheckoutProductInfo>
+                      <CheckoutProductName>{p.name}</CheckoutProductName>
+                      <CheckoutProductSub>{p.sub} · {item.qty}개</CheckoutProductSub>
+                    </CheckoutProductInfo>
+                    <CheckoutProductPrice>{(price * item.qty).toLocaleString()}원</CheckoutProductPrice>
+                  </CheckoutProductCard>
                 );
               })}
-              <CheckoutSummaryRow>
-                <span>배송비</span>
-                <span>3,000원</span>
-              </CheckoutSummaryRow>
-              <CheckoutSummaryTotal>
-                <span>총 결제금액</span>
-                <span>{(cartTotal + 3000).toLocaleString()}원</span>
-              </CheckoutSummaryTotal>
-            </CheckoutSummary>
+              <CheckoutTotalBlock>
+                <CheckoutTotalRow>
+                  <span>상품 금액</span>
+                  <span>{cartTotal.toLocaleString()}원</span>
+                </CheckoutTotalRow>
+                <CheckoutTotalRow>
+                  <span>배송비</span>
+                  <span>3,000원</span>
+                </CheckoutTotalRow>
+                <CheckoutGrandTotal>
+                  <span>총 결제금액</span>
+                  <span>{(cartTotal + 3000).toLocaleString()}원</span>
+                </CheckoutGrandTotal>
+              </CheckoutTotalBlock>
+            </CheckoutPreview>
 
-            <CheckoutSection>
-              <CheckoutLabel>이름</CheckoutLabel>
-              <CheckoutInput
-                value={shipping.name}
-                onChange={e => setShipping(p => ({ ...p, name: e.target.value }))}
-                placeholder="홍길동"
-              />
-            </CheckoutSection>
+            {/* Right: Shipping Form */}
+            <CheckoutFormPanel>
+              <CheckoutFormTitle>배송 정보</CheckoutFormTitle>
 
-            <CheckoutSection>
-              <CheckoutLabel>연락처</CheckoutLabel>
-              <CheckoutInput
-                value={shipping.phone}
-                onChange={e => setShipping(p => ({ ...p, phone: e.target.value }))}
-                placeholder="010-0000-0000"
-              />
-            </CheckoutSection>
-
-            <CheckoutSection>
-              <CheckoutLabel>이메일</CheckoutLabel>
-              <CheckoutInput
-                value={shipping.email}
-                onChange={e => setShipping(p => ({ ...p, email: e.target.value }))}
-                placeholder="email@example.com"
-              />
-            </CheckoutSection>
-
-            <CheckoutSection>
-              <CheckoutLabel>주소</CheckoutLabel>
-              <CheckoutInputRow>
+              <CheckoutSection>
+                <CheckoutLabel>이름</CheckoutLabel>
                 <CheckoutInput
-                  value={shipping.zipCode}
-                  readOnly
-                  placeholder="우편번호"
-                  style={{ flex: 1 }}
+                  value={shipping.name}
+                  onChange={e => setShipping(p => ({ ...p, name: e.target.value }))}
+                  placeholder="홍길동"
                 />
-                <CheckoutAddrBtn onClick={handleAddressSearch}>주소 검색</CheckoutAddrBtn>
-              </CheckoutInputRow>
-              <CheckoutInput
-                value={shipping.address}
-                readOnly
-                placeholder="주소"
-                style={{ marginTop: 8 }}
-              />
-              <CheckoutInput
-                value={shipping.addressDetail}
-                onChange={e => setShipping(p => ({ ...p, addressDetail: e.target.value }))}
-                placeholder="상세주소"
-                style={{ marginTop: 8 }}
-              />
-            </CheckoutSection>
+              </CheckoutSection>
 
-            <CheckoutSection>
-              <CheckoutLabel>배송 메모</CheckoutLabel>
-              <CheckoutInput
-                value={shipping.memo}
-                onChange={e => setShipping(p => ({ ...p, memo: e.target.value }))}
-                placeholder="부재 시 문 앞에 놓아주세요"
-              />
-            </CheckoutSection>
+              <CheckoutSection>
+                <CheckoutLabel>연락처</CheckoutLabel>
+                <CheckoutInput
+                  value={shipping.phone}
+                  onChange={e => setShipping(p => ({ ...p, phone: e.target.value }))}
+                  placeholder="010-0000-0000"
+                />
+              </CheckoutSection>
 
-            <CheckoutPayBtn
-              onClick={handlePayment}
-              disabled={isProcessing || !shipping.name || !shipping.phone || !shipping.address}
-            >
-              {isProcessing ? "처리 중..." : `${(cartTotal + 3000).toLocaleString()}원 결제하기`}
-            </CheckoutPayBtn>
-          </CheckoutInner>
+              <CheckoutSection>
+                <CheckoutLabel>이메일</CheckoutLabel>
+                <CheckoutInput
+                  value={shipping.email}
+                  onChange={e => setShipping(p => ({ ...p, email: e.target.value }))}
+                  placeholder="email@example.com"
+                />
+              </CheckoutSection>
+
+              <CheckoutSection>
+                <CheckoutLabel>주소</CheckoutLabel>
+                <CheckoutInputRow>
+                  <CheckoutInput
+                    value={shipping.zipCode}
+                    readOnly
+                    placeholder="우편번호"
+                    style={{ flex: 1 }}
+                  />
+                  <CheckoutAddrBtn onClick={handleAddressSearch}>주소 검색</CheckoutAddrBtn>
+                </CheckoutInputRow>
+                <CheckoutInput
+                  value={shipping.address}
+                  readOnly
+                  placeholder="주소"
+                  style={{ marginTop: 8 }}
+                />
+                <CheckoutInput
+                  value={shipping.addressDetail}
+                  onChange={e => setShipping(p => ({ ...p, addressDetail: e.target.value }))}
+                  placeholder="상세주소"
+                  style={{ marginTop: 8 }}
+                />
+              </CheckoutSection>
+
+              <CheckoutSection>
+                <CheckoutLabel>배송 메모</CheckoutLabel>
+                <CheckoutInput
+                  value={shipping.memo}
+                  onChange={e => setShipping(p => ({ ...p, memo: e.target.value }))}
+                  placeholder="부재 시 문 앞에 놓아주세요"
+                />
+              </CheckoutSection>
+
+              <CheckoutPayBtn
+                onClick={handlePayment}
+                disabled={isProcessing || !shipping.name || !shipping.phone || !shipping.address}
+              >
+                {isProcessing ? "처리 중..." : `${(cartTotal + 3000).toLocaleString()}원 결제하기`}
+              </CheckoutPayBtn>
+            </CheckoutFormPanel>
+          </CheckoutLayout>
         </CheckoutOverlay>
       )}
     </div>
