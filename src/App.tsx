@@ -483,6 +483,25 @@ const EventBanner = styled.div`
   margin-bottom: 12px;
 `;
 
+const BannerImg = styled.div`
+  flex: 1;
+  aspect-ratio: 1;
+  background: #1a1a1a;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BannerInfo = styled.div`
+  flex: 1;
+  background: #e8743a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 20px;
+  gap: 12px;
+`;
 
 const BannerTitle = styled.div`
   font-family: "Instrument Serif", serif;
@@ -493,6 +512,14 @@ const BannerTitle = styled.div`
   em { font-style: italic; }
 `;
 
+
+const BannerDesc = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+`;
 
 const BannerBtn = styled.div`
   display: inline-block;
@@ -922,145 +949,38 @@ function App() {
 
     const scroll = grainScroll.current;
 
-    // Helper: draw organic blob using bezier curves
-    const drawBlob = (
-      cx: number,
-      cy: number,
-      baseR: number,
-      color: string,
-      alpha: number,
-      seed: number
-    ) => {
-      ctx.save();
-      ctx.globalCompositeOperation = "screen";
-      const points = 8;
-      const angleStep = (Math.PI * 2) / points;
+    // Blob 1 — main glow
+    const cx1 = w * 0.5 + Math.sin(scroll * 0.3) * w * 0.25;
+    const cy1 = h * 0.35 + Math.cos(scroll * 0.2) * h * 0.2;
+    const r1 = Math.max(w, h) * (0.55 + Math.sin(scroll * 0.15) * 0.1);
+    const g1 = ctx.createRadialGradient(cx1, cy1, 0, cx1, cy1, r1);
+    g1.addColorStop(0, "rgba(232, 116, 58, 0.22)");
+    g1.addColorStop(0.4, "rgba(232, 116, 58, 0.08)");
+    g1.addColorStop(1, "rgba(232, 116, 58, 0)");
+    ctx.fillStyle = g1;
+    ctx.fillRect(0, 0, w, h);
 
-      // Create organic shape path
-      ctx.beginPath();
-      for (let i = 0; i <= points; i++) {
-        const angle = i * angleStep;
-        const nextAngle = (i + 1) * angleStep;
-        // Deform radius per point using scroll + seed
-        const deform =
-          1 +
-          Math.sin(scroll * 0.4 + seed + i * 1.7) * 0.45 +
-          Math.cos(scroll * 0.6 + seed * 2 + i * 0.9) * 0.3;
-        const r = baseR * deform;
-        const nextDeform =
-          1 +
-          Math.sin(scroll * 0.4 + seed + (i + 1) * 1.7) * 0.45 +
-          Math.cos(scroll * 0.6 + seed * 2 + (i + 1) * 0.9) * 0.3;
-        const nextR = baseR * nextDeform;
+    // Blob 2 — warm accent lower
+    const cx2 = w * 0.3 + Math.cos(scroll * 0.25 + 2) * w * 0.2;
+    const cy2 = h * 0.7 + Math.sin(scroll * 0.3 + 1) * h * 0.15;
+    const r2 = Math.max(w, h) * (0.4 + Math.cos(scroll * 0.18) * 0.08);
+    const g2 = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, r2);
+    g2.addColorStop(0, "rgba(244, 162, 97, 0.14)");
+    g2.addColorStop(0.5, "rgba(244, 162, 97, 0.04)");
+    g2.addColorStop(1, "rgba(244, 162, 97, 0)");
+    ctx.fillStyle = g2;
+    ctx.fillRect(0, 0, w, h);
 
-        const x = cx + Math.cos(angle) * r;
-        const y = cy + Math.sin(angle) * r;
-
-        if (i === 0) {
-          ctx.moveTo(x, y);
-        } else {
-          // Bezier control points for smooth organic curves
-          const cpAngle = angle - angleStep * 0.5;
-          const cpR = (r + nextR) * 0.6;
-          const cp1x =
-            cx +
-            Math.cos(cpAngle - 0.2) * cpR +
-            Math.sin(scroll * 0.5 + seed) * baseR * 0.15;
-          const cp1y =
-            cy +
-            Math.sin(cpAngle - 0.2) * cpR +
-            Math.cos(scroll * 0.3 + seed) * baseR * 0.15;
-          const cp2x =
-            cx +
-            Math.cos(cpAngle + 0.2) * (cpR * 0.8) +
-            Math.cos(scroll * 0.7 + seed * 3) * baseR * 0.1;
-          const cp2y =
-            cy +
-            Math.sin(cpAngle + 0.2) * (cpR * 0.8) +
-            Math.sin(scroll * 0.45 + seed * 3) * baseR * 0.1;
-          const nx = cx + Math.cos(nextAngle) * nextR;
-          const ny = cy + Math.sin(nextAngle) * nextR;
-          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, nx, ny);
-        }
-      }
-      ctx.closePath();
-
-      // Fill with radial gradient inside the blob
-      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, baseR * 1.5);
-      grad.addColorStop(0, color.replace("A)", `${alpha})`));
-      grad.addColorStop(0.5, color.replace("A)", `${alpha * 0.35})`));
-      grad.addColorStop(1, color.replace("A)", "0)"));
-      ctx.fillStyle = grad;
-      ctx.fill();
-
-      // Soft glow edge
-      ctx.shadowColor = color.replace("A)", `${alpha * 0.4})`);
-      ctx.shadowBlur = baseR * 0.6;
-      ctx.fill();
-
-      ctx.restore();
-    };
-
-    // Multiple organic blobs with scroll-driven positions
-    // Blob 1 — main large blob
-    drawBlob(
-      w * 0.5 + Math.sin(scroll * 0.35) * w * 0.35,
-      h * 0.35 + Math.cos(scroll * 0.25) * h * 0.25,
-      Math.max(w, h) * (0.35 + Math.sin(scroll * 0.2) * 0.12),
-      "rgba(232, 116, 58, A)",
-      0.3,
-      0
-    );
-
-    // Blob 2 — drifting lower-left
-    drawBlob(
-      w * 0.2 + Math.cos(scroll * 0.3 + 1.5) * w * 0.25,
-      h * 0.7 + Math.sin(scroll * 0.4 + 0.8) * h * 0.2,
-      Math.max(w, h) * (0.25 + Math.cos(scroll * 0.18) * 0.08),
-      "rgba(244, 162, 97, A)",
-      0.22,
-      2.5
-    );
-
-    // Blob 3 — upper-right tentacle
-    drawBlob(
-      w * 0.8 + Math.sin(scroll * 0.45 + 3) * w * 0.15,
-      h * 0.2 + Math.cos(scroll * 0.35 + 2) * h * 0.15,
-      Math.max(w, h) * (0.18 + Math.sin(scroll * 0.3 + 1) * 0.1),
-      "rgba(255, 140, 60, A)",
-      0.2,
-      5.2
-    );
-
-    // Blob 4 — small wandering accent
-    drawBlob(
-      w * 0.6 + Math.cos(scroll * 0.55 + 4) * w * 0.3,
-      h * 0.55 + Math.sin(scroll * 0.5 + 3) * h * 0.25,
-      Math.max(w, h) * (0.12 + Math.sin(scroll * 0.4 + 2) * 0.06),
-      "rgba(255, 100, 40, A)",
-      0.18,
-      8.1
-    );
-
-    // Blob 5 — deep warm glow bottom
-    drawBlob(
-      w * 0.4 + Math.sin(scroll * 0.28 + 5.5) * w * 0.2,
-      h * 0.85 + Math.cos(scroll * 0.32 + 4) * h * 0.1,
-      Math.max(w, h) * (0.2 + Math.cos(scroll * 0.22 + 3) * 0.08),
-      "rgba(200, 80, 30, A)",
-      0.16,
-      11.3
-    );
-
-    // Blob 6 — tiny hot spot
-    drawBlob(
-      w * 0.35 + Math.cos(scroll * 0.7 + 7) * w * 0.2,
-      h * 0.4 + Math.sin(scroll * 0.6 + 5) * h * 0.2,
-      Math.max(w, h) * (0.08 + Math.sin(scroll * 0.5 + 4) * 0.04),
-      "rgba(255, 120, 50, A)",
-      0.35,
-      14.7
-    );
+    // Blob 3 — subtle upper-right
+    const cx3 = w * 0.75 + Math.sin(scroll * 0.35 + 3) * w * 0.1;
+    const cy3 = h * 0.25 + Math.cos(scroll * 0.28 + 2) * h * 0.1;
+    const r3 = Math.max(w, h) * (0.3 + Math.sin(scroll * 0.2 + 1) * 0.06);
+    const g3 = ctx.createRadialGradient(cx3, cy3, 0, cx3, cy3, r3);
+    g3.addColorStop(0, "rgba(232, 116, 58, 0.1)");
+    g3.addColorStop(0.5, "rgba(232, 116, 58, 0.03)");
+    g3.addColorStop(1, "rgba(232, 116, 58, 0)");
+    ctx.fillStyle = g3;
+    ctx.fillRect(0, 0, w, h);
 
     // Noise/grain overlay
     const imageData = ctx.getImageData(0, 0, w * dpr, h * dpr);
@@ -1450,18 +1370,17 @@ function App() {
                 <SecSub>100ml 무료 체험.<br />배송비만 부담하세요.</SecSub>
               </div>
 
-              {/* Wide banner: full image top, CTA bottom-right */}
-              <EventBanner style={{ flexDirection: "column", position: "relative" }}>
-                <div style={{ width: "100%", aspectRatio: "16/9", overflow: "hidden", borderRadius: 8 }}>
+              {/* Wide banner: image left, info right */}
+              <EventBanner>
+                <BannerImg>
                   <img src="/event-hero.png" alt="100ml 무료 체험" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: 16, width: "100%" }}>
-                  <div>
-                    <BannerTitle>100ml <em>무료</em><br />체험 이벤트</BannerTitle>
-                    <BannerNote style={{ marginTop: 4 }}>* 배송비 3,000원 · 1인 1회</BannerNote>
-                  </div>
+                </BannerImg>
+                <BannerInfo>
+                  <BannerTitle>100ml <em>무료</em><br />체험 이벤트</BannerTitle>
+                  <BannerDesc>노루궁뎅이 버섯 × 스페셜티 원두<br />배송비만 부담하세요.</BannerDesc>
                   <BannerBtn>무료 체험 신청하기</BannerBtn>
-                </div>
+                  <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
+                </BannerInfo>
               </EventBanner>
 
               {/* 2-col grid like flavors */}
