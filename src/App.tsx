@@ -1195,11 +1195,49 @@ const QtyNum = styled.span`
 
 /* ─── Floating Cart ─── */
 
-const CartFloat = styled.div`
+const CartFab = styled.button`
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 190;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  &:hover { background: #222; }
+`;
+
+const CartBadge = styled.span`
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: #e8743a;
+  color: #fff;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+`;
+
+const CartFloat = styled.div`
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  z-index: 189;
   background: #111;
   color: #fff;
   border-radius: 16px;
@@ -1211,7 +1249,7 @@ const CartFloat = styled.div`
   @media (max-width: 767px) {
     left: 16px;
     right: 16px;
-    bottom: 16px;
+    bottom: 88px;
     max-width: none;
   }
 `;
@@ -1577,6 +1615,7 @@ function App() {
   const [activeProduct, setActiveProduct] = useState<ProductKey | null>(null);
   const [pdQty, setPdQty] = useState(1);
   const [cart, setCart] = useState<{ key: ProductKey; qty: number }[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [shipping, setShipping] = useState({
@@ -2358,32 +2397,40 @@ function App() {
 
       {/* Floating Cart */}
       {cart.length > 0 && !activeProduct && !showCheckout && (
-        <CartFloat>
-          <CartTitle>Cart ({cart.reduce((s, i) => s + i.qty, 0)})</CartTitle>
-          {cart.map(item => {
-            const p = PRODUCTS[item.key];
-            const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-            return (
-              <CartItemRow key={item.key}>
-                <div>
-                  <CartItemName>{p.name} {p.sub}</CartItemName>
-                  <CartItemPrice>{(price * item.qty).toLocaleString()}원</CartItemPrice>
-                </div>
-                <CartItemQty>
-                  <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty - 1)}>−</CartQtyBtn>
-                  <span style={{ fontSize: 13, minWidth: 16, textAlign: "center" }}>{item.qty}</span>
-                  <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty + 1)}>+</CartQtyBtn>
-                  <CartRemoveBtn onClick={() => removeFromCart(item.key)}>×</CartRemoveBtn>
-                </CartItemQty>
-              </CartItemRow>
-            );
-          })}
-          <CartTotal>
-            <span>합계</span>
-            <span>{cartTotal.toLocaleString()}원</span>
-          </CartTotal>
-          <CartCheckoutBtn onClick={() => setShowCheckout(true)}>CHECKOUT</CartCheckoutBtn>
-        </CartFloat>
+        <>
+          {cartOpen && (
+            <CartFloat>
+              <CartTitle>Cart ({cart.reduce((s, i) => s + i.qty, 0)})</CartTitle>
+              {cart.map(item => {
+                const p = PRODUCTS[item.key];
+                const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+                return (
+                  <CartItemRow key={item.key}>
+                    <div>
+                      <CartItemName>{p.name} {p.sub}</CartItemName>
+                      <CartItemPrice>{(price * item.qty).toLocaleString()}원</CartItemPrice>
+                    </div>
+                    <CartItemQty>
+                      <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty - 1)}>−</CartQtyBtn>
+                      <span style={{ fontSize: 13, minWidth: 16, textAlign: "center" }}>{item.qty}</span>
+                      <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty + 1)}>+</CartQtyBtn>
+                      <CartRemoveBtn onClick={() => removeFromCart(item.key)}>×</CartRemoveBtn>
+                    </CartItemQty>
+                  </CartItemRow>
+                );
+              })}
+              <CartTotal>
+                <span>합계</span>
+                <span>{cartTotal.toLocaleString()}원</span>
+              </CartTotal>
+              <CartCheckoutBtn onClick={() => { setCartOpen(false); setShowCheckout(true); }}>CHECKOUT</CartCheckoutBtn>
+            </CartFloat>
+          )}
+          <CartFab onClick={() => setCartOpen(o => !o)}>
+            <CartBadge>{cart.reduce((s, i) => s + i.qty, 0)}</CartBadge>
+            {cartOpen ? "✕" : "🛒"}
+          </CartFab>
+        </>
       )}
 
       {/* Checkout Modal */}
