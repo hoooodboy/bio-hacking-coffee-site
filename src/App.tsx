@@ -112,6 +112,7 @@ const TopLeft = styled.div`
   letter-spacing: 2px;
   line-height: 1.3;
   text-transform: uppercase;
+  @media (min-width: 768px) { font-size: 16px; }
 `;
 
 const TopRight = styled.div`
@@ -122,6 +123,7 @@ const TopRight = styled.div`
   line-height: 1.3;
   text-transform: uppercase;
   text-align: right;
+  @media (min-width: 768px) { font-size: 16px; }
 `;
 
 const MiddleSection = styled.div`
@@ -137,6 +139,7 @@ const FounderText = styled.div`
   font-size: 14px;
   font-weight: 300;
   letter-spacing: 0.5px;
+  @media (min-width: 768px) { font-size: 18px; }
 `;
 
 const FocusText = styled.div`
@@ -148,6 +151,7 @@ const FocusText = styled.div`
   em {
     font-style: italic;
   }
+  @media (min-width: 768px) { font-size: 34px; }
 `;
 
 const BottomSection = styled.div`
@@ -171,6 +175,7 @@ const MainTitle = styled.h1`
   font-weight: 700;
   margin: 0 0 4px;
   letter-spacing: 2px;
+  @media (min-width: 768px) { font-size: 32px; }
 `;
 
 const SubText = styled.div`
@@ -179,6 +184,7 @@ const SubText = styled.div`
   line-height: 1.4;
   opacity: 0.85;
   letter-spacing: 0.5px;
+  @media (min-width: 768px) { font-size: 18px; }
 `;
 
 const bounce = keyframes`
@@ -203,6 +209,7 @@ const FooterText = styled.div`
   opacity: 0.6;
   z-index: 1;
   animation: ${fadeIn} 0.8s ease-out 0.6s both;
+  @media (min-width: 768px) { font-size: 13px; }
 `;
 
 /* ─── Bottom Sheet Modal ─── */
@@ -294,6 +301,7 @@ const NavLabel = styled.span`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   opacity: 0.4;
+  @media (min-width: 768px) { font-size: 13px; }
 `;
 
 const BigHeading = styled.h2`
@@ -305,6 +313,7 @@ const BigHeading = styled.h2`
   em {
     font-style: italic;
   }
+  @media (min-width: 768px) { font-size: 54px; }
 `;
 
 const LabelSmall = styled.div`
@@ -316,6 +325,7 @@ const LabelSmall = styled.div`
   opacity: 0.7;
   margin-bottom: 8px;
   color: #fff;
+  @media (min-width: 768px) { font-size: 12px; }
 `;
 
 const TitleLarge = styled.div`
@@ -323,6 +333,7 @@ const TitleLarge = styled.div`
   font-size: 32px;
   font-weight: 400;
   line-height: 1.2;
+  @media (min-width: 768px) { font-size: 46px; }
 `;
 
 const BodyText = styled.p`
@@ -334,6 +345,7 @@ const BodyText = styled.p`
   margin-top: 10px;
   max-width: 220px;
   color: #fff;
+  @media (min-width: 768px) { font-size: 17px; max-width: 320px; }
 `;
 
 /* Free-form canvas for scattered text blocks */
@@ -372,6 +384,7 @@ const DetailTitle = styled.div`
   font-size: 26px;
   font-weight: 400;
   line-height: 1.25;
+  @media (min-width: 768px) { font-size: 36px; }
 `;
 
 const DetailBody = styled.p`
@@ -383,6 +396,7 @@ const DetailBody = styled.p`
   margin-top: 10px;
   max-width: 200px;
   color: #fff;
+  @media (min-width: 768px) { font-size: 17px; max-width: 300px; }
 `;
 
 const LineDivider = styled.div<{ top: string; rotate?: string }>`
@@ -442,6 +456,7 @@ const SecTitle = styled.h2`
   font-weight: 400;
   color: #fff;
   margin: 0;
+  @media (min-width: 768px) { font-size: 40px; }
 `;
 
 const SecSub = styled.p`
@@ -452,6 +467,7 @@ const SecSub = styled.p`
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.35;
   margin: 4px 0 0;
+  @media (min-width: 768px) { font-size: 28px; }
 `;
 
 const ItemName = styled.div`
@@ -459,6 +475,7 @@ const ItemName = styled.div`
   font-size: 13px;
   font-weight: 600;
   color: #fff;
+  @media (min-width: 768px) { font-size: 17px; }
 `;
 
 const ItemSub = styled.div`
@@ -466,6 +483,7 @@ const ItemSub = styled.div`
   font-size: 11px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.4);
+  @media (min-width: 768px) { font-size: 14px; }
 `;
 
 /* ── Section 1: Event (wide banner + 2-col grid) ── */
@@ -605,6 +623,7 @@ const CompanyTitle = styled.h2`
   line-height: 1.0;
   margin: 0 0 24px;
   em { font-style: italic; }
+  @media (min-width: 768px) { font-size: 72px; }
 `;
 
 const CompanyGrid = styled.div`
@@ -632,6 +651,7 @@ const CompanyBody = styled.p`
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.7;
   margin: 0 0 28px;
+  @media (min-width: 768px) { font-size: 20px; }
 `;
 
 const MetaLine = styled.div`
@@ -641,6 +661,7 @@ const MetaLine = styled.div`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.2);
+  @media (min-width: 768px) { font-size: 12px; }
 `;
 
 /* ── Section 4: Leave No Trace ── */
@@ -657,6 +678,7 @@ const TraceTitle = styled.h2`
   color: #fff;
   line-height: 1.1;
   margin: 0 auto 12px;
+  @media (min-width: 768px) { font-size: 62px; }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -683,6 +705,7 @@ const TraceBody = styled.p`
   line-height: 1.8;
   max-width: 300px;
   margin: 16px auto 0;
+  @media (min-width: 768px) { font-size: 16px; max-width: 450px; }
 `;
 
 /* ── Section 5: Footer ── */
@@ -702,6 +725,7 @@ const FtLabel = styled.div`
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.2);
   margin-bottom: 4px;
+  @media (min-width: 768px) { font-size: 12px; }
 `;
 
 const FtBrand = styled.h3`
@@ -712,6 +736,7 @@ const FtBrand = styled.h3`
   text-transform: uppercase;
   color: #fff;
   margin: 0 0 8px;
+  @media (min-width: 768px) { font-size: 36px; }
 `;
 
 const FtLogo = styled.img`
@@ -739,6 +764,7 @@ const FtInput = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.2);
+  @media (min-width: 768px) { font-size: 14px; }
 `;
 
 const FtBtn = styled.div`
@@ -754,6 +780,7 @@ const FtBtn = styled.div`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.4);
+  @media (min-width: 768px) { font-size: 13px; }
 `;
 
 const FtLinks = styled.div`
@@ -769,11 +796,13 @@ const FtLink = styled.span`
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.2);
+  @media (min-width: 768px) { font-size: 12px; }
 `;
 
 const FtWatermark = styled.div`
   font-family: "Instrument Serif", serif;
   font-size: 80px;
+  @media (min-width: 768px) { font-size: 120px; }
   font-style: italic;
   color: rgba(255, 255, 255, 0.03);
   line-height: 0.9;
@@ -787,6 +816,7 @@ const FtCopy = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 9px;
   color: rgba(255, 255, 255, 0.1);
+  @media (min-width: 768px) { font-size: 12px; }
 `;
 
 /* ─── Intro Overlay (iOS video activation) ─── */
