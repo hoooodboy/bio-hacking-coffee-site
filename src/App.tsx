@@ -480,9 +480,9 @@ const ItemName = styled.div`
 
 const PriceRow = styled.div`
   display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
 `;
 
 const OrigPrice = styled.span`
@@ -1460,11 +1460,11 @@ function App() {
               <GridRow style={{ marginTop: 40 }}>
                 <div>
                   <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
-                    <img src="/decaf.png" alt="디카페인 블렌드" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <img src="/decaf.png" alt="Signature 디카페인" style={{ width: "110%", height: "110%", objectFit: "cover" }} />
                   </GridImgBox>
                   <GridLabel>
-                    <ItemName>디카페인 블렌드</ItemName>
-                    <ItemSub>Decaf</ItemSub>
+                    <ItemName>Signature</ItemName>
+                    <ItemSub>디카페인</ItemSub>
                     <PriceRow>
                       <DiscountBadge>44%</DiscountBadge>
                       <OrigPrice>70,000원</OrigPrice>
@@ -1477,8 +1477,8 @@ function App() {
                     <img src="/caffeine.png" alt="카페인 부스트" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                   </GridImgBox>
                   <GridLabel>
-                    <ItemName>카페인 부스트</ItemName>
-                    <ItemSub>Caffeine</ItemSub>
+                    <ItemName>House</ItemName>
+                    <ItemSub>카페인</ItemSub>
                     <PriceRow>
                       <DiscountBadge>40%</DiscountBadge>
                       <OrigPrice>60,000원</OrigPrice>
@@ -1489,10 +1489,10 @@ function App() {
               </GridRow>
               <FlavorWide>
                 <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
-                  <img src="/acidity.png" alt="산미 에디션" style={{ width: "110%", height: "110%", objectFit: "cover" }} />
+                  <img src="/acidity.png" alt="Vibrant 산미" style={{ width: "120%", height: "120%", objectFit: "cover" }} />
                 </FlavorWideImg>
-                <ItemName>산미 에디션</ItemName>
-                <ItemSub>Acidity</ItemSub>
+                <ItemName>Vibrant</ItemName>
+                <ItemSub>산미</ItemSub>
                 <PriceRow>
                   <DiscountBadge>47%</DiscountBadge>
                   <OrigPrice>80,000원</OrigPrice>
