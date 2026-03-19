@@ -1005,26 +1005,25 @@ const PDImagePanel = styled.div<{ bg: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
   background: ${({ bg }) => bg};
   min-height: 50dvh;
   animation: ${pdFadeIn} 0.5s ease-out 0.1s both;
+  overflow: hidden;
   @media (min-width: 768px) {
     flex: 1;
     min-height: 100dvh;
     position: sticky;
     top: 0;
-    padding: 60px;
   }
 `;
 
 const PDProductImage = styled.img`
-  max-width: 280px;
-  max-height: 60dvh;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 50dvh;
   @media (min-width: 768px) {
-    max-width: 400px;
-    max-height: 70dvh;
+    min-height: 100dvh;
   }
 `;
 
@@ -1088,8 +1087,14 @@ const PDBuyBtn = styled.button`
 const PDPriceArea = styled.div`
   margin-top: 16px;
   display: flex;
-  align-items: baseline;
-  gap: 8px;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const PDPriceOrigRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
 `;
 
 const PDOrigPrice = styled.span`
@@ -1153,6 +1158,312 @@ const PDSpecValue = styled.div`
   @media (min-width: 768px) { font-size: 11px; }
 `;
 
+/* ─── Quantity Selector ─── */
+
+const PDQtyRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+`;
+
+const QtyBtn = styled.button`
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 50%;
+  background: transparent;
+  font-size: 16px;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover { background: rgba(0,0,0,0.04); }
+`;
+
+const QtyNum = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  min-width: 24px;
+  text-align: center;
+`;
+
+/* ─── Floating Cart ─── */
+
+const CartFloat = styled.div`
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 190;
+  background: #111;
+  color: #fff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  min-width: 280px;
+  max-width: 340px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  animation: ${pdSlideUp} 0.3s ease-out;
+  @media (max-width: 767px) {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+`;
+
+const CartTitle = styled.div`
+  font-family: "Roboto Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+`;
+
+const CartItemRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+`;
+
+const CartItemName = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+`;
+
+const CartItemPrice = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.7);
+`;
+
+const CartItemQty = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const CartQtyBtn = styled.button`
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CartRemoveBtn = styled.button`
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 4px;
+  &:hover { color: #e8743a; }
+`;
+
+const CartTotal = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 8px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+`;
+
+const CartCheckoutBtn = styled.button`
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: #e8743a;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+`;
+
+/* ─── Checkout Modal ─── */
+
+declare global {
+  interface Window {
+    TossPayments: (clientKey: string) => {
+      requestPayment: (method: string, options: {
+        amount: number;
+        orderId: string;
+        orderName: string;
+        customerName: string;
+        successUrl: string;
+        failUrl: string;
+      }) => Promise<void>;
+    };
+    daum: {
+      Postcode: new (options: {
+        oncomplete: (data: { zonecode: string; address: string; addressType: string; bname: string; buildingName: string }) => void;
+      }) => { open: () => void };
+    };
+  }
+}
+
+const CheckoutOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  z-index: 210;
+  background: #f5f0ea;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: ${pdFadeIn} 0.3s ease-out;
+`;
+
+const CheckoutInner = styled.div`
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  @media (min-width: 768px) { padding: 60px 40px 100px; }
+`;
+
+const CheckoutTitle = styled.h2`
+  font-family: "Instrument Serif", serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #111;
+  margin: 0 0 32px;
+  @media (min-width: 768px) { font-size: 42px; }
+`;
+
+const CheckoutSection = styled.div`
+  margin-bottom: 28px;
+`;
+
+const CheckoutLabel = styled.label`
+  display: block;
+  font-family: "Roboto Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 6px;
+`;
+
+const CheckoutInput = styled.input`
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  color: #111;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+  &:focus { border-color: #e8743a; }
+`;
+
+const CheckoutInputRow = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const CheckoutAddrBtn = styled.button`
+  padding: 12px 16px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font-family: "Roboto Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+`;
+
+const CheckoutSummary = styled.div`
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+`;
+
+const CheckoutSummaryRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  color: #333;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+`;
+
+const CheckoutSummaryTotal = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+`;
+
+const CheckoutPayBtn = styled.button`
+  width: 100%;
+  padding: 16px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+`;
+
+const CheckoutClose = styled.button`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 211;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+`;
+
 /* ─── App ─── */
 
 function App() {
@@ -1169,6 +1480,79 @@ function App() {
   const [introVisible, setIntroVisible] = useState(true);
   const [introHiding, setIntroHiding] = useState(false);
   const [activeProduct, setActiveProduct] = useState<ProductKey | null>(null);
+  const [pdQty, setPdQty] = useState(1);
+  const [cart, setCart] = useState<{ key: ProductKey; qty: number }[]>([]);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [shipping, setShipping] = useState({
+    name: "", phone: "", email: "",
+    zipCode: "", address: "", addressDetail: "", memo: "",
+  });
+
+  const addToCart = (key: ProductKey, qty: number) => {
+    setCart(prev => {
+      const existing = prev.find(i => i.key === key);
+      if (existing) return prev.map(i => i.key === key ? { ...i, qty: i.qty + qty } : i);
+      return [...prev, { key, qty }];
+    });
+  };
+
+  const updateCartQty = (key: ProductKey, qty: number) => {
+    if (qty <= 0) {
+      setCart(prev => prev.filter(i => i.key !== key));
+    } else {
+      setCart(prev => prev.map(i => i.key === key ? { ...i, qty } : i));
+    }
+  };
+
+  const removeFromCart = (key: ProductKey) => {
+    setCart(prev => prev.filter(i => i.key !== key));
+  };
+
+  const cartTotal = cart.reduce((sum, i) => {
+    const p = PRODUCTS[i.key];
+    const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+    return sum + price * i.qty;
+  }, 0);
+
+  const handleAddressSearch = () => {
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        let fullAddress = data.address;
+        let extra = "";
+        if (data.addressType === "R") {
+          if (data.bname) extra += data.bname;
+          if (data.buildingName) extra += extra ? `, ${data.buildingName}` : data.buildingName;
+          if (extra) fullAddress += ` (${extra})`;
+        }
+        setShipping(prev => ({ ...prev, zipCode: data.zonecode, address: fullAddress }));
+      },
+    }).open();
+  };
+
+  const handlePayment = async () => {
+    if (!shipping.name || !shipping.phone || !shipping.address) return;
+    setIsProcessing(true);
+    try {
+      const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+      const tossPayments = window.TossPayments(clientKey);
+      const orderId = `LOCKIN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const firstName = cart.length > 0 ? `${PRODUCTS[cart[0].key].name} ${PRODUCTS[cart[0].key].sub}` : "";
+      const orderName = cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
+      const SHIPPING_FEE = 3000;
+      await tossPayments.requestPayment("카드", {
+        amount: cartTotal + SHIPPING_FEE,
+        orderId,
+        orderName,
+        customerName: shipping.name,
+        successUrl: `${window.location.origin}?payment=success`,
+        failUrl: `${window.location.origin}?payment=fail`,
+      });
+    } catch (e) {
+      console.log("결제 취소:", e);
+    }
+    setIsProcessing(false);
+  };
 
   // Activate all videos (called on intro dismiss + as fallback)
   const activateVideos = () => {
@@ -1838,17 +2222,28 @@ function App() {
         const p = PRODUCTS[activeProduct];
         return (
           <PDOverlay>
-            <PDClose onClick={() => setActiveProduct(null)}>CLOSE</PDClose>
+            <PDClose onClick={() => { setActiveProduct(null); setPdQty(1); }}>CLOSE</PDClose>
             <PDLayout>
               <PDInfoPanel>
                 <PDName>{p.name}</PDName>
                 <PDSub>{p.sub}</PDSub>
                 <PDPriceArea>
-                  <PDDiscount>{p.discount}</PDDiscount>
-                  <PDOrigPrice>{p.origPrice}</PDOrigPrice>
+                  <PDPriceOrigRow>
+                    <PDOrigPrice>{p.origPrice}</PDOrigPrice>
+                    <PDDiscount>{p.discount}</PDDiscount>
+                  </PDPriceOrigRow>
                   <PDSalePrice>{p.price}</PDSalePrice>
                 </PDPriceArea>
-                <PDBuyBtn>구매하기 ↗</PDBuyBtn>
+                <PDQtyRow>
+                  <QtyBtn onClick={() => setPdQty(q => Math.max(1, q - 1))}>−</QtyBtn>
+                  <QtyNum>{pdQty}</QtyNum>
+                  <QtyBtn onClick={() => setPdQty(q => q + 1)}>+</QtyBtn>
+                </PDQtyRow>
+                <PDBuyBtn onClick={() => {
+                  addToCart(activeProduct, pdQty);
+                  setActiveProduct(null);
+                  setPdQty(1);
+                }}>장바구니 담기</PDBuyBtn>
                 <PDSpecsTable>
                   {p.specs.map((s, i) => (
                     <PDSpecRow key={i}>
@@ -1865,6 +2260,135 @@ function App() {
           </PDOverlay>
         );
       })()}
+
+      {/* Floating Cart */}
+      {cart.length > 0 && !activeProduct && !showCheckout && (
+        <CartFloat>
+          <CartTitle>Cart ({cart.reduce((s, i) => s + i.qty, 0)})</CartTitle>
+          {cart.map(item => {
+            const p = PRODUCTS[item.key];
+            const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+            return (
+              <CartItemRow key={item.key}>
+                <div>
+                  <CartItemName>{p.name} {p.sub}</CartItemName>
+                  <CartItemPrice>{(price * item.qty).toLocaleString()}원</CartItemPrice>
+                </div>
+                <CartItemQty>
+                  <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty - 1)}>−</CartQtyBtn>
+                  <span style={{ fontSize: 13, minWidth: 16, textAlign: "center" }}>{item.qty}</span>
+                  <CartQtyBtn onClick={() => updateCartQty(item.key, item.qty + 1)}>+</CartQtyBtn>
+                  <CartRemoveBtn onClick={() => removeFromCart(item.key)}>×</CartRemoveBtn>
+                </CartItemQty>
+              </CartItemRow>
+            );
+          })}
+          <CartTotal>
+            <span>합계</span>
+            <span>{cartTotal.toLocaleString()}원</span>
+          </CartTotal>
+          <CartCheckoutBtn onClick={() => setShowCheckout(true)}>CHECKOUT</CartCheckoutBtn>
+        </CartFloat>
+      )}
+
+      {/* Checkout Modal */}
+      {showCheckout && (
+        <CheckoutOverlay>
+          <CheckoutClose onClick={() => setShowCheckout(false)}>CLOSE</CheckoutClose>
+          <CheckoutInner>
+            <CheckoutTitle>Checkout</CheckoutTitle>
+
+            <CheckoutSummary>
+              {cart.map(item => {
+                const p = PRODUCTS[item.key];
+                const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+                return (
+                  <CheckoutSummaryRow key={item.key}>
+                    <span>{p.name} {p.sub} × {item.qty}</span>
+                    <span>{(price * item.qty).toLocaleString()}원</span>
+                  </CheckoutSummaryRow>
+                );
+              })}
+              <CheckoutSummaryRow>
+                <span>배송비</span>
+                <span>3,000원</span>
+              </CheckoutSummaryRow>
+              <CheckoutSummaryTotal>
+                <span>총 결제금액</span>
+                <span>{(cartTotal + 3000).toLocaleString()}원</span>
+              </CheckoutSummaryTotal>
+            </CheckoutSummary>
+
+            <CheckoutSection>
+              <CheckoutLabel>이름</CheckoutLabel>
+              <CheckoutInput
+                value={shipping.name}
+                onChange={e => setShipping(p => ({ ...p, name: e.target.value }))}
+                placeholder="홍길동"
+              />
+            </CheckoutSection>
+
+            <CheckoutSection>
+              <CheckoutLabel>연락처</CheckoutLabel>
+              <CheckoutInput
+                value={shipping.phone}
+                onChange={e => setShipping(p => ({ ...p, phone: e.target.value }))}
+                placeholder="010-0000-0000"
+              />
+            </CheckoutSection>
+
+            <CheckoutSection>
+              <CheckoutLabel>이메일</CheckoutLabel>
+              <CheckoutInput
+                value={shipping.email}
+                onChange={e => setShipping(p => ({ ...p, email: e.target.value }))}
+                placeholder="email@example.com"
+              />
+            </CheckoutSection>
+
+            <CheckoutSection>
+              <CheckoutLabel>주소</CheckoutLabel>
+              <CheckoutInputRow>
+                <CheckoutInput
+                  value={shipping.zipCode}
+                  readOnly
+                  placeholder="우편번호"
+                  style={{ flex: 1 }}
+                />
+                <CheckoutAddrBtn onClick={handleAddressSearch}>주소 검색</CheckoutAddrBtn>
+              </CheckoutInputRow>
+              <CheckoutInput
+                value={shipping.address}
+                readOnly
+                placeholder="주소"
+                style={{ marginTop: 8 }}
+              />
+              <CheckoutInput
+                value={shipping.addressDetail}
+                onChange={e => setShipping(p => ({ ...p, addressDetail: e.target.value }))}
+                placeholder="상세주소"
+                style={{ marginTop: 8 }}
+              />
+            </CheckoutSection>
+
+            <CheckoutSection>
+              <CheckoutLabel>배송 메모</CheckoutLabel>
+              <CheckoutInput
+                value={shipping.memo}
+                onChange={e => setShipping(p => ({ ...p, memo: e.target.value }))}
+                placeholder="부재 시 문 앞에 놓아주세요"
+              />
+            </CheckoutSection>
+
+            <CheckoutPayBtn
+              onClick={handlePayment}
+              disabled={isProcessing || !shipping.name || !shipping.phone || !shipping.address}
+            >
+              {isProcessing ? "처리 중..." : `${(cartTotal + 3000).toLocaleString()}원 결제하기`}
+            </CheckoutPayBtn>
+          </CheckoutInner>
+        </CheckoutOverlay>
+      )}
     </div>
   );
 }
