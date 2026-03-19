@@ -815,7 +815,7 @@ const FooterSection = styled.footer`
 `;
 
 const FtLabel = styled.div`
-  font-family: "Roboto Mono", monospace;
+  font-family: "Inter", sans-serif;
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 2px;
@@ -828,9 +828,9 @@ const FtLabel = styled.div`
 `;
 
 const FtBrand = styled.h3`
-  font-family: "Roboto Mono", monospace;
+  font-family: "Inter", sans-serif;
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 6px;
   text-transform: uppercase;
   color: #fff;
@@ -2299,7 +2299,7 @@ function App() {
                     size={80}
                     style={{ marginBottom: -20, marginLeft: -12 }}
                   >
-                    LOCK-IN
+                    LOCK IN
                   </WatermarkText>
                   <LabelSmall>The Name</LabelSmall>
                   <TitleLarge>
@@ -2612,7 +2612,7 @@ function App() {
               <FooterSection>
                 <FtLabel>Stay in Focus</FtLabel>
                 <FtBrand>
-                  LOCK-IN
+                  LOCK IN
                   <br />
                   COFFEE
                 </FtBrand>
