@@ -254,8 +254,9 @@ const SheetVideo = styled.video<{ scale: number }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(${({ scale }) => scale});
-  will-change: transform;
+  transform: scale(${({ scale }) => scale}) translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   filter: brightness(0.8);
 `;
 
@@ -1426,7 +1427,7 @@ function App() {
               </GridRow>
               <FlavorWide>
                 <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
-                  <img src="/acidity.png" alt="산미 에디션" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="/acidity.png" alt="산미 에디션" style={{ width: "110%", height: "110%", objectFit: "cover" }} />
                 </FlavorWideImg>
                 <ItemName>산미 에디션</ItemName>
                 <ItemSub>Acidity</ItemSub>
