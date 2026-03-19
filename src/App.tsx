@@ -369,19 +369,6 @@ const StickyBlock = styled.div<{
   ${({ rotate }) => rotate && `transform: rotate(${rotate});`}
 `;
 
-const FloatBlock = styled.div<{
-  top: string;
-  left?: string;
-  right?: string;
-  rotate?: string;
-}>`
-  position: absolute;
-  top: ${({ top }) => top};
-  ${({ left }) => left && `left: ${left};`}
-  ${({ right }) => right && `right: ${right};`}
-  ${({ rotate }) => rotate && `transform: rotate(${rotate});`}
-`;
-
 const WatermarkText = styled.div<{ size?: number }>`
   font-family: "Roboto Mono", monospace;
   font-size: ${({ size }) => size || 100}px;
@@ -413,15 +400,6 @@ const DetailBody = styled.p`
   @media (min-width: 768px) { font-size: 17px; max-width: 300px; }
 `;
 
-const LineDivider = styled.div<{ top: string; rotate?: string }>`
-  position: absolute;
-  top: ${({ top }) => top};
-  left: 10%;
-  right: 10%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  ${({ rotate }) => rotate && `transform: rotate(${rotate});`}
-`;
 
 const revealScale = (visible: boolean, delay = 0) => css`
   opacity: ${visible ? 1 : 0};
@@ -1012,13 +990,14 @@ const PDImagePanel = styled.div<{ bg: string }>`
   background: ${({ bg }) => bg};
   animation: ${pdFadeIn} 0.5s ease-out 0.1s both;
   overflow: hidden;
-  padding: 48px 32px;
+  aspect-ratio: 1;
 `;
 
 const PDProductImage = styled.img`
-  max-height: 50dvh;
-  max-width: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  object-fit: cover;
 `;
 
 const PDClose = styled.button`
@@ -1360,8 +1339,10 @@ declare global {
 const CheckoutOverlay = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 780px;
   height: 100dvh;
   z-index: 210;
   background: #0a0a0a;
@@ -1375,24 +1356,11 @@ const CheckoutLayout = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
 `;
 
 const CheckoutPreview = styled.div`
   padding: 40px 24px;
   background: #111;
-  @media (min-width: 768px) {
-    width: 45%;
-    min-height: 100dvh;
-    position: sticky;
-    top: 0;
-    padding: 60px 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 `;
 
 const CheckoutPreviewTitle = styled.div`
@@ -1484,11 +1452,6 @@ const CheckoutGrandTotal = styled.div`
 
 const CheckoutFormPanel = styled.div`
   padding: 40px 24px 80px;
-  @media (min-width: 768px) {
-    flex: 1;
-    padding: 60px 48px 100px;
-    max-width: 560px;
-  }
 `;
 
 const CheckoutFormTitle = styled.h3`
