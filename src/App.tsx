@@ -485,6 +485,12 @@ const PriceRow = styled.div`
   margin-top: 6px;
 `;
 
+const PriceOrigRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
 const OrigPrice = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 11px;
@@ -619,7 +625,7 @@ const FlavorSection = styled.section`
 `;
 
 const FlavorWide = styled.div`
-  margin-top: 12px;
+  margin-top: 28px;
 `;
 
 const FlavorWideImg = styled.div<{ bg: string }>`
@@ -1466,8 +1472,7 @@ function App() {
                     <ItemName>Signature</ItemName>
                     <ItemSub>디카페인</ItemSub>
                     <PriceRow>
-                      <DiscountBadge>44%</DiscountBadge>
-                      <OrigPrice>70,000원</OrigPrice>
+                      <PriceOrigRow><OrigPrice>70,000원</OrigPrice><DiscountBadge>44%</DiscountBadge></PriceOrigRow>
                       <SalePrice>39,000원</SalePrice>
                     </PriceRow>
                   </GridLabel>
@@ -1480,8 +1485,7 @@ function App() {
                     <ItemName>House</ItemName>
                     <ItemSub>카페인</ItemSub>
                     <PriceRow>
-                      <DiscountBadge>40%</DiscountBadge>
-                      <OrigPrice>60,000원</OrigPrice>
+                      <PriceOrigRow><OrigPrice>60,000원</OrigPrice><DiscountBadge>40%</DiscountBadge></PriceOrigRow>
                       <SalePrice>36,000원</SalePrice>
                     </PriceRow>
                   </GridLabel>
@@ -1494,8 +1498,7 @@ function App() {
                 <ItemName>Vibrant</ItemName>
                 <ItemSub>산미</ItemSub>
                 <PriceRow>
-                  <DiscountBadge>47%</DiscountBadge>
-                  <OrigPrice>80,000원</OrigPrice>
+                  <PriceOrigRow><OrigPrice>80,000원</OrigPrice><DiscountBadge>47%</DiscountBadge></PriceOrigRow>
                   <SalePrice>42,000원</SalePrice>
                 </PriceRow>
               </FlavorWide>
