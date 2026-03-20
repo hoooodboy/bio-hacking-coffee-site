@@ -617,11 +617,15 @@ const BannerBtn = styled.div`
   align-self: flex-start;
   padding: 8px 20px;
   border-radius: 40px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #e8743a;
+  color: #fff;
+  cursor: pointer;
   @media (min-width: 768px) {
     font-size: 14px;
     padding: 10px 28px;
@@ -868,8 +872,10 @@ const CtaButton = styled.button`
   align-self: flex-start;
   padding: 12px 32px;
   border-radius: 40px;
-  background: #e8743a;
-  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -877,7 +883,7 @@ const CtaButton = styled.button`
   cursor: pointer;
   letter-spacing: 0.5px;
   &:hover {
-    background: #d4652e;
+    background: rgba(255, 255, 255, 0.2);
   }
   @media (min-width: 768px) {
     font-size: 16px;
@@ -2554,11 +2560,11 @@ function App() {
             </TopRight>
           </TopSection>
           <MiddleSection>
-            <FounderText>For the relentless few</FounderText>
+            <FounderText>Founder's drinks</FounderText>
             <FocusText>
-              Your mind deserves
+              Focus is the
               <br />
-              more
+              new <em>Luxury</em>
             </FocusText>
           </MiddleSection>
           <BottomSection>
