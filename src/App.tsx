@@ -811,20 +811,64 @@ const TraceBody = styled.p`
 
 /* ── CTA Banner ── */
 const CtaBanner = styled.section`
-  text-align: center;
-  padding: 56px 24px;
-  background: linear-gradient(180deg, transparent 0%, rgba(232, 116, 58, 0.08) 50%, transparent 100%);
+  padding: 48px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+`;
+
+const CtaCard = styled.div`
+  display: flex;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(232, 116, 58, 0.12) 0%, rgba(232, 116, 58, 0.04) 100%);
+  border: 1px solid rgba(232, 116, 58, 0.15);
+`;
+
+const CtaImg = styled.div`
+  flex: 0 0 40%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (max-width: 480px) {
+    flex: 0 0 35%;
+  }
+`;
+
+const CtaInfo = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 20px;
+  gap: 14px;
+`;
+
+const CtaLabel = styled.div`
+  font-family: "Roboto Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #e8743a;
+  @media (min-width: 768px) {
+    font-size: 11px;
+  }
 `;
 
 const CtaText = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 15px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.7;
-  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 0;
   strong {
     color: #fff;
     font-weight: 600;
@@ -836,12 +880,13 @@ const CtaText = styled.p`
 
 const CtaButton = styled.button`
   display: inline-block;
-  padding: 14px 40px;
+  align-self: flex-start;
+  padding: 12px 32px;
   border-radius: 40px;
   background: #e8743a;
   border: none;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: #fff;
   cursor: pointer;
@@ -850,17 +895,16 @@ const CtaButton = styled.button`
     background: #d4652e;
   }
   @media (min-width: 768px) {
-    font-size: 17px;
-    padding: 16px 48px;
+    font-size: 16px;
+    padding: 14px 40px;
   }
 `;
 
 const CtaNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.3);
-  margin-top: 12px;
 `;
 
 /* ── Section 5: Footer ── */
@@ -2872,21 +2916,31 @@ function App() {
 
               {/* Section 4.5: CTA Banner */}
               <CtaBanner>
-                <CtaText>
-                  아직 안 마셔봤다면, 지금이 기회입니다.
-                  <br />
-                  <strong>100ml 무료 체험 — 배송비만 부담하세요.</strong>
-                </CtaText>
-                <CtaButton
-                  onClick={() => {
-                    setCart([{ key: "trial", qty: 1 }]);
-                    setCartOpen(false);
-                    setShowCheckout(true);
-                  }}
-                >
-                  지금 경험하기
-                </CtaButton>
-                <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
+                <CtaCard>
+                  <CtaImg>
+                    <img src="/event-hero.png" alt="100ml 무료 체험" />
+                  </CtaImg>
+                  <CtaInfo>
+                    <CtaLabel>Free Trial</CtaLabel>
+                    <CtaText>
+                      아직 안 마셔봤다면,
+                      <br />
+                      지금이 기회입니다.
+                      <br />
+                      <strong>100ml 무료 — 배송비만.</strong>
+                    </CtaText>
+                    <CtaButton
+                      onClick={() => {
+                        setCart([{ key: "trial", qty: 1 }]);
+                        setCartOpen(false);
+                        setShowCheckout(true);
+                      }}
+                    >
+                      지금 경험하기
+                    </CtaButton>
+                    <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
+                  </CtaInfo>
+                </CtaCard>
               </CtaBanner>
 
               {/* Section 5: Footer */}
