@@ -964,7 +964,23 @@ const FtLink = styled.span`
   }
 `;
 
-const FtWatermark = styled.div`
+const marqueeScroll = keyframes`
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+`;
+
+const FtMarqueeWrap = styled.div`
+  overflow: hidden;
+  margin: 32px -24px 16px;
+`;
+
+const FtMarqueeTrack = styled.div`
+  display: flex;
+  width: max-content;
+  animation: ${marqueeScroll} 20s linear infinite;
+`;
+
+const FtWatermark = styled.span`
   font-family: "Instrument Serif", serif;
   font-size: 80px;
   @media (min-width: 768px) {
@@ -973,8 +989,8 @@ const FtWatermark = styled.div`
   font-style: italic;
   color: rgba(255, 255, 255, 0.08);
   line-height: 0.9;
-  margin: 32px -24px 16px;
   white-space: nowrap;
+  padding-right: 40px;
 `;
 
 const FtCopy = styled.div`
@@ -2895,7 +2911,14 @@ function App() {
                   <FtLink onClick={() => window.open("https://www.instagram.com/thezonebio.kr", "_blank")} style={{ cursor: "pointer" }}>Instagram</FtLink>
                 </FtLinks>
 
-                <FtWatermark>unlock what you've been missing</FtWatermark>
+                <FtMarqueeWrap>
+                  <FtMarqueeTrack>
+                    <FtWatermark>unlock what you've been missing</FtWatermark>
+                    <FtWatermark>unlock what you've been missing</FtWatermark>
+                    <FtWatermark>unlock what you've been missing</FtWatermark>
+                    <FtWatermark>unlock what you've been missing</FtWatermark>
+                  </FtMarqueeTrack>
+                </FtMarqueeWrap>
 
                 <FtCopy>
                   <span>© 2025 더존바이오</span>
