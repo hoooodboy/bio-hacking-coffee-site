@@ -1469,7 +1469,12 @@ const QtyNum = styled.span`
 
 /* ─── Floating Cart ─── */
 
-const CartFab = styled.button`
+const cartPulse = keyframes`
+  0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+  50% { box-shadow: 0 4px 20px rgba(232, 116, 58, 0.6), 0 0 0 8px rgba(232, 116, 58, 0.15); }
+`;
+
+const CartFab = styled.button<{ hasItems?: boolean }>`
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -1489,6 +1494,7 @@ const CartFab = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 22px;
+  ${({ hasItems }) => hasItems && css`animation: ${cartPulse} 2s ease-in-out infinite;`}
   &:hover {
     background: #222;
   }
@@ -2965,7 +2971,7 @@ function App() {
               </CartCheckoutBtn>
             </CartFloat>
           )}
-          <CartFab onClick={() => setCartOpen((o) => !o)}>
+          <CartFab hasItems={cart.length > 0} onClick={() => setCartOpen((o) => !o)}>
             <CartBadge>{cart.reduce((s, i) => s + i.qty, 0)}</CartBadge>
             {cartOpen ? "✕" : "🛒"}
           </CartFab>
