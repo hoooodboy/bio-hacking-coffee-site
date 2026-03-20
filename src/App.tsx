@@ -809,6 +809,60 @@ const TraceBody = styled.p`
   }
 `;
 
+/* ── CTA Banner ── */
+const CtaBanner = styled.section`
+  text-align: center;
+  padding: 56px 24px;
+  background: linear-gradient(180deg, transparent 0%, rgba(232, 116, 58, 0.08) 50%, transparent 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+`;
+
+const CtaText = styled.p`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  margin: 0 0 24px;
+  strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
+`;
+
+const CtaButton = styled.button`
+  display: inline-block;
+  padding: 14px 40px;
+  border-radius: 40px;
+  background: #e8743a;
+  border: none;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  &:hover {
+    background: #d4652e;
+  }
+  @media (min-width: 768px) {
+    font-size: 17px;
+    padding: 16px 48px;
+  }
+`;
+
+const CtaNote = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 12px;
+`;
+
 /* ── Section 5: Footer ── */
 const FooterSection = styled.footer`
   background: transparent;
@@ -2799,6 +2853,25 @@ function App() {
                   원할 때 바로 몰입에 들어가는 것 — 그게 이 커피가 만들어진 이유입니다.
                 </TraceBody>
               </TraceSection>
+
+              {/* Section 4.5: CTA Banner */}
+              <CtaBanner>
+                <CtaText>
+                  아직 안 마셔봤다면, 지금이 기회입니다.
+                  <br />
+                  <strong>100ml 무료 체험 — 배송비만 부담하세요.</strong>
+                </CtaText>
+                <CtaButton
+                  onClick={() => {
+                    setCart([{ key: "trial", qty: 1 }]);
+                    setCartOpen(false);
+                    setShowCheckout(true);
+                  }}
+                >
+                  지금 경험하기
+                </CtaButton>
+                <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
+              </CtaBanner>
 
               {/* Section 5: Footer */}
               <FooterSection>
