@@ -2920,10 +2920,7 @@ function App() {
                     style={{ display: "flex", flexDirection: "column", gap: 4 }}
                   >
                     <MetaLine
-                      as="a"
-                      href="https://www.instagram.com/thezonebio.kr"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      onClick={() => window.open("https://www.instagram.com/thezonebio.kr", "_blank")}
                       style={{ color: "#fff", textDecoration: "underline", textUnderlineOffset: 3, cursor: "pointer" }}
                     >
                       @thezonebio.kr
