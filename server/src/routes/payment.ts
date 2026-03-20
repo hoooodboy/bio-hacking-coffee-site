@@ -3,7 +3,7 @@ import { supabase } from "../supabase";
 
 const router = Router();
 
-const TOSS_SECRET_KEY = process.env.TOSS_SECRET_KEY || "live_sk_0RnYX2w532EGZ9XeZjLx8NeyqApQ";
+const TOSS_SECRET_KEY = process.env.TOSS_SECRET_KEY || "live_sk_Z1aOwX7K8m1AZNJmg7aB8yQxzvNP";
 
 // 결제 승인
 router.post("/confirm", async (req: Request, res: Response) => {
