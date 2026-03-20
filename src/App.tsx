@@ -2782,22 +2782,21 @@ function App() {
                 </div>
               </CompanySection>
 
-              {/* Section 4: Leave No Trace */}
+              {/* Section 4: Lock In Now */}
               <TraceSection ref={sustainReveal.ref}>
                 <TraceTitle css={revealScale(sustainReveal.visible)}>
-                  <span>Leave</span>
+                  <span>Lock</span>
                 </TraceTitle>
                 <TraceTitle css={revealScale(sustainReveal.visible, 0.1)}>
-                  <span>No</span>
+                  <span>In</span>
                   <TraceInline>
                     <Placeholder>Img</Placeholder>
                   </TraceInline>
-                  <span>Trace</span>
+                  <span>Now</span>
                 </TraceTitle>
                 <TraceBody>
-                  지속 가능한 원료 수급과 친환경 패키징으로 자연에 흔적을 남기지
-                  않습니다. 당신의 퍼포먼스를 위해, 지구의 퍼포먼스를
-                  희생하지 않겠다는 약속.
+                  마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가 끝난 적 있잖아요.
+                  원할 때 바로 몰입에 들어가는 것 — 그게 이 커피가 만들어진 이유입니다.
                 </TraceBody>
               </TraceSection>
 
