@@ -7,6 +7,10 @@ import {
   trackInitiateCheckout,
   trackPurchase,
   trackLead,
+  trackOutboundClick,
+  trackSectionView,
+  initScrollTracking,
+  initTimeTracking,
 } from "./lib/analytics";
 
 const API_URL = "https://bio-hacking-coffee-api.onrender.com";
@@ -2139,6 +2143,16 @@ function App() {
     }
   };
 
+  // 스크롤 깊이 + 체류 시간 추적 초기화
+  useEffect(() => {
+    const cleanupScroll = initScrollTracking();
+    const cleanupTime = initTimeTracking();
+    return () => {
+      cleanupScroll();
+      cleanupTime();
+    };
+  }, []);
+
   const initialRoute = getInitialRoute();
   const [activeProduct, setActiveProductRaw] = useState<ProductKey | null>(
     initialRoute.product,
@@ -2521,6 +2535,17 @@ function App() {
   const flavorReveal = useScrollReveal(0.1);
   const editorialReveal = useScrollReveal(0.1);
   const sustainReveal = useScrollReveal(0.1);
+
+  // 섹션별 조회 추적 (이탈 지점 분석용)
+  useEffect(() => {
+    if (flavorReveal.visible) trackSectionView("flavors");
+  }, [flavorReveal.visible]);
+  useEffect(() => {
+    if (editorialReveal.visible) trackSectionView("editorial");
+  }, [editorialReveal.visible]);
+  useEffect(() => {
+    if (sustainReveal.visible) trackSectionView("lock_in_now");
+  }, [sustainReveal.visible]);
 
   // Orange gradient grain canvas
   const grainRef = useRef<HTMLCanvasElement>(null);
@@ -3030,7 +3055,11 @@ function App() {
                 <GridRow style={{ marginTop: 40 }}>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => window.open("https://smartstore.naver.com/thezonebio/products/12602305299", "_blank")}
+                    onClick={() => {
+                      trackViewProduct({ product_key: "signature", product_name: "Signature 디카페인", price: 39000, quantity: 1 });
+                      trackOutboundClick("https://smartstore.naver.com/thezonebio/products/12602305299", "Signature 디카페인");
+                      window.open("https://smartstore.naver.com/thezonebio/products/12602305299", "_blank");
+                    }}
                   >
                     <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
                       <img
@@ -3057,7 +3086,11 @@ function App() {
                   </div>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => window.open("https://smartstore.naver.com/thezonebio/products/13041866619", "_blank")}
+                    onClick={() => {
+                      trackViewProduct({ product_key: "house", product_name: "House 카페인", price: 36000, quantity: 1 });
+                      trackOutboundClick("https://smartstore.naver.com/thezonebio/products/13041866619", "House 카페인");
+                      window.open("https://smartstore.naver.com/thezonebio/products/13041866619", "_blank");
+                    }}
                   >
                     <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
                       <img
@@ -3085,7 +3118,11 @@ function App() {
                 </GridRow>
                 <FlavorWide
                   style={{ cursor: "pointer" }}
-                  onClick={() => window.open("https://smartstore.naver.com/thezonebio/products/13041874028", "_blank")}
+                  onClick={() => {
+                    trackViewProduct({ product_key: "vibrant", product_name: "Vibrant 산미", price: 42000, quantity: 1 });
+                    trackOutboundClick("https://smartstore.naver.com/thezonebio/products/13041874028", "Vibrant 산미");
+                    window.open("https://smartstore.naver.com/thezonebio/products/13041874028", "_blank");
+                  }}
                 >
                   <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
                     <img
