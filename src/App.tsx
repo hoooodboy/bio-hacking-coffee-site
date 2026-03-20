@@ -2919,9 +2919,15 @@ function App() {
                   <div
                     style={{ display: "flex", flexDirection: "column", gap: 4 }}
                   >
-                    <MetaLine>From the Lab</MetaLine>
-                    <MetaLine>Seoul · San Francisco</MetaLine>
-                    <MetaLine>Est. 2025</MetaLine>
+                    <MetaLine
+                      as="a"
+                      href="https://www.instagram.com/thezonebio.kr"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "#fff", textDecoration: "underline", textUnderlineOffset: 3, cursor: "pointer" }}
+                    >
+                      @thezonebio.kr
+                    </MetaLine>
                   </div>
                 </div>
               </CompanySection>
