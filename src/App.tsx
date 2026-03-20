@@ -464,13 +464,6 @@ const SubPageContent = styled.div`
   will-change: transform;
 `;
 
-const Placeholder = styled.span`
-  font-family: "Roboto Mono", monospace;
-  font-size: 9px;
-  color: rgba(0, 0, 0, 0.15);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-`;
 
 /* ── Shared sub-page styles ── */
 const SecTitle = styled.h2`
@@ -784,16 +777,6 @@ const TraceTitle = styled.h2`
   gap: 10px;
 `;
 
-const TraceInline = styled.div`
-  width: 52px;
-  height: 52px;
-  border-radius: 8px;
-  background: #e8743a;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-`;
 
 const TraceBody = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
@@ -820,7 +803,11 @@ const CtaCard = styled.div`
   display: flex;
   border-radius: 0;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(232, 116, 58, 0.12) 0%, rgba(232, 116, 58, 0.04) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(232, 116, 58, 0.12) 0%,
+    rgba(232, 116, 58, 0.04) 100%
+  );
   border: 1px solid rgba(232, 116, 58, 0.15);
 `;
 
@@ -1163,8 +1150,12 @@ const PolicyContent = styled.div`
   }
   @media (min-width: 768px) {
     font-size: 14px;
-    h1 { font-size: 30px; }
-    h2 { font-size: 18px; }
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      font-size: 18px;
+    }
   }
 `;
 
@@ -1608,7 +1599,11 @@ const CartFab = styled.button<{ hasItems?: boolean }>`
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  ${({ hasItems }) => hasItems && css`animation: ${cartPulse} 2s ease-in-out infinite;`}
+  ${({ hasItems }) =>
+    hasItems &&
+    css`
+      animation: ${cartPulse} 2s ease-in-out infinite;
+    `}
   &:hover {
     background: #222;
   }
@@ -2031,22 +2026,38 @@ function App() {
     const path = window.location.pathname;
     if (path.startsWith("/product/")) {
       const key = path.replace("/product/", "") as ProductKey;
-      if (key in PRODUCTS) return { product: key, checkout: false, policy: null as "refund" | "terms" | null };
+      if (key in PRODUCTS)
+        return {
+          product: key,
+          checkout: false,
+          policy: null as "refund" | "terms" | null,
+        };
     }
-    if (path === "/checkout") return { product: null, checkout: true, policy: null as "refund" | "terms" | null };
-    if (path === "/refund") return { product: null, checkout: false, policy: "refund" as const };
-    if (path === "/terms") return { product: null, checkout: false, policy: "terms" as const };
+    if (path === "/checkout")
+      return {
+        product: null,
+        checkout: true,
+        policy: null as "refund" | "terms" | null,
+      };
+    if (path === "/refund")
+      return { product: null, checkout: false, policy: "refund" as const };
+    if (path === "/terms")
+      return { product: null, checkout: false, policy: "terms" as const };
     return { product: null, checkout: false, policy: null };
   };
 
   const initialRoute = getInitialRoute();
-  const [activeProduct, setActiveProductRaw] = useState<ProductKey | null>(initialRoute.product);
+  const [activeProduct, setActiveProductRaw] = useState<ProductKey | null>(
+    initialRoute.product,
+  );
   const [pdQty, setPdQty] = useState(1);
   const [cart, setCart] = useState<{ key: ProductKey; qty: number }[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(initialRoute.policy);
+  const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(
+    initialRoute.policy,
+  );
 
   const navigate = (path: string) => {
     window.history.pushState(null, "", path);
@@ -2075,11 +2086,31 @@ function App() {
       const path = window.location.pathname;
       if (path.startsWith("/product/")) {
         const key = path.replace("/product/", "") as ProductKey;
-        if (key in PRODUCTS) { setActiveProductRaw(key); setShowCheckoutRaw(false); setPolicyModalRaw(null); return; }
+        if (key in PRODUCTS) {
+          setActiveProductRaw(key);
+          setShowCheckoutRaw(false);
+          setPolicyModalRaw(null);
+          return;
+        }
       }
-      if (path === "/checkout") { setShowCheckoutRaw(true); setActiveProductRaw(null); setPolicyModalRaw(null); return; }
-      if (path === "/refund") { setPolicyModalRaw("refund"); setActiveProductRaw(null); setShowCheckoutRaw(false); return; }
-      if (path === "/terms") { setPolicyModalRaw("terms"); setActiveProductRaw(null); setShowCheckoutRaw(false); return; }
+      if (path === "/checkout") {
+        setShowCheckoutRaw(true);
+        setActiveProductRaw(null);
+        setPolicyModalRaw(null);
+        return;
+      }
+      if (path === "/refund") {
+        setPolicyModalRaw("refund");
+        setActiveProductRaw(null);
+        setShowCheckoutRaw(false);
+        return;
+      }
+      if (path === "/terms") {
+        setPolicyModalRaw("terms");
+        setActiveProductRaw(null);
+        setShowCheckoutRaw(false);
+        return;
+      }
       setActiveProductRaw(null);
       setShowCheckoutRaw(false);
       setPolicyModalRaw(null);
@@ -2704,7 +2735,7 @@ function App() {
               {/* Section 1: Event + Products */}
               <EventSection ref={eventReveal.ref}>
                 <div css={revealUp(eventReveal.visible)}>
-                  <SecTitle>Lock-in Coffee</SecTitle>
+                  <SecTitle>단 100개 한정</SecTitle>
                   <SecSub>
                     당신의 첫 번째 몰입.
                     <br />
@@ -2733,8 +2764,7 @@ function App() {
                     </BannerTitle>
                     <BannerDesc>
                       노루궁뎅이 버섯 × 스페셜티 콜드브루
-                      <br />
-                      한 모금이면 차이를 압니다.
+                      <br />한 모금이면 차이를 압니다.
                     </BannerDesc>
                     <BannerBtn
                       onClick={() => {
@@ -2902,8 +2932,9 @@ function App() {
                   <em>LOCK IN</em> Now
                 </TraceTitle>
                 <TraceBody>
-                  마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가 끝난 적 있잖아요.
-                  원할 때 바로 몰입에 들어가는 것 — 그게 이 커피가 만들어진 이유입니다.
+                  마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가 끝난 적
+                  있잖아요. 원할 때 바로 몰입에 들어가는 것 — 그게 이 커피가
+                  만들어진 이유입니다.
                 </TraceBody>
               </TraceSection>
 
@@ -2955,7 +2986,17 @@ function App() {
                   <FtLink>Shop</FtLink>
                   <FtLink>About</FtLink>
                   <FtLink>Contact</FtLink>
-                  <FtLink onClick={() => window.open("https://www.instagram.com/thezonebio.kr", "_blank")} style={{ cursor: "pointer" }}>Instagram</FtLink>
+                  <FtLink
+                    onClick={() =>
+                      window.open(
+                        "https://www.instagram.com/thezonebio.kr",
+                        "_blank",
+                      )
+                    }
+                    style={{ cursor: "pointer" }}
+                  >
+                    Instagram
+                  </FtLink>
                 </FtLinks>
 
                 <FtMarqueeWrap>
@@ -2973,21 +3014,43 @@ function App() {
                 </FtCopy>
 
                 <FtBizInfo>
-                  상호 : 더존바이오 &nbsp;|&nbsp; 대표 : 박민성 &nbsp;|&nbsp; 사업자등록번호 : 787-31-01774<br />
-                  사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층 더블유엔73호(송도동, 송도 센트로드)<br />
-                  업태 : 도매 및 소매업 &nbsp;|&nbsp; 종목 : 전자상거래 소매업 &nbsp;|&nbsp; 이메일 : me@thezonebio.com<br />
+                  상호 : 더존바이오 &nbsp;|&nbsp; 대표 : 박민성 &nbsp;|&nbsp;
+                  사업자등록번호 : 787-31-01774
+                  <br />
+                  사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층
+                  더블유엔73호(송도동, 송도 센트로드)
+                  <br />
+                  업태 : 도매 및 소매업 &nbsp;|&nbsp; 종목 : 전자상거래 소매업
+                  &nbsp;|&nbsp; 이메일 : me@thezonebio.com
+                  <br />
                   통신판매업신고번호 : 제 2025-인천연수구-2735 호<br />
                   고객센터 : 010-9942-7360
                 </FtBizInfo>
 
                 <FtPolicyLinks>
-                  <FtPolicyLink onClick={() => setPolicyModal("refund")}>환불정책</FtPolicyLink>
-                  <FtPolicyLink onClick={() => setPolicyModal("terms")}>이용약관</FtPolicyLink>
+                  <FtPolicyLink onClick={() => setPolicyModal("refund")}>
+                    환불정책
+                  </FtPolicyLink>
+                  <FtPolicyLink onClick={() => setPolicyModal("terms")}>
+                    이용약관
+                  </FtPolicyLink>
                 </FtPolicyLinks>
 
                 <FtSocialLinks>
-                  <FtSocialLink href="https://www.instagram.com/thezonebio.kr" target="_blank" rel="noopener noreferrer">Instagram</FtSocialLink>
-                  <FtSocialLink href="https://smartstore.naver.com/thezonebio" target="_blank" rel="noopener noreferrer">Naver Store</FtSocialLink>
+                  <FtSocialLink
+                    href="https://www.instagram.com/thezonebio.kr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Instagram
+                  </FtSocialLink>
+                  <FtSocialLink
+                    href="https://smartstore.naver.com/thezonebio"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Naver Store
+                  </FtSocialLink>
                 </FtSocialLinks>
               </FooterSection>
             </SubPageContent>
@@ -3115,7 +3178,10 @@ function App() {
               </CartCheckoutBtn>
             </CartFloat>
           )}
-          <CartFab hasItems={cart.length > 0} onClick={() => setCartOpen((o) => !o)}>
+          <CartFab
+            hasItems={cart.length > 0}
+            onClick={() => setCartOpen((o) => !o)}
+          >
             <CartBadge>{cart.reduce((s, i) => s + i.qty, 0)}</CartBadge>
             {cartOpen ? "✕" : "🛒"}
           </CartFab>
@@ -3282,23 +3348,25 @@ function App() {
 
             <h2>2. 환불이 가능한 경우</h2>
             <p>
-              · 상품이 파손 또는 변질된 상태로 배송된 경우<br />
-              · 주문한 상품과 다른 상품이 배송된 경우<br />
-              · 상품 수령 후 7일 이내 미개봉 상태인 경우
+              · 상품이 파손 또는 변질된 상태로 배송된 경우
+              <br />
+              · 주문한 상품과 다른 상품이 배송된 경우
+              <br />· 상품 수령 후 7일 이내 미개봉 상태인 경우
             </p>
 
             <h2>3. 환불이 불가한 경우</h2>
             <p>
-              · 개봉 후 일부 소비한 식품<br />
-              · 고객의 보관 부주의로 인한 변질<br />
-              · 수령일로부터 7일이 경과한 경우
+              · 개봉 후 일부 소비한 식품
+              <br />
+              · 고객의 보관 부주의로 인한 변질
+              <br />· 수령일로부터 7일이 경과한 경우
             </p>
 
             <h2>4. 환불 절차</h2>
             <p>
-              고객센터(010-9942-7360) 또는 이메일(me@thezonebio.com)로 문의해 주세요.
-              접수 후 1~2 영업일 내에 확인 후 처리되며, 카드 결제 취소는 카드사에 따라
-              3~7 영업일 소요될 수 있습니다.
+              고객센터(010-9942-7360) 또는 이메일(me@thezonebio.com)로 문의해
+              주세요. 접수 후 1~2 영업일 내에 확인 후 처리되며, 카드 결제 취소는
+              카드사에 따라 3~7 영업일 소요될 수 있습니다.
             </p>
 
             <h2>5. 배송비 부담</h2>
@@ -3307,8 +3375,17 @@ function App() {
               단순 변심의 경우 왕복 배송비는 고객 부담입니다.
             </p>
 
-            <div style={{ marginTop: 40, padding: "16px 0", borderTop: "1px solid rgba(255,255,255,0.1)", fontSize: 11, color: "rgba(255,255,255,0.3)" }}>
-              상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774<br />
+            <div
+              style={{
+                marginTop: 40,
+                padding: "16px 0",
+                borderTop: "1px solid rgba(255,255,255,0.1)",
+                fontSize: 11,
+                color: "rgba(255,255,255,0.3)",
+              }}
+            >
+              상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
+              <br />
               고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
             </div>
           </PolicyContent>
@@ -3323,63 +3400,85 @@ function App() {
 
             <h2>제1조 (목적)</h2>
             <p>
-              본 약관은 더존바이오(이하 "회사")가 운영하는 온라인 쇼핑몰에서 제공하는
-              인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 회사와 이용자의 권리,
-              의무 및 책임사항을 규정함을 목적으로 합니다.
+              본 약관은 더존바이오(이하 "회사")가 운영하는 온라인 쇼핑몰에서
+              제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 회사와
+              이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
             </p>
 
             <h2>제2조 (정의)</h2>
             <p>
-              · "쇼핑몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여 정보통신설비를 이용하여 설정한 가상의 영업장을 말합니다.<br />
-              · "이용자"란 쇼핑몰에 접속하여 본 약관에 따라 쇼핑몰이 제공하는 서비스를 받는 회원 및 비회원을 말합니다.
+              · "쇼핑몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여
+              정보통신설비를 이용하여 설정한 가상의 영업장을 말합니다.
+              <br />· "이용자"란 쇼핑몰에 접속하여 본 약관에 따라 쇼핑몰이
+              제공하는 서비스를 받는 회원 및 비회원을 말합니다.
             </p>
 
             <h2>제3조 (약관의 명시와 개정)</h2>
             <p>
-              회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 서비스 초기 화면에 게시합니다.
-              약관을 개정할 경우 적용일자 및 개정사유를 명시하여 현행 약관과 함께 7일 전에 공지합니다.
+              회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 서비스 초기
+              화면에 게시합니다. 약관을 개정할 경우 적용일자 및 개정사유를
+              명시하여 현행 약관과 함께 7일 전에 공지합니다.
             </p>
 
             <h2>제4조 (서비스의 제공 및 변경)</h2>
             <p>
-              회사는 다음과 같은 서비스를 제공합니다.<br />
-              · 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결<br />
-              · 구매계약이 체결된 재화 또는 용역의 배송<br />
-              · 기타 회사가 정하는 서비스
+              회사는 다음과 같은 서비스를 제공합니다.
+              <br />
+              · 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
+              <br />
+              · 구매계약이 체결된 재화 또는 용역의 배송
+              <br />· 기타 회사가 정하는 서비스
             </p>
 
             <h2>제5조 (구매 및 결제)</h2>
             <p>
-              이용자는 쇼핑몰에서 다음의 방법으로 구매를 신청하며, 회사는 이용자의 구매 신청에 대하여
-              각 호의 사항을 알기 쉽게 제공하여야 합니다.<br />
-              · 재화 등의 검색 및 선택<br />
-              · 성명, 주소, 전화번호, 결제 정보 입력<br />
-              · 약관 동의 확인<br />
-              · 결제 방법 선택 및 결제
+              이용자는 쇼핑몰에서 다음의 방법으로 구매를 신청하며, 회사는
+              이용자의 구매 신청에 대하여 각 호의 사항을 알기 쉽게 제공하여야
+              합니다.
+              <br />
+              · 재화 등의 검색 및 선택
+              <br />
+              · 성명, 주소, 전화번호, 결제 정보 입력
+              <br />
+              · 약관 동의 확인
+              <br />· 결제 방법 선택 및 결제
             </p>
 
             <h2>제6조 (배송)</h2>
             <p>
-              회사는 이용자와 배송 시기에 관한 별도의 약정이 없는 이상, 주문일로부터
-              3~5 영업일 이내에 배송합니다. 다만, 회사의 사정에 의해 지연될 수 있으며
-              이 경우 사전에 안내합니다.
+              회사는 이용자와 배송 시기에 관한 별도의 약정이 없는 이상,
+              주문일로부터 3~5 영업일 이내에 배송합니다. 다만, 회사의 사정에
+              의해 지연될 수 있으며 이 경우 사전에 안내합니다.
             </p>
 
             <h2>제7조 (개인정보보호)</h2>
             <p>
-              회사는 이용자의 개인정보를 수집 시 서비스 제공에 필요한 최소한의 정보만을
-              수집하며, 개인정보처리방침에 따라 이용자의 개인정보를 보호합니다.
+              회사는 이용자의 개인정보를 수집 시 서비스 제공에 필요한 최소한의
+              정보만을 수집하며, 개인정보처리방침에 따라 이용자의 개인정보를
+              보호합니다.
             </p>
 
             <h2>제8조 (분쟁해결)</h2>
             <p>
-              회사와 이용자 간에 발생한 분쟁에 관하여는 전자거래기본법, 전자상거래 등에서의
-              소비자보호에 관한 법률, 약관의 규제에 관한 법률 등 관련 법령에 따릅니다.
+              회사와 이용자 간에 발생한 분쟁에 관하여는 전자거래기본법,
+              전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한
+              법률 등 관련 법령에 따릅니다.
             </p>
 
-            <div style={{ marginTop: 40, padding: "16px 0", borderTop: "1px solid rgba(255,255,255,0.1)", fontSize: 11, color: "rgba(255,255,255,0.3)" }}>
-              상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774<br />
-              사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층 더블유엔73호(송도동, 송도 센트로드)<br />
+            <div
+              style={{
+                marginTop: 40,
+                padding: "16px 0",
+                borderTop: "1px solid rgba(255,255,255,0.1)",
+                fontSize: 11,
+                color: "rgba(255,255,255,0.3)",
+              }}
+            >
+              상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
+              <br />
+              사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층
+              더블유엔73호(송도동, 송도 센트로드)
+              <br />
               통신판매업신고번호 : 제 2025-인천연수구-2735 호<br />
               고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
             </div>
