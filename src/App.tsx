@@ -562,94 +562,42 @@ const ItemSub = styled.div`
   }
 `;
 
-/* ── Section 1: Event (wide banner + 2-col grid) ── */
+/* ── Section 1: Event — 주석처리 ── */
+/*
 const EventSection = styled.section`
   background: transparent;
   padding: 72px 24px 56px;
 `;
-
 const EventBanner = styled.div`
-  display: flex;
-  gap: 0;
-  border-radius: 0;
-  overflow: hidden;
-  margin-top: 40px;
-  margin-bottom: 12px;
+  display: flex; gap: 0; border-radius: 0; overflow: hidden; margin-top: 40px; margin-bottom: 12px;
 `;
-
 const BannerImg = styled.div`
-  flex: 1;
-  aspect-ratio: 1;
-  background: #1a1a1a;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex: 1; aspect-ratio: 1; background: #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center;
 `;
-
 const BannerInfo = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 24px 20px;
-  gap: 12px;
+  flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; gap: 12px;
 `;
-
 const BannerTitle = styled.div`
-  font-family: "Instrument Serif", serif;
-  font-size: 26px;
-  font-weight: 400;
-  color: #fff;
-  line-height: 1.2;
-  em {
-    font-style: italic;
-  }
-  @media (min-width: 768px) {
-    font-size: 32px;
-  }
+  font-family: "Instrument Serif", serif; font-size: 26px; font-weight: 400; color: #fff; line-height: 1.2;
+  em { font-style: italic; }
+  @media (min-width: 768px) { font-size: 32px; }
 `;
-
 const BannerDesc = styled.div`
-  font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.5;
-  @media (min-width: 768px) {
-    font-size: 15px;
-  }
+  font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.5;
+  @media (min-width: 768px) { font-size: 15px; }
 `;
-
 const BannerBtn = styled.div`
-  display: inline-block;
-  align-self: flex-start;
-  padding: 8px 20px;
-  border-radius: 40px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  cursor: pointer;
-  @media (min-width: 768px) {
-    font-size: 14px;
-    padding: 10px 28px;
-  }
+  display: inline-block; align-self: flex-start; padding: 8px 20px; border-radius: 40px;
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.25); font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px; font-weight: 600; color: #fff; cursor: pointer;
+  @media (min-width: 768px) { font-size: 14px; padding: 10px 28px; }
 `;
-
 const BannerNote = styled.div`
-  font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 10px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.4);
-  @media (min-width: 768px) {
-    font-size: 11px;
-  }
+  font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.4);
+  @media (min-width: 768px) { font-size: 11px; }
 `;
+*/
 
 const GridRow = styled.div`
   display: grid;
@@ -803,25 +751,20 @@ const TraceBody = styled.p`
   }
 `;
 
-/* ── CTA Banner ── */
+/* ── CTA Banner — 주석처리 ── */
+/*
 const CtaBanner = styled.section`
   padding: 48px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 `;
-
 const CtaCard = styled.div`
   display: flex;
   border-radius: 0;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    rgba(232, 116, 58, 0.12) 0%,
-    rgba(232, 116, 58, 0.04) 100%
-  );
+  background: linear-gradient(135deg, rgba(232,116,58,0.12) 0%, rgba(232,116,58,0.04) 100%);
   border: 1px solid rgba(232, 116, 58, 0.15);
 `;
-
 const CtaImg = styled.div`
   flex: 0 0 40%;
   aspect-ratio: 3 / 4;
@@ -829,16 +772,9 @@ const CtaImg = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  @media (max-width: 480px) {
-    flex: 0 0 35%;
-  }
+  img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 480px) { flex: 0 0 35%; }
 `;
-
 const CtaInfo = styled.div`
   flex: 1;
   display: flex;
@@ -847,7 +783,6 @@ const CtaInfo = styled.div`
   padding: 24px 20px;
   gap: 14px;
 `;
-
 const CtaLabel = styled.div`
   font-family: "Roboto Mono", monospace;
   font-size: 9px;
@@ -855,11 +790,8 @@ const CtaLabel = styled.div`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #e8743a;
-  @media (min-width: 768px) {
-    font-size: 11px;
-  }
+  @media (min-width: 768px) { font-size: 11px; }
 `;
-
 const CtaText = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 15px;
@@ -867,15 +799,9 @@ const CtaText = styled.p`
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
   margin: 0;
-  strong {
-    color: #fff;
-    font-weight: 600;
-  }
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
+  strong { color: #fff; font-weight: 600; }
+  @media (min-width: 768px) { font-size: 18px; }
 `;
-
 const CtaButton = styled.button`
   display: inline-block;
   align-self: flex-start;
@@ -891,21 +817,16 @@ const CtaButton = styled.button`
   color: #fff;
   cursor: pointer;
   letter-spacing: 0.5px;
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  @media (min-width: 768px) {
-    font-size: 16px;
-    padding: 14px 40px;
-  }
+  &:hover { background: rgba(255, 255, 255, 0.2); }
+  @media (min-width: 768px) { font-size: 16px; padding: 14px 40px; }
 `;
-
 const CtaNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 10px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.8);
 `;
+*/
 
 /* ── Section 5: Footer ── */
 const FooterSection = styled.footer`
@@ -2596,7 +2517,7 @@ function App() {
   const flavorBlock = useScrollReveal(0.15);
   const sourceBlock = useScrollReveal(0.15);
   const processBlock = useScrollReveal(0.15);
-  const eventReveal = useScrollReveal(0.1);
+  // const eventReveal = useScrollReveal(0.1); // 이벤트 섹션 주석처리
   const flavorReveal = useScrollReveal(0.1);
   const editorialReveal = useScrollReveal(0.1);
   const sustainReveal = useScrollReveal(0.1);
@@ -3047,7 +2968,8 @@ function App() {
           <SubPageWrap>
             <GrainCanvas ref={grainRef} />
             <SubPageContent>
-              {/* Section 1: Event + Products */}
+              {/* Section 1: Event + Products — 주석처리 */}
+              {/*
               <EventSection ref={eventReveal.ref}>
                 <div css={revealUp(eventReveal.visible)}>
                   <SecTitle>단 100개 한정</SecTitle>
@@ -3057,8 +2979,6 @@ function App() {
                     100ml, 배송비만 부담하세요.
                   </SecSub>
                 </div>
-
-                {/* Wide banner: image left, info right */}
                 <EventBanner>
                   <BannerImg>
                     <img
@@ -3094,6 +3014,7 @@ function App() {
                   </BannerInfo>
                 </EventBanner>
               </EventSection>
+              */}
 
               {/* Section 2: Flavors */}
               <FlavorSection ref={flavorReveal.ref}>
@@ -3109,7 +3030,7 @@ function App() {
                 <GridRow style={{ marginTop: 40 }}>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => setActiveProduct("signature")}
+                    onClick={() => window.open("https://smartstore.naver.com/thezonebio/products/12602305299", "_blank")}
                   >
                     <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
                       <img
@@ -3136,7 +3057,7 @@ function App() {
                   </div>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => setActiveProduct("house")}
+                    onClick={() => window.open("https://smartstore.naver.com/thezonebio/products/13041866619", "_blank")}
                   >
                     <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
                       <img
@@ -3164,7 +3085,7 @@ function App() {
                 </GridRow>
                 <FlavorWide
                   style={{ cursor: "pointer" }}
-                  onClick={() => setActiveProduct("vibrant")}
+                  onClick={() => window.open("https://smartstore.naver.com/thezonebio/products/13041874028", "_blank")}
                 >
                   <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
                     <img
@@ -3261,12 +3182,14 @@ function App() {
                 </TraceTitle>
                 <TraceBody>
                   마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가 끝난 적
-                  있잖아요. 원할 때 바로 몰입에 들어가는 것 — 그게 이 커피가
+                  있잖아요. 원할 때 바로 몰입에 들어가는 것 — 바로 이 커피가
                   만들어진 이유입니다.
                 </TraceBody>
               </TraceSection>
 
               {/* Section 4.5: CTA Banner */}
+              {/* CTA 100ml 이벤트 — 주석처리 */}
+              {/*
               <CtaBanner>
                 <CtaCard>
                   <CtaImg>
@@ -3294,6 +3217,7 @@ function App() {
                   </CtaInfo>
                 </CtaCard>
               </CtaBanner>
+              */}
 
               {/* Section 5: Footer */}
               <FooterSection>
