@@ -2228,7 +2228,7 @@ function App() {
     paymentKey: string;
   } | null>(null);
 
-  // 결제 완료 URL 파라미터 감지
+  // 결제 완료 URL 파라미터 감지 → 서버 승인 요청
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const payment = params.get("payment");
@@ -2236,11 +2236,28 @@ function App() {
       const orderId = params.get("orderId") || "";
       const amount = parseInt(params.get("amount") || "0");
       const paymentKey = params.get("paymentKey") || "";
-      setOrderComplete({ orderId, amount, paymentKey });
-      // 장바구니 비우기
-      setCart([]);
-      // URL 정리
+      // URL 즉시 정리
       window.history.replaceState(null, "", "/");
+      // 서버에 결제 승인 요청
+      fetch("/api/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentKey, orderId, amount }),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.status === "DONE" || data.totalAmount) {
+            setOrderComplete({ orderId, amount, paymentKey });
+            setCart([]);
+          } else {
+            alert(
+              data.message || "결제 승인에 실패했습니다. 고객센터에 문의해주세요.",
+            );
+          }
+        })
+        .catch(() => {
+          alert("결제 승인 중 오류가 발생했습니다. 고객센터에 문의해주세요.");
+        });
     } else if (payment === "fail") {
       alert("결제에 실패했습니다. 다시 시도해주세요.");
       window.history.replaceState(null, "", "/");
