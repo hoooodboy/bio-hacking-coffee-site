@@ -1906,13 +1906,67 @@ function App() {
   );
   const [introVisible, setIntroVisible] = useState(true);
   const [introHiding, setIntroHiding] = useState(false);
-  const [activeProduct, setActiveProduct] = useState<ProductKey | null>(null);
+  // URL-based routing helpers
+  const getInitialRoute = () => {
+    const path = window.location.pathname;
+    if (path.startsWith("/product/")) {
+      const key = path.replace("/product/", "") as ProductKey;
+      if (key in PRODUCTS) return { product: key, checkout: false, policy: null as "refund" | "terms" | null };
+    }
+    if (path === "/checkout") return { product: null, checkout: true, policy: null as "refund" | "terms" | null };
+    if (path === "/refund") return { product: null, checkout: false, policy: "refund" as const };
+    if (path === "/terms") return { product: null, checkout: false, policy: "terms" as const };
+    return { product: null, checkout: false, policy: null };
+  };
+
+  const initialRoute = getInitialRoute();
+  const [activeProduct, setActiveProductRaw] = useState<ProductKey | null>(initialRoute.product);
   const [pdQty, setPdQty] = useState(1);
   const [cart, setCart] = useState<{ key: ProductKey; qty: number }[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
-  const [showCheckout, setShowCheckout] = useState(false);
+  const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [policyModal, setPolicyModal] = useState<"refund" | "terms" | null>(null);
+  const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(initialRoute.policy);
+
+  const navigate = (path: string) => {
+    window.history.pushState(null, "", path);
+  };
+
+  const setActiveProduct = (key: ProductKey | null) => {
+    setActiveProductRaw(key);
+    if (key) navigate(`/product/${key}`);
+    else navigate("/");
+  };
+
+  const setShowCheckout = (show: boolean) => {
+    setShowCheckoutRaw(show);
+    if (show) navigate("/checkout");
+    else navigate("/");
+  };
+
+  const setPolicyModal = (val: "refund" | "terms" | null) => {
+    setPolicyModalRaw(val);
+    if (val) navigate(`/${val}`);
+    else navigate("/");
+  };
+
+  useEffect(() => {
+    const onPop = () => {
+      const path = window.location.pathname;
+      if (path.startsWith("/product/")) {
+        const key = path.replace("/product/", "") as ProductKey;
+        if (key in PRODUCTS) { setActiveProductRaw(key); setShowCheckoutRaw(false); setPolicyModalRaw(null); return; }
+      }
+      if (path === "/checkout") { setShowCheckoutRaw(true); setActiveProductRaw(null); setPolicyModalRaw(null); return; }
+      if (path === "/refund") { setPolicyModalRaw("refund"); setActiveProductRaw(null); setShowCheckoutRaw(false); return; }
+      if (path === "/terms") { setPolicyModalRaw("terms"); setActiveProductRaw(null); setShowCheckoutRaw(false); return; }
+      setActiveProductRaw(null);
+      setShowCheckoutRaw(false);
+      setPolicyModalRaw(null);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
   const [shipping, setShipping] = useState({
     name: "",
     phone: "",
