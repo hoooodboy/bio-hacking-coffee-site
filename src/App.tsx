@@ -2050,6 +2050,44 @@ function App() {
     return { product: null, checkout: false, policy: null };
   };
 
+  // UTM 파라미터 수집 & sessionStorage 저장
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const utmKeys = [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
+    ];
+    const utm: Record<string, string> = {};
+    let hasUtm = false;
+    utmKeys.forEach((k) => {
+      const v = params.get(k);
+      if (v) {
+        utm[k] = v;
+        hasUtm = true;
+      }
+    });
+    if (hasUtm) {
+      sessionStorage.setItem("utm", JSON.stringify(utm));
+      // URL에서 UTM 파라미터 제거 (깔끔한 URL 유지)
+      utmKeys.forEach((k) => params.delete(k));
+      const clean =
+        window.location.pathname +
+        (params.toString() ? `?${params.toString()}` : "");
+      window.history.replaceState(null, "", clean);
+    }
+  }, []);
+
+  const getUtm = (): Record<string, string> => {
+    try {
+      return JSON.parse(sessionStorage.getItem("utm") || "{}");
+    } catch {
+      return {};
+    }
+  };
+
   const initialRoute = getInitialRoute();
   const [activeProduct, setActiveProductRaw] = useState<ProductKey | null>(
     initialRoute.product,
@@ -2195,13 +2233,20 @@ function App() {
       const orderName =
         cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
       const SHIPPING_FEE = cartTotal >= 30000 ? 0 : 3000;
+      // UTM 파라미터를 successUrl에 포함
+      const utm = getUtm();
+      const utmQuery = Object.entries(utm)
+        .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+        .join("&");
+      const successBase = `${window.location.origin}?payment=success`;
+      const failBase = `${window.location.origin}?payment=fail`;
       await tossPayments.requestPayment("카드", {
         amount: cartTotal + SHIPPING_FEE,
         orderId,
         orderName,
         customerName: shipping.name,
-        successUrl: `${window.location.origin}?payment=success`,
-        failUrl: `${window.location.origin}?payment=fail`,
+        successUrl: utmQuery ? `${successBase}&${utmQuery}` : successBase,
+        failUrl: utmQuery ? `${failBase}&${utmQuery}` : failBase,
       });
     } catch (e) {
       console.log("결제 취소:", e);
