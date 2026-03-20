@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { keyframes, css } from "@emotion/react";
 import { useEffect, useRef, useState, useCallback } from "react";
 
+const API_URL = "https://bio-hacking-coffee-api.onrender.com";
+
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -2239,7 +2241,7 @@ function App() {
       // URL 즉시 정리
       window.history.replaceState(null, "", "/");
       // 서버에 결제 승인 요청
-      fetch("/api/confirm", {
+      fetch(`${API_URL}/api/payment/confirm`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ paymentKey, orderId, amount }),
@@ -2249,6 +2251,26 @@ function App() {
           if (data.status === "DONE" || data.totalAmount) {
             setOrderComplete({ orderId, amount, paymentKey });
             setCart([]);
+            // 배송 정보 서버에 저장
+            const savedShipping = JSON.parse(
+              sessionStorage.getItem("shipping") || "{}",
+            );
+            if (savedShipping.name) {
+              fetch(`${API_URL}/api/orders/${orderId}/shipping`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  name: savedShipping.name,
+                  phone: savedShipping.phone,
+                  address: savedShipping.address,
+                  address_detail: savedShipping.addressDetail,
+                  zip_code: savedShipping.zipCode,
+                  memo: savedShipping.memo,
+                }),
+              }).catch(() => {});
+            }
+            sessionStorage.removeItem("shipping");
+            sessionStorage.removeItem("cart");
           } else {
             alert(
               data.message || "결제 승인에 실패했습니다. 고객센터에 문의해주세요.",
@@ -2385,6 +2407,9 @@ function App() {
   const handlePayment = async () => {
     if (!shipping.name || !shipping.phone || !shipping.address) return;
     setIsProcessing(true);
+    // 배송 정보를 sessionStorage에 저장 (결제 후 서버 전송용)
+    sessionStorage.setItem("shipping", JSON.stringify(shipping));
+    sessionStorage.setItem("cart", JSON.stringify(cart));
     try {
       const clientKey = "live_ck_EP59LybZ8BJ6zdQJen2n86GYo7pR";
       const tossPayments = window.TossPayments(clientKey);
