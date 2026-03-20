@@ -861,14 +861,14 @@ const FtRow = styled.div`
 const FtInput = styled.div`
   flex: 1;
   height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 4px;
   display: flex;
   align-items: center;
   padding: 0 12px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
   @media (min-width: 768px) {
     font-size: 14px;
   }
@@ -877,7 +877,7 @@ const FtInput = styled.div`
 const FtBtn = styled.div`
   height: 40px;
   padding: 0 20px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -886,7 +886,7 @@ const FtBtn = styled.div`
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: #fff;
   @media (min-width: 768px) {
     font-size: 13px;
   }
@@ -904,7 +904,7 @@ const FtLink = styled.span`
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.5);
   @media (min-width: 768px) {
     font-size: 12px;
   }
@@ -917,7 +917,7 @@ const FtWatermark = styled.div`
     font-size: 120px;
   }
   font-style: italic;
-  color: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.08);
   line-height: 0.9;
   margin: 32px -24px 16px;
   white-space: nowrap;
@@ -928,7 +928,7 @@ const FtCopy = styled.div`
   justify-content: space-between;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.35);
   @media (min-width: 768px) {
     font-size: 12px;
   }
@@ -1121,7 +1121,7 @@ const PRODUCTS = {
       {
         label: "PRODUCT FLAVOR",
         value:
-          "노루궁뎅이 버섯의 깊은 풍미와 스페셜티 디카페인 원두의 부드러운 밸런스. 카페인 없이도 풍부한 맛.",
+          "노루궁뎅이 버섯의 깊은 풍미와 스페셜티 디카페인 원두의 부드러운 밸런스. 카페인 없이도 흔들리지 않는 집중.",
       },
       {
         label: "INFO",
@@ -1131,7 +1131,7 @@ const PRODUCTS = {
       {
         label: "PRODUCTION",
         value:
-          "24시간 저온 추출 콜드브루 공법. 스위스 워터 프로세스 디카페인 원두 사용.",
+          "24시간 저온 추출 콜드브루 공법. 스위스 워터 프로세스로 카페인만 제거, 풍미는 온전히.",
       },
       {
         label: "INGREDIENTS",
@@ -1140,7 +1140,7 @@ const PRODUCTS = {
       {
         label: "THE RESULT",
         value:
-          "카페인 걱정 없이 즐기는 깊고 부드러운 커피. 집중력과 인지 기능을 자연스럽게 서포트합니다.",
+          "밤에도, 언제든. 카페인 없이 인지 기능을 깨우는 커피. 잠을 방해하지 않으면서 뇌는 계속 작동합니다.",
       },
     ],
   },
@@ -1156,7 +1156,7 @@ const PRODUCTS = {
       {
         label: "PRODUCT FLAVOR",
         value:
-          "스페셜티 원두 본연의 깔끔한 맛과 노루궁뎅이 버섯의 어시 노트가 조화를 이룬 시그니처 블렌드.",
+          "스페셜티 원두의 깔끔한 첫 맛, 노루궁뎅이 버섯이 더하는 깊은 여운. 일반 커피에서는 느낄 수 없는 레이어.",
       },
       {
         label: "INFO",
@@ -1166,7 +1166,7 @@ const PRODUCTS = {
       {
         label: "PRODUCTION",
         value:
-          "24시간 저온 추출 콜드브루 공법. 에티오피아 싱글 오리진 스페셜티 원두 사용.",
+          "24시간 저온 추출 콜드브루 공법. 에티오피아 싱글 오리진 스페셜티 원두의 잠재력을 온전히 추출.",
       },
       {
         label: "INGREDIENTS",
@@ -1175,7 +1175,7 @@ const PRODUCTS = {
       {
         label: "THE RESULT",
         value:
-          "자연스러운 에너지 부스트와 함께 선명한 집중력. 하루를 깨우는 클린 카페인 경험.",
+          "크래시 없는 에너지, 선명한 집중력. 일반 커피가 주지 못한 '그 다음 단계'의 각성.",
       },
     ],
   },
@@ -1191,7 +1191,7 @@ const PRODUCTS = {
       {
         label: "PRODUCT FLAVOR",
         value:
-          "밝은 산미와 과일 향이 살아있는 프리미엄 블렌드. 노루궁뎅이 버섯이 더하는 깊은 여운.",
+          "밝은 산미와 과일 향이 감각을 깨우는 프리미엄 블렌드. 노루궁뎅이 버섯이 완성하는 예상 밖의 깊이.",
       },
       {
         label: "INFO",
@@ -1201,7 +1201,7 @@ const PRODUCTS = {
       {
         label: "PRODUCTION",
         value:
-          "24시간 저온 추출 콜드브루 공법. 케냐 AA 스페셜티 원두로 선명한 산미 구현.",
+          "24시간 저온 추출 콜드브루 공법. 케냐 AA 스페셜티 원두가 만드는 정제된 산미.",
       },
       {
         label: "INGREDIENTS",
@@ -1210,7 +1210,7 @@ const PRODUCTS = {
       {
         label: "THE RESULT",
         value:
-          "생동감 넘치는 산미와 함께 깨끗한 피니시. 감각을 일깨우는 바이오해킹 커피 경험.",
+          "생동감 넘치는 산미, 깨끗한 피니시. 감각이 열리는 순간, 당신의 하루가 달라집니다.",
       },
     ],
   },
@@ -2403,27 +2403,27 @@ function App() {
             </TopRight>
           </TopSection>
           <MiddleSection>
-            <FounderText>Founder's drinks</FounderText>
+            <FounderText>For the relentless few</FounderText>
             <FocusText>
-              Focus is the
+              Your mind deserves
               <br />
-              new <em>luxury</em>
+              more
             </FocusText>
           </MiddleSection>
           <BottomSection>
             <HeroLogo src="/logo.png" alt="더존바이오" />
-            <MainTitle>완벽한 몰입</MainTitle>
+            <MainTitle>아직, 진짜 집중을 모릅니다</MainTitle>
             <SubText>
               배송비만 내고
               <br />
               무료 체험
               <br />
-              하러가기
+              시작하기
             </SubText>
             <Arrow>↓</Arrow>
           </BottomSection>
         </HeroOverlay>
-        <FooterText>focus is the new luxury.</FooterText>
+        <FooterText>unlock what you've been missing.</FooterText>
       </HeroFixed>
 
       {/* Invisible scroll area to trigger sheet */}
@@ -2454,15 +2454,15 @@ function App() {
           <TextContent show={showText}>
             <OverlayBlock ref={heading.ref}>
               <HeadingNav>
-                <NavLabel>More to Enjoy</NavLabel>
+                <NavLabel>Beyond Coffee</NavLabel>
                 <NavLabel>001</NavLabel>
               </HeadingNav>
               <BigHeading css={revealUp(heading.visible)}>
-                The bottle is our
+                What if your coffee
                 <br />
-                <em>tribute</em> to the
+                was holding
                 <br />
-                source.
+                you <em>back</em>?
               </BigHeading>
             </OverlayBlock>
 
@@ -2487,11 +2487,11 @@ function App() {
                     Coffee
                   </TitleLarge>
                   <BodyText>
-                    누트로픽 버섯 원두커피.
+                    일반 커피가 채울 수 없는 영역.
                     <br />
-                    집중력과 인지 기능을 위한
+                    인지 기능과 몰입을 위해
                     <br />
-                    바이오해킹 음료.
+                    설계된 바이오해킹 음료.
                   </BodyText>
                 </div>
               </StickyBlock>
@@ -2506,14 +2506,14 @@ function App() {
                   <TitleLarge>
                     Nature's
                     <br />
-                    Dancing Light
+                    Quiet Depth
                   </TitleLarge>
                   <BodyText style={{ marginLeft: "auto" }}>
-                    노루궁뎅이 버섯의 은은한 향과
+                    노루궁뎅이 버섯의 섬세한 뉘앙스와
                     <br />
-                    스페셜티 원두의 깊은 풍미가
+                    스페셜티 원두의 깊은 바디가
                     <br />
-                    조화를 이루는 맛.
+                    만들어내는 미지의 풍미.
                   </BodyText>
                   <WatermarkText
                     size={60}
@@ -2537,11 +2537,11 @@ function App() {
                     Mane
                   </DetailTitle>
                   <DetailBody>
-                    기억력과 집중력 향상에 도움을 주는
+                    신경성장인자(NGF) 생성을 촉진하는
                     <br />
-                    노루궁뎅이 버섯(Lion's Mane)을
+                    노루궁뎅이 버섯(Lion's Mane).
                     <br />
-                    핵심 원료로 사용합니다.
+                    당신의 뇌가 기다려온 원료.
                   </DetailBody>
                 </div>
               </StickyBlock>
@@ -2560,9 +2560,9 @@ function App() {
                     Extraction
                   </DetailTitle>
                   <DetailBody style={{ marginLeft: "auto" }}>
-                    24시간 저온 추출로
+                    24시간 저온 추출.
                     <br />
-                    부드러운 맛을 실현.
+                    열이 파괴하는 것들을 지킵니다.
                   </DetailBody>
                   <WatermarkText
                     size={50}
@@ -2584,9 +2584,9 @@ function App() {
                 <div css={revealUp(eventReveal.visible)}>
                   <SecTitle>Lock-in Coffee</SecTitle>
                   <SecSub>
-                    100ml 무료 체험.
+                    당신의 첫 번째 몰입.
                     <br />
-                    배송비만 부담하세요.
+                    100ml, 배송비만 부담하세요.
                   </SecSub>
                 </div>
 
@@ -2610,9 +2610,9 @@ function App() {
                       체험 이벤트
                     </BannerTitle>
                     <BannerDesc>
-                      노루궁뎅이 버섯 × 스페셜티 원두
+                      노루궁뎅이 버섯 × 스페셜티 콜드브루
                       <br />
-                      배송비만 부담하세요.
+                      한 모금이면 차이를 압니다.
                     </BannerDesc>
                     <BannerBtn
                       onClick={() => {
@@ -2621,7 +2621,7 @@ function App() {
                         setShowCheckout(true);
                       }}
                     >
-                      무료 체험 신청하기
+                      지금 경험하기
                     </BannerBtn>
                     <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
                   </BannerInfo>
@@ -2633,7 +2633,7 @@ function App() {
                 <div css={revealUp(flavorReveal.visible)}>
                   <SecTitle>The Flavors</SecTitle>
                   <SecSub>
-                    Clean. 100% Natural. Taste The
+                    Clean. Potent. Feel The
                     <br />
                     Difference
                   </SecSub>
@@ -2758,11 +2758,11 @@ function App() {
                   </CompanyGrid>
 
                   <CompanyBody>
-                    크리에이터, 큐레이터, 그리고
+                    가장 깨어있는 크리에이터,
                     <br />
-                    더존바이오의 정신을 담아내는
+                    큐레이터, 그리고 공간들이
                     <br />
-                    공간들과 함께합니다.
+                    선택한 커피.
                   </CompanyBody>
                   <div
                     style={{ display: "flex", flexDirection: "column", gap: 4 }}
@@ -2788,14 +2788,14 @@ function App() {
                 </TraceTitle>
                 <TraceBody>
                   지속 가능한 원료 수급과 친환경 패키징으로 자연에 흔적을 남기지
-                  않습니다. 우리가 아끼는 땅을 지키는 것, 그것이 더존바이오의
-                  약속입니다.
+                  않습니다. 당신의 퍼포먼스를 위해, 지구의 퍼포먼스를
+                  희생하지 않겠다는 약속.
                 </TraceBody>
               </TraceSection>
 
               {/* Section 5: Footer */}
               <FooterSection>
-                <FtLabel>Stay in Focus</FtLabel>
+                <FtLabel>Stay Locked In</FtLabel>
                 <FtBrand>
                   LOCK IN
                   <br />
@@ -2815,7 +2815,7 @@ function App() {
                   <FtLink onClick={() => window.open("https://www.instagram.com/thezonebio.kr", "_blank")} style={{ cursor: "pointer" }}>Instagram</FtLink>
                 </FtLinks>
 
-                <FtWatermark>focus is the new luxury</FtWatermark>
+                <FtWatermark>unlock what you've been missing</FtWatermark>
 
                 <FtCopy>
                   <span>© 2025 더존바이오</span>
