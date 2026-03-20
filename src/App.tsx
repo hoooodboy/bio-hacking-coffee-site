@@ -2369,7 +2369,7 @@ function App() {
     if (!shipping.name || !shipping.phone || !shipping.address) return;
     setIsProcessing(true);
     try {
-      const clientKey = "test_ck_24xLea5zVAopx9qdkM208QAMYNwW";
+      const clientKey = "live_ck_EP59LybZ8BJ6zdQJen2n86GYo7pR";
       const tossPayments = window.TossPayments(clientKey);
       const payment = tossPayments.payment({
         customerKey: window.TossPayments.ANONYMOUS,
