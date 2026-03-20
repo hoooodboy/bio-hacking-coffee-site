@@ -938,10 +938,10 @@ const FtBizInfo = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 10px;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
   text-align: left;
   margin-top: 32px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   padding-top: 20px;
   @media (min-width: 768px) {
     font-size: 11px;
@@ -958,12 +958,12 @@ const FtPolicyLink = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 11px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
   &:hover {
-    color: rgba(255, 255, 255, 0.6);
+    color: #fff;
   }
   @media (min-width: 768px) {
     font-size: 12px;
@@ -981,10 +981,10 @@ const FtSocialLink = styled.a`
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   &:hover {
-    color: rgba(255, 255, 255, 0.5);
+    color: #fff;
   }
   @media (min-width: 768px) {
     font-size: 11px;
