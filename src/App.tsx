@@ -2318,7 +2318,9 @@ function App() {
       setVideoScale(1 + scaleT * 0.2);
 
       if (video.duration && isFinite(video.duration)) {
-        video.currentTime = progress * video.duration;
+        // Accelerate: video completes in first 40% of scroll
+        const videoProgress = Math.min(progress / 0.4, 1);
+        video.currentTime = videoProgress * video.duration;
       }
 
       ticking = false;
