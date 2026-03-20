@@ -2474,7 +2474,7 @@ function App() {
     sessionStorage.setItem("shipping", JSON.stringify(shipping));
     sessionStorage.setItem("cart", JSON.stringify(cart));
     try {
-      const clientKey = "live_ck_5OWRapdA8dJOA1QZMXEAVo1zEqZK";
+      const clientKey = "live_ck_kYG57Eba3Gmdv2daE4PLrpWDOxmA";
       const tossPayments = window.TossPayments(clientKey);
       const payment = tossPayments.payment({
         customerKey: window.TossPayments.ANONYMOUS,
