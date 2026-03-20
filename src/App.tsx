@@ -464,7 +464,6 @@ const SubPageContent = styled.div`
   will-change: transform;
 `;
 
-
 /* ── Shared sub-page styles ── */
 const SecTitle = styled.h2`
   font-family: "Instrument Serif", serif;
@@ -777,7 +776,6 @@ const TraceTitle = styled.h2`
   gap: 10px;
 `;
 
-
 const TraceBody = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 14px;
@@ -891,7 +889,7 @@ const CtaNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 10px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
 `;
 
 /* ── Section 5: Footer ── */
@@ -2920,8 +2918,18 @@ function App() {
                     style={{ display: "flex", flexDirection: "column", gap: 4 }}
                   >
                     <MetaLine
-                      onClick={() => window.open("https://www.instagram.com/thezonebio.kr", "_blank")}
-                      style={{ color: "#fff", textDecoration: "underline", textUnderlineOffset: 3, cursor: "pointer" }}
+                      onClick={() =>
+                        window.open(
+                          "https://www.instagram.com/thezonebio.kr",
+                          "_blank",
+                        )
+                      }
+                      style={{
+                        color: "#fff",
+                        textDecoration: "underline",
+                        textUnderlineOffset: 3,
+                        cursor: "pointer",
+                      }}
                     >
                       @thezonebio.kr
                     </MetaLine>
@@ -2932,7 +2940,7 @@ function App() {
               {/* Section 4: Lock In Now */}
               <TraceSection ref={sustainReveal.ref}>
                 <TraceTitle css={revealScale(sustainReveal.visible)}>
-                  <em>LOCK IN</em> Now
+                  LOCK IN <em>Now</em>
                 </TraceTitle>
                 <TraceBody>
                   마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가 끝난 적
@@ -2954,7 +2962,7 @@ function App() {
                       <br />
                       지금이 기회입니다.
                       <br />
-                      <strong>100ml 무료 — 배송비만.</strong>
+                      <strong>100ml 무료</strong>
                     </CtaText>
                     <CtaButton
                       onClick={() => {
