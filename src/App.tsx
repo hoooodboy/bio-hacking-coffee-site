@@ -2194,7 +2194,7 @@ function App() {
           : "";
       const orderName =
         cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
-      const SHIPPING_FEE = 3000;
+      const SHIPPING_FEE = cartTotal >= 30000 ? 0 : 3000;
       await tossPayments.requestPayment("카드", {
         amount: cartTotal + SHIPPING_FEE,
         orderId,
@@ -3242,11 +3242,11 @@ function App() {
                 </CheckoutTotalRow>
                 <CheckoutTotalRow>
                   <span>배송비</span>
-                  <span>3,000원</span>
+                  <span>{cartTotal >= 30000 ? "무료" : "3,000원"}</span>
                 </CheckoutTotalRow>
                 <CheckoutGrandTotal>
                   <span>총 결제금액</span>
-                  <span>{(cartTotal + 3000).toLocaleString()}원</span>
+                  <span>{(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}원</span>
                 </CheckoutGrandTotal>
               </CheckoutTotalBlock>
             </CheckoutPreview>
@@ -3342,7 +3342,7 @@ function App() {
               >
                 {isProcessing
                   ? "처리 중..."
-                  : `${(cartTotal + 3000).toLocaleString()}원 결제하기`}
+                  : `${(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}원 결제하기`}
               </CheckoutPayBtn>
             </CheckoutFormPanel>
           </CheckoutLayout>
