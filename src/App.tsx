@@ -2257,18 +2257,22 @@ function App() {
         .then((data) => {
           if (data.status === "DONE" || data.totalAmount) {
             // 결제 완료 트래킹 (GA4 + Meta Pixel)
-            const savedCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+            const savedCart = JSON.parse(
+              sessionStorage.getItem("cart") || "[]",
+            );
             if (savedCart.length > 0) {
-              const items = savedCart.map((item: { key: string; qty: number }) => {
-                const p = PRODUCTS[item.key as ProductKey];
-                const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-                return {
-                  product_key: item.key,
-                  product_name: `${p.name} ${p.sub}`,
-                  price,
-                  quantity: item.qty,
-                };
-              });
+              const items = savedCart.map(
+                (item: { key: string; qty: number }) => {
+                  const p = PRODUCTS[item.key as ProductKey];
+                  const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+                  return {
+                    product_key: item.key,
+                    product_name: `${p.name} ${p.sub}`,
+                    price,
+                    quantity: item.qty,
+                  };
+                },
+              );
               trackPurchase(orderId, items, amount);
             }
             setOrderComplete({ orderId, amount, paymentKey });
@@ -2295,7 +2299,8 @@ function App() {
             sessionStorage.removeItem("cart");
           } else {
             alert(
-              data.message || "결제 승인에 실패했습니다. 고객센터에 문의해주세요.",
+              data.message ||
+                "결제 승인에 실패했습니다. 고객센터에 문의해주세요.",
             );
           }
         })
@@ -2418,7 +2423,7 @@ function App() {
       price,
       quantity: qty,
     });
-    
+
     setCart((prev) => {
       const existing = prev.find((i) => i.key === key);
       if (existing)
@@ -2495,9 +2500,7 @@ function App() {
         .join("&");
       const successBase = `${window.location.origin}?payment=success`;
       const failBase = `${window.location.origin}?payment=fail`;
-      const successUrl = utmQuery
-        ? `${successBase}&${utmQuery}`
-        : successBase;
+      const successUrl = utmQuery ? `${successBase}&${utmQuery}` : successBase;
       const failUrl = utmQuery ? `${failBase}&${utmQuery}` : failBase;
 
       await payment.requestPayment({
@@ -2877,7 +2880,7 @@ function App() {
           </MiddleSection>
           <BottomSection>
             <HeroLogo src="/logo.png" alt="더존바이오" />
-            <MainTitle>아직, 진짜 집중을 모릅니다</MainTitle>
+            <MainTitle>몰입을 위한 커피</MainTitle>
             <SubText>
               배송비만 내고
               <br />
@@ -3554,7 +3557,12 @@ function App() {
                 </CheckoutTotalRow>
                 <CheckoutGrandTotal>
                   <span>총 결제금액</span>
-                  <span>{(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}원</span>
+                  <span>
+                    {(
+                      cartTotal + (cartTotal >= 30000 ? 0 : 3000)
+                    ).toLocaleString()}
+                    원
+                  </span>
                 </CheckoutGrandTotal>
               </CheckoutTotalBlock>
             </CheckoutPreview>
@@ -3725,9 +3733,7 @@ function App() {
           <OrderInfoCard>
             <OrderInfoRow>
               <OrderInfoLabel>주문번호</OrderInfoLabel>
-              <OrderInfoValue
-                style={{ fontSize: 12, wordBreak: "break-all" }}
-              >
+              <OrderInfoValue style={{ fontSize: 12, wordBreak: "break-all" }}>
                 {orderComplete.orderId}
               </OrderInfoValue>
             </OrderInfoRow>
