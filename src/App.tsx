@@ -1,6 +1,13 @@
 import styled from "@emotion/styled";
 import { keyframes, css } from "@emotion/react";
 import { useEffect, useRef, useState, useCallback } from "react";
+import {
+  trackViewProduct,
+  trackAddToCart,
+  trackInitiateCheckout,
+  trackPurchase,
+  trackLead,
+} from "./lib/analytics";
 
 const API_URL = "https://bio-hacking-coffee-api.onrender.com";
 
@@ -2249,6 +2256,21 @@ function App() {
         .then((r) => r.json())
         .then((data) => {
           if (data.status === "DONE" || data.totalAmount) {
+            // 결제 완료 트래킹 (GA4 + Meta Pixel)
+            const savedCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+            if (savedCart.length > 0) {
+              const items = savedCart.map((item: { key: string; qty: number }) => {
+                const p = PRODUCTS[item.key as ProductKey];
+                const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+                return {
+                  product_key: item.key,
+                  product_name: `${p.name} ${p.sub}`,
+                  price,
+                  quantity: item.qty,
+                };
+              });
+              trackPurchase(orderId, items, amount);
+            }
             setOrderComplete({ orderId, amount, paymentKey });
             setCart([]);
             // 배송 정보 서버에 저장
@@ -2292,14 +2314,45 @@ function App() {
 
   const setActiveProduct = (key: ProductKey | null) => {
     setActiveProductRaw(key);
-    if (key) navigate(`/product/${key}`);
-    else navigate("/");
+    if (key) {
+      navigate(`/product/${key}`);
+      // 상품 조회 트래킹
+      const p = PRODUCTS[key];
+      const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+      trackViewProduct({
+        product_key: key,
+        product_name: `${p.name} ${p.sub}`,
+        price,
+        quantity: 1,
+      });
+    } else {
+      navigate("/");
+    }
   };
 
   const setShowCheckout = (show: boolean) => {
     setShowCheckoutRaw(show);
-    if (show) navigate("/checkout");
-    else navigate("/");
+    if (show) {
+      navigate("/checkout");
+      // 결제 시작 트래킹
+      const items = cart.map((item) => {
+        const p = PRODUCTS[item.key];
+        const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+        return {
+          product_key: item.key,
+          product_name: `${p.name} ${p.sub}`,
+          price,
+          quantity: item.qty,
+        };
+      });
+      trackInitiateCheckout(items, cartTotal);
+      // 무료체험인 경우 리드 트래킹
+      if (cart.some((i) => i.key === "trial")) {
+        trackLead(0);
+      }
+    } else {
+      navigate("/");
+    }
   };
 
   const setPolicyModal = (val: "refund" | "terms" | null) => {
@@ -2356,6 +2409,16 @@ function App() {
   });
 
   const addToCart = (key: ProductKey, qty: number) => {
+    // 장바구니 추가 트래킹
+    const p = PRODUCTS[key];
+    const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+    trackAddToCart({
+      product_key: key,
+      product_name: `${p.name} ${p.sub}`,
+      price,
+      quantity: qty,
+    });
+    
     setCart((prev) => {
       const existing = prev.find((i) => i.key === key);
       if (existing)
