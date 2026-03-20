@@ -2186,7 +2186,13 @@ function App() {
       fetch(`${API_URL}/api/payment/confirm`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentKey, orderId, amount }),
+        body: JSON.stringify({
+          paymentKey,
+          orderId,
+          amount,
+          fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || "",
+          fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || "",
+        }),
       })
         .then((r) => r.json())
         .then((data) => {

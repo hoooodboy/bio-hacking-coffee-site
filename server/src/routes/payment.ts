@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { supabase } from "../supabase";
+import { sendPurchaseEvent } from "../meta-capi";
 
 const router = Router();
 
@@ -53,6 +54,22 @@ router.post("/confirm", async (req: Request, res: Response) => {
       console.error("DB insert error:", error);
       // DB 저장 실패해도 결제는 성공이므로 200 반환
     }
+
+    // Meta Conversions API — 서버 사이드 Purchase 이벤트
+    sendPurchaseEvent({
+      orderId,
+      amount,
+      orderName: tossData.orderName || "",
+      userData: {
+        email: tossData.customerEmail || "",
+        phone: tossData.customerMobilePhone || "",
+        name: tossData.customerName || "",
+        ip: req.ip || req.headers["x-forwarded-for"]?.toString() || "",
+        userAgent: req.headers["user-agent"] || "",
+        fbc: (req.body.fbc as string) || "",
+        fbp: (req.body.fbp as string) || "",
+      },
+    }).catch((e) => console.error("Meta CAPI failed:", e));
 
     res.status(200).json(tossData);
   } catch (error) {
