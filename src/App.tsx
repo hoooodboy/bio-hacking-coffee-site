@@ -818,7 +818,7 @@ const CtaBanner = styled.section`
 
 const CtaCard = styled.div`
   display: flex;
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
   background: linear-gradient(135deg, rgba(232, 116, 58, 0.12) 0%, rgba(232, 116, 58, 0.04) 100%);
   border: 1px solid rgba(232, 116, 58, 0.15);
@@ -1021,7 +1021,7 @@ const FtMarqueeWrap = styled.div`
 const FtMarqueeTrack = styled.div`
   display: flex;
   width: max-content;
-  animation: ${marqueeScroll} 20s linear infinite;
+  animation: ${marqueeScroll} 40s linear infinite;
 `;
 
 const FtWatermark = styled.span`
@@ -2899,14 +2899,7 @@ function App() {
               {/* Section 4: Lock In Now */}
               <TraceSection ref={sustainReveal.ref}>
                 <TraceTitle css={revealScale(sustainReveal.visible)}>
-                  <span>Lock</span>
-                </TraceTitle>
-                <TraceTitle css={revealScale(sustainReveal.visible, 0.1)}>
-                  <span>In</span>
-                  <TraceInline>
-                    <Placeholder>Img</Placeholder>
-                  </TraceInline>
-                  <span>Now</span>
+                  <em>LOCK IN</em> Now
                 </TraceTitle>
                 <TraceBody>
                   마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가 끝난 적 있잖아요.
