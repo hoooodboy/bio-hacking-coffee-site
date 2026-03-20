@@ -3020,7 +3020,7 @@ function App() {
                 </FtMarqueeWrap>
 
                 <FtCopy>
-                  <span>© 2025 더존바이오</span>
+                  <span>© {new Date().getFullYear()} THEZONEBIO</span>
                   <span>Made with focus</span>
                 </FtCopy>
 
