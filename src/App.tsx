@@ -2010,6 +2010,125 @@ const CheckoutClose = styled.button`
   }
 `;
 
+/* ─── Order Complete ─── */
+
+const OrderCompleteOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 780px;
+  height: 100dvh;
+  z-index: 220;
+  background: #0a0a0a;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: ${pdFadeIn} 0.3s ease-out;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  box-sizing: border-box;
+`;
+
+const OrderCheckIcon = styled.div`
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(232, 116, 58, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+`;
+
+const OrderTitle = styled.h2`
+  font-family: "Instrument Serif", serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 8px;
+  @media (min-width: 768px) {
+    font-size: 40px;
+  }
+`;
+
+const OrderSub = styled.p`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 40px;
+  text-align: center;
+  line-height: 1.6;
+`;
+
+const OrderInfoCard = styled.div`
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+`;
+
+const OrderInfoRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+`;
+
+const OrderInfoLabel = styled.span`
+  font-family: "Roboto Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+`;
+
+const OrderInfoValue = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  color: #fff;
+  text-align: right;
+`;
+
+const OrderHomeBtn = styled.button`
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  background: #e8743a;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  &:hover {
+    background: #d4632e;
+  }
+`;
+
+const OrderContactNote = styled.p`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 20px;
+  text-align: center;
+  line-height: 1.6;
+`;
+
 /* ─── App ─── */
 
 function App() {
@@ -2100,6 +2219,30 @@ function App() {
   const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(
     initialRoute.policy,
   );
+  const [orderComplete, setOrderComplete] = useState<{
+    orderId: string;
+    amount: number;
+    paymentKey: string;
+  } | null>(null);
+
+  // 결제 완료 URL 파라미터 감지
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get("payment");
+    if (payment === "success") {
+      const orderId = params.get("orderId") || "";
+      const amount = parseInt(params.get("amount") || "0");
+      const paymentKey = params.get("paymentKey") || "";
+      setOrderComplete({ orderId, amount, paymentKey });
+      // 장바구니 비우기
+      setCart([]);
+      // URL 정리
+      window.history.replaceState(null, "", "/");
+    } else if (payment === "fail") {
+      alert("결제에 실패했습니다. 다시 시도해주세요.");
+      window.history.replaceState(null, "", "/");
+    }
+  }, []);
 
   const navigate = (path: string) => {
     window.history.pushState(null, "", path);
@@ -3392,6 +3535,66 @@ function App() {
             </CheckoutFormPanel>
           </CheckoutLayout>
         </CheckoutOverlay>
+      )}
+
+      {/* Order Complete */}
+      {orderComplete && (
+        <OrderCompleteOverlay>
+          <OrderCheckIcon>
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#e8743a"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </OrderCheckIcon>
+          <OrderTitle>주문 완료</OrderTitle>
+          <OrderSub>
+            결제가 정상적으로 완료되었습니다.
+            <br />
+            주문하신 상품은 빠르게 준비하여 발송해 드리겠습니다.
+          </OrderSub>
+          <OrderInfoCard>
+            <OrderInfoRow>
+              <OrderInfoLabel>주문번호</OrderInfoLabel>
+              <OrderInfoValue
+                style={{ fontSize: 12, wordBreak: "break-all" }}
+              >
+                {orderComplete.orderId}
+              </OrderInfoValue>
+            </OrderInfoRow>
+            <OrderInfoRow>
+              <OrderInfoLabel>결제금액</OrderInfoLabel>
+              <OrderInfoValue>
+                {orderComplete.amount.toLocaleString()}원
+              </OrderInfoValue>
+            </OrderInfoRow>
+            <OrderInfoRow>
+              <OrderInfoLabel>결제수단</OrderInfoLabel>
+              <OrderInfoValue>카드결제</OrderInfoValue>
+            </OrderInfoRow>
+            <OrderInfoRow>
+              <OrderInfoLabel>결제상태</OrderInfoLabel>
+              <OrderInfoValue style={{ color: "#e8743a" }}>
+                결제완료
+              </OrderInfoValue>
+            </OrderInfoRow>
+          </OrderInfoCard>
+          <OrderHomeBtn onClick={() => setOrderComplete(null)}>
+            홈으로 돌아가기
+          </OrderHomeBtn>
+          <OrderContactNote>
+            주문 관련 문의: 010-9942-7360
+            <br />
+            me@thezonebio.com
+          </OrderContactNote>
+        </OrderCompleteOverlay>
       )}
 
       {/* Policy Modals */}
