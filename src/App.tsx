@@ -1004,7 +1004,7 @@ const PolicyOverlay = styled.div`
   background: #111;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  animation: ${pdFadeIn} 0.3s ease-out;
+  animation: ${fadeIn} 0.3s ease-out;
 `;
 
 const PolicyClose = styled.button`
@@ -2758,7 +2758,7 @@ function App() {
                   <FtLink>Shop</FtLink>
                   <FtLink>About</FtLink>
                   <FtLink>Contact</FtLink>
-                  <FtLink as="a" href="https://www.instagram.com/thezonebio.kr" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "inherit" }}>Instagram</FtLink>
+                  <FtLink onClick={() => window.open("https://www.instagram.com/thezonebio.kr", "_blank")} style={{ cursor: "pointer" }}>Instagram</FtLink>
                 </FtLinks>
 
                 <FtWatermark>focus is the new luxury</FtWatermark>
