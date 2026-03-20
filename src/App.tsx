@@ -1750,19 +1750,21 @@ const CartCheckoutBtn = styled.button`
 
 declare global {
   interface Window {
-    TossPayments: (clientKey: string) => {
-      requestPayment: (
-        method: string,
-        options: {
-          amount: number;
+    TossPayments: ((clientKey: string) => {
+      payment: (options: { customerKey: string }) => {
+        requestPayment: (options: {
+          method: string;
+          amount: { currency: string; value: number };
           orderId: string;
           orderName: string;
-          customerName: string;
+          customerName?: string;
+          customerEmail?: string;
+          customerMobilePhone?: string;
           successUrl: string;
           failUrl: string;
-        },
-      ) => Promise<void>;
-    };
+        }) => Promise<void>;
+      };
+    }) & { ANONYMOUS: string };
     daum: {
       Postcode: new (options: {
         oncomplete: (data: {
@@ -2216,6 +2218,7 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [payMethod, setPayMethod] = useState<"CARD" | "TRANSFER">("CARD");
   const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(
     initialRoute.policy,
   );
@@ -2366,8 +2369,11 @@ function App() {
     if (!shipping.name || !shipping.phone || !shipping.address) return;
     setIsProcessing(true);
     try {
-      const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+      const clientKey = "test_ck_24xLea5zVAopx9qdkM208QAMYNwW";
       const tossPayments = window.TossPayments(clientKey);
+      const payment = tossPayments.payment({
+        customerKey: window.TossPayments.ANONYMOUS,
+      });
       const orderId = `LOCKIN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       const firstName =
         cart.length > 0
@@ -2376,6 +2382,7 @@ function App() {
       const orderName =
         cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
       const SHIPPING_FEE = cartTotal >= 30000 ? 0 : 3000;
+      const totalAmount = cartTotal + SHIPPING_FEE;
       // UTM 파라미터를 successUrl에 포함
       const utm = getUtm();
       const utmQuery = Object.entries(utm)
@@ -2383,13 +2390,21 @@ function App() {
         .join("&");
       const successBase = `${window.location.origin}?payment=success`;
       const failBase = `${window.location.origin}?payment=fail`;
-      await tossPayments.requestPayment("카드", {
-        amount: cartTotal + SHIPPING_FEE,
+      const successUrl = utmQuery
+        ? `${successBase}&${utmQuery}`
+        : successBase;
+      const failUrl = utmQuery ? `${failBase}&${utmQuery}` : failBase;
+
+      await payment.requestPayment({
+        method: payMethod,
+        amount: { currency: "KRW", value: totalAmount },
         orderId,
         orderName,
         customerName: shipping.name,
-        successUrl: utmQuery ? `${successBase}&${utmQuery}` : successBase,
-        failUrl: utmQuery ? `${failBase}&${utmQuery}` : failBase,
+        customerEmail: shipping.email || undefined,
+        customerMobilePhone: shipping.phone.replace(/-/g, "") || undefined,
+        successUrl,
+        failUrl,
       });
     } catch (e) {
       console.log("결제 취소:", e);
@@ -3517,6 +3532,48 @@ function App() {
                   }
                   placeholder="부재 시 문 앞에 놓아주세요"
                 />
+              </CheckoutSection>
+
+              <CheckoutSection>
+                <CheckoutLabel>결제 수단</CheckoutLabel>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {(
+                    [
+                      { key: "CARD" as const, label: "카드결제" },
+                      { key: "TRANSFER" as const, label: "계좌이체" },
+                    ] as const
+                  ).map((m) => (
+                    <button
+                      key={m.key}
+                      onClick={() => setPayMethod(m.key)}
+                      style={{
+                        flex: 1,
+                        padding: "12px 0",
+                        borderRadius: 8,
+                        border:
+                          payMethod === m.key
+                            ? "1.5px solid #e8743a"
+                            : "1px solid rgba(255,255,255,0.1)",
+                        background:
+                          payMethod === m.key
+                            ? "rgba(232,116,58,0.1)"
+                            : "rgba(255,255,255,0.04)",
+                        color:
+                          payMethod === m.key
+                            ? "#e8743a"
+                            : "rgba(255,255,255,0.5)",
+                        fontFamily:
+                          '"Pretendard Variable", Pretendard, sans-serif',
+                        fontSize: 13,
+                        fontWeight: 500,
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                      }}
+                    >
+                      {m.label}
+                    </button>
+                  ))}
+                </div>
               </CheckoutSection>
 
               <CheckoutPayBtn
