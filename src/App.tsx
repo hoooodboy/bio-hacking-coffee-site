@@ -107,7 +107,7 @@ const TopSection = styled.div`
 
 const TopLeft = styled.div`
   font-family: "Roboto Mono", monospace;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: 2px;
   line-height: 1.3;
@@ -119,7 +119,7 @@ const TopLeft = styled.div`
 
 const TopRight = styled.div`
   font-family: "Roboto Mono", monospace;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: 2px;
   line-height: 1.3;
@@ -140,7 +140,7 @@ const MiddleSection = styled.div`
 
 const FounderText = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 300;
   letter-spacing: 0.5px;
   @media (min-width: 768px) {
@@ -150,7 +150,7 @@ const FounderText = styled.div`
 
 const FocusText = styled.div`
   font-family: "Instrument Serif", serif;
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 400;
   text-align: right;
   line-height: 0.8;
@@ -179,7 +179,7 @@ const HeroLogo = styled.img`
 `;
 
 const MainTitle = styled.h1`
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   margin: 0 0 4px;
   letter-spacing: 2px;
@@ -189,7 +189,7 @@ const MainTitle = styled.h1`
 `;
 
 const SubText = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.4;
   opacity: 0.85;
@@ -215,7 +215,7 @@ const FooterText = styled.div`
   position: absolute;
   bottom: 16px;
   left: 24px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.5px;
   opacity: 0.6;
@@ -310,7 +310,7 @@ const HeadingNav = styled.div`
 
 const NavLabel = styled.span`
   font-family: "Roboto Mono", monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -322,7 +322,7 @@ const NavLabel = styled.span`
 
 const BigHeading = styled.h2`
   font-family: "Instrument Serif", serif;
-  font-size: 38px;
+  font-size: 42px;
   font-weight: 400;
   line-height: 1.15;
   margin: 0;
@@ -336,7 +336,7 @@ const BigHeading = styled.h2`
 
 const LabelSmall = styled.div`
   font-family: "Roboto Mono", monospace;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -350,7 +350,7 @@ const LabelSmall = styled.div`
 
 const TitleLarge = styled.div`
   font-family: "Instrument Serif", serif;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 400;
   line-height: 1.2;
   @media (min-width: 768px) {
@@ -360,7 +360,7 @@ const TitleLarge = styled.div`
 
 const BodyText = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
   line-height: 1.8;
   opacity: 0.85;
@@ -407,7 +407,7 @@ const WatermarkText = styled.div<{ size?: number }>`
 
 const DetailTitle = styled.div`
   font-family: "Instrument Serif", serif;
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 400;
   line-height: 1.25;
   @media (min-width: 768px) {
@@ -417,7 +417,7 @@ const DetailTitle = styled.div`
 
 const DetailBody = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
   line-height: 1.7;
   opacity: 0.85;
@@ -475,7 +475,7 @@ const Placeholder = styled.span`
 /* ── Shared sub-page styles ── */
 const SecTitle = styled.h2`
   font-family: "Instrument Serif", serif;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 400;
   color: #fff;
   margin: 0;
@@ -486,7 +486,7 @@ const SecTitle = styled.h2`
 
 const SecSub = styled.p`
   font-family: "Instrument Serif", serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 400;
   font-style: italic;
   color: rgba(255, 255, 255, 0.6);
@@ -499,7 +499,7 @@ const SecSub = styled.p`
 
 const ItemName = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #fff;
   @media (min-width: 768px) {
@@ -522,7 +522,7 @@ const PriceOrigRow = styled.div`
 
 const OrigPrice = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.3);
   text-decoration: line-through;
@@ -533,7 +533,7 @@ const OrigPrice = styled.span`
 
 const SalePrice = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #fff;
   @media (min-width: 768px) {
@@ -543,7 +543,7 @@ const SalePrice = styled.span`
 
 const DiscountBadge = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   color: #e8743a;
   @media (min-width: 768px) {
@@ -553,7 +553,7 @@ const DiscountBadge = styled.span`
 
 const ItemSub = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.4);
   @media (min-width: 768px) {
@@ -597,7 +597,7 @@ const BannerInfo = styled.div`
 
 const BannerTitle = styled.div`
   font-family: "Instrument Serif", serif;
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 400;
   color: #fff;
   line-height: 1.2;
@@ -611,7 +611,7 @@ const BannerTitle = styled.div`
 
 const BannerDesc = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.5;
@@ -627,7 +627,7 @@ const BannerBtn = styled.div`
   border-radius: 40px;
   background: #fff;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: #e8743a;
   @media (min-width: 768px) {
@@ -638,7 +638,7 @@ const BannerBtn = styled.div`
 
 const BannerNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.4);
   @media (min-width: 768px) {
@@ -695,7 +695,7 @@ const CompanySection = styled.section`
 
 const CompanyTitle = styled.h2`
   font-family: "Instrument Serif", serif;
-  font-size: 52px;
+  font-size: 56px;
   font-weight: 400;
   color: #fff;
   line-height: 1;
@@ -738,7 +738,7 @@ const GBox = styled.div<{ bg?: string; span?: number; h?: number }>`
 
 const CompanyBody = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.7;
@@ -750,7 +750,7 @@ const CompanyBody = styled.p`
 
 const MetaLine = styled.div`
   font-family: "Roboto Mono", monospace;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -769,7 +769,7 @@ const TraceSection = styled.section`
 
 const TraceTitle = styled.h2`
   font-family: "Instrument Serif", serif;
-  font-size: 44px;
+  font-size: 48px;
   font-weight: 400;
   color: #fff;
   line-height: 1.1;
@@ -797,7 +797,7 @@ const TraceInline = styled.div`
 
 const TraceBody = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.8;
@@ -820,7 +820,7 @@ const FooterSection = styled.footer`
 
 const FtLabel = styled.div`
   font-family: "Inter", sans-serif;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -833,8 +833,8 @@ const FtLabel = styled.div`
 
 const FtBrand = styled.h3`
   font-family: "Inter", sans-serif;
-  font-size: 26px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: 800;
   letter-spacing: 6px;
   text-transform: uppercase;
   color: #fff;
@@ -867,7 +867,7 @@ const FtInput = styled.div`
   align-items: center;
   padding: 0 12px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.2);
   @media (min-width: 768px) {
     font-size: 14px;
@@ -882,7 +882,7 @@ const FtBtn = styled.div`
   display: flex;
   align-items: center;
   font-family: "Roboto Mono", monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -900,7 +900,7 @@ const FtLinks = styled.div`
 
 const FtLink = styled.span`
   font-family: "Roboto Mono", monospace;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -927,7 +927,7 @@ const FtCopy = styled.div`
   display: flex;
   justify-content: space-between;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 9px;
+  font-size: 10px;
   color: rgba(255, 255, 255, 0.1);
   @media (min-width: 768px) {
     font-size: 12px;
@@ -1184,7 +1184,7 @@ const PDClose = styled.button`
 
 const PDName = styled.h2`
   font-family: "Instrument Serif", serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 400;
   color: #111;
   margin: 0;
@@ -1196,7 +1196,7 @@ const PDName = styled.h2`
 
 const PDSub = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   color: #666;
   margin-top: 4px;
@@ -1216,7 +1216,7 @@ const PDBuyBtn = styled.button`
   border: none;
   border-radius: 40px;
   font-family: "Roboto Mono", monospace;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -1242,7 +1242,7 @@ const PDPriceOrigRow = styled.div`
 
 const PDOrigPrice = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   color: #999;
   text-decoration: line-through;
   @media (min-width: 768px) {
@@ -1252,7 +1252,7 @@ const PDOrigPrice = styled.span`
 
 const PDSalePrice = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: #111;
   @media (min-width: 768px) {
@@ -1286,7 +1286,7 @@ const PDSpecRow = styled.div`
 
 const PDSpecLabel = styled.div`
   font-family: "Roboto Mono", monospace;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -1301,7 +1301,7 @@ const PDSpecLabel = styled.div`
 
 const PDSpecValue = styled.div`
   font-family: "Roboto Mono", monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -2560,7 +2560,13 @@ function App() {
 
                   <CompanyGrid>
                     <GBox h={140} span={2}>
-                      <video src="/company-video.mp4" autoPlay loop muted playsInline />
+                      <video
+                        src="/company-video.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      />
                     </GBox>
                     <GBox h={140}>
                       <img src="/company1.jpg" alt="company" />
