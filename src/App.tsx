@@ -195,7 +195,7 @@ const MainTitle = styled.h1`
   font-size: 26px;
   font-weight: 700;
   margin: 0 0 4px;
-  letter-spacing: 2px;
+  letter-spacing: -2px;
   @media (min-width: 768px) {
     font-size: 32px;
   }
@@ -2776,13 +2776,11 @@ function App() {
           </MiddleSection>
           <BottomSection>
             <HeroLogo src="/logo.png" alt="더존바이오" />
-            <MainTitle>몰입을 위한 커피</MainTitle>
+            <MainTitle>몰입의 밀도</MainTitle>
             <SubText>
-              배송비만 내고
-              <br />
-              무료 체험
-              <br />
-              시작하기
+              주어진 시간 속<br />
+              결과를 나누는 <br />
+              차이입니다
             </SubText>
             <Arrow>↓</Arrow>
           </BottomSection>
@@ -3006,9 +3004,20 @@ function App() {
                   <div
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      trackViewProduct({ product_key: "signature", product_name: "Signature 디카페인", price: 39000, quantity: 1 });
-                      trackOutboundClick("https://smartstore.naver.com/thezonebio/products/12602305299", "Signature 디카페인");
-                      window.open("https://smartstore.naver.com/thezonebio/products/12602305299", "_blank");
+                      trackViewProduct({
+                        product_key: "signature",
+                        product_name: "Signature 디카페인",
+                        price: 39000,
+                        quantity: 1,
+                      });
+                      trackOutboundClick(
+                        "https://smartstore.naver.com/thezonebio/products/12602305299",
+                        "Signature 디카페인",
+                      );
+                      window.open(
+                        "https://smartstore.naver.com/thezonebio/products/12602305299",
+                        "_blank",
+                      );
                     }}
                   >
                     <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
@@ -3037,9 +3046,20 @@ function App() {
                   <div
                     style={{ cursor: "pointer" }}
                     onClick={() => {
-                      trackViewProduct({ product_key: "house", product_name: "House 카페인", price: 36000, quantity: 1 });
-                      trackOutboundClick("https://smartstore.naver.com/thezonebio/products/13041866619", "House 카페인");
-                      window.open("https://smartstore.naver.com/thezonebio/products/13041866619", "_blank");
+                      trackViewProduct({
+                        product_key: "house",
+                        product_name: "House 카페인",
+                        price: 36000,
+                        quantity: 1,
+                      });
+                      trackOutboundClick(
+                        "https://smartstore.naver.com/thezonebio/products/13041866619",
+                        "House 카페인",
+                      );
+                      window.open(
+                        "https://smartstore.naver.com/thezonebio/products/13041866619",
+                        "_blank",
+                      );
                     }}
                   >
                     <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
@@ -3069,9 +3089,20 @@ function App() {
                 <FlavorWide
                   style={{ cursor: "pointer" }}
                   onClick={() => {
-                    trackViewProduct({ product_key: "vibrant", product_name: "Vibrant 산미", price: 42000, quantity: 1 });
-                    trackOutboundClick("https://smartstore.naver.com/thezonebio/products/13041874028", "Vibrant 산미");
-                    window.open("https://smartstore.naver.com/thezonebio/products/13041874028", "_blank");
+                    trackViewProduct({
+                      product_key: "vibrant",
+                      product_name: "Vibrant 산미",
+                      price: 42000,
+                      quantity: 1,
+                    });
+                    trackOutboundClick(
+                      "https://smartstore.naver.com/thezonebio/products/13041874028",
+                      "Vibrant 산미",
+                    );
+                    window.open(
+                      "https://smartstore.naver.com/thezonebio/products/13041874028",
+                      "_blank",
+                    );
                   }}
                 >
                   <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
