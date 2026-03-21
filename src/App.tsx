@@ -875,63 +875,7 @@ const FtLogo = styled.img`
   opacity: 0.8;
 `;
 
-const FtRow = styled.div`
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-`;
-
-const FtInput = styled.div`
-  flex: 1;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  @media (min-width: 768px) {
-    font-size: 14px;
-  }
-`;
-
-const FtBtn = styled.div`
-  height: 40px;
-  padding: 0 20px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  font-family: "Roboto Mono", monospace;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #fff;
-  @media (min-width: 768px) {
-    font-size: 13px;
-  }
-`;
-
-const FtLinks = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 24px;
-`;
-
-const FtLink = styled.span`
-  font-family: "Roboto Mono", monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  @media (min-width: 768px) {
-    font-size: 12px;
-  }
-`;
+/* FtRow, FtInput, FtBtn, FtLinks, FtLink — 제거됨 */
 
 const marqueeScroll = keyframes`
   0% { transform: translateX(0); }
@@ -3271,28 +3215,6 @@ function App() {
                   COFFEE
                 </FtBrand>
                 <FtLogo src="/logo.png" alt="더존바이오" />
-
-                <FtRow>
-                  <FtInput>이메일을 입력하세요</FtInput>
-                  <FtBtn>Subscribe</FtBtn>
-                </FtRow>
-
-                <FtLinks>
-                  <FtLink>Shop</FtLink>
-                  <FtLink>About</FtLink>
-                  <FtLink>Contact</FtLink>
-                  <FtLink
-                    onClick={() =>
-                      window.open(
-                        "https://www.instagram.com/thezonebio.kr",
-                        "_blank",
-                      )
-                    }
-                    style={{ cursor: "pointer" }}
-                  >
-                    Instagram
-                  </FtLink>
-                </FtLinks>
 
                 <FtMarqueeWrap>
                   <FtMarqueeTrack>
