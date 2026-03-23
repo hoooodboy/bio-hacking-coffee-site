@@ -12,6 +12,7 @@ app.use(cors({
     "http://localhost:5173",
     "https://bio-hacking-coffee-site.vercel.app",
     "https://www.thezone.bio",
+    "https://lockin-store.vercel.app",
   ],
   credentials: true,
 }));
