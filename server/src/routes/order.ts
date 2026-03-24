@@ -79,8 +79,39 @@ router.patch("/:orderId", async (req: Request, res: Response) => {
   }
 });
 
-// 배송 정보 저장
+// 배송 정보 저장 (POST)
 router.post("/:orderId/shipping", async (req: Request, res: Response) => {
+  const { orderId } = req.params;
+  const { name, phone, address, address_detail, zip_code, memo } = req.body;
+
+  try {
+    const { data, error } = await supabase
+      .from("orders")
+      .update({
+        shipping_name: name,
+        shipping_phone: phone,
+        shipping_address: address,
+        shipping_address_detail: address_detail,
+        shipping_zip_code: zip_code,
+        shipping_memo: memo,
+      })
+      .eq("order_id", orderId)
+      .select()
+      .single();
+
+    if (error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// 배송 정보 저장 (PUT - 프론트 호환)
+router.put("/:orderId/shipping", async (req: Request, res: Response) => {
   const { orderId } = req.params;
   const { name, phone, address, address_detail, zip_code, memo } = req.body;
 
