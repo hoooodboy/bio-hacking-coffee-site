@@ -82,7 +82,12 @@ router.patch("/:orderId", async (req: Request, res: Response) => {
 // 배송 정보 저장 (POST)
 router.post("/:orderId/shipping", async (req: Request, res: Response) => {
   const { orderId } = req.params;
-  const { name, phone, address, address_detail, zip_code, memo } = req.body;
+  // camelCase, snake_case 둘 다 지원
+  const { 
+    name, phone, address, memo,
+    address_detail, addressDetail,
+    zip_code, zipCode 
+  } = req.body;
 
   try {
     const { data, error } = await supabase
@@ -91,8 +96,8 @@ router.post("/:orderId/shipping", async (req: Request, res: Response) => {
         shipping_name: name,
         shipping_phone: phone,
         shipping_address: address,
-        shipping_address_detail: address_detail,
-        shipping_zip_code: zip_code,
+        shipping_address_detail: address_detail || addressDetail || "",
+        shipping_zip_code: zip_code || zipCode || "",
         shipping_memo: memo,
       })
       .eq("order_id", orderId)
@@ -113,7 +118,12 @@ router.post("/:orderId/shipping", async (req: Request, res: Response) => {
 // 배송 정보 저장 (PUT - 프론트 호환)
 router.put("/:orderId/shipping", async (req: Request, res: Response) => {
   const { orderId } = req.params;
-  const { name, phone, address, address_detail, zip_code, memo } = req.body;
+  // camelCase, snake_case 둘 다 지원
+  const { 
+    name, phone, address, memo,
+    address_detail, addressDetail,
+    zip_code, zipCode 
+  } = req.body;
 
   try {
     const { data, error } = await supabase
@@ -122,8 +132,8 @@ router.put("/:orderId/shipping", async (req: Request, res: Response) => {
         shipping_name: name,
         shipping_phone: phone,
         shipping_address: address,
-        shipping_address_detail: address_detail,
-        shipping_zip_code: zip_code,
+        shipping_address_detail: address_detail || addressDetail || "",
+        shipping_zip_code: zip_code || zipCode || "",
         shipping_memo: memo,
       })
       .eq("order_id", orderId)
