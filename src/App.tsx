@@ -610,75 +610,87 @@ const TrialModalOverlay = styled.div`
   max-width: 780px;
   height: 100dvh;
   z-index: 250;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
   box-sizing: border-box;
+  animation: ${fadeIn} 0.3s ease-out;
 `;
 const TrialModalCard = styled.div`
-  background: #111;
-  border-radius: 16px;
-  padding: 32px 24px;
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
   text-align: center;
 `;
 const TrialModalTitle = styled.h3`
   font-family: "Instrument Serif", serif;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 400;
   color: #fff;
   margin: 0 0 8px;
+  @media (min-width: 768px) { font-size: 36px; }
 `;
 const TrialModalSub = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
-  margin: 0 0 24px;
+  color: rgba(255,255,255,0.4);
+  margin: 0 0 36px;
+  letter-spacing: 0.5px;
 `;
 const TrialOptionList = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+  @media (max-width: 400px) { gap: 8px; }
 `;
 const TrialOptionBtn = styled.button<{ bg: string }>`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 14px 16px;
+  gap: 14px;
+  padding: 20px 12px 18px;
   background: ${({ bg }) => bg};
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
+  border: 1.5px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
   cursor: pointer;
-  text-align: left;
-  transition: border-color 0.2s;
-  &:hover { border-color: rgba(255,255,255,0.4); }
+  text-align: center;
+  transition: all 0.25s ease;
+  &:hover {
+    border-color: #e8743a;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(232,116,58,0.15);
+  }
+  &:active { transform: translateY(-1px); }
 `;
 const TrialOptionImg = styled.img`
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
   object-fit: cover;
+  @media (max-width: 400px) { width: 56px; height: 56px; }
 `;
 const TrialOptionLabel = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.4;
+  @media (max-width: 400px) { font-size: 11px; }
 `;
 const TrialModalClose = styled.button`
-  margin-top: 20px;
-  padding: 10px 24px;
+  margin-top: 28px;
+  padding: 12px 32px;
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 40px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.5);
   font-family: "Roboto Mono", monospace;
   font-size: 11px;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   cursor: pointer;
+  transition: all 0.2s;
   &:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
 `;
 
