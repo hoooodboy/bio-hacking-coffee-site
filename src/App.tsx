@@ -89,11 +89,11 @@ const revealRight = (visible: boolean, delay = 0) => css`
 
 /* ─── Global Header ─── */
 
-const GlobalHeader = styled.header`
+const GlobalHeader = styled.header<{ visible?: boolean }>`
   position: fixed;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(${({ visible }) => visible ? "0" : "-100%"});
   width: 100%;
   max-width: 780px;
   height: 56px;
@@ -102,9 +102,12 @@ const GlobalHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s ease;
 `;
 
 const HeaderLogo = styled.div`
@@ -131,100 +134,116 @@ const HeaderActions = styled.div`
 `;
 
 const HeaderBtn = styled.button`
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
   cursor: pointer;
   transition: all 0.2s;
+  backdrop-filter: blur(10px);
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 `;
 
 const HeaderUserBtn = styled.button`
-  background: #e8743a;
-  border: none;
+  background: rgba(232, 116, 58, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(232, 116, 58, 0.3);
   color: #fff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   cursor: pointer;
   transition: all 0.2s;
   &:hover {
-    background: #d66830;
+    background: rgba(232, 116, 58, 1);
   }
 `;
 
-/* ─── Login Modal ─── */
+/* ─── Login Modal (Glassmorphism) ─── */
 
 const LoginModalOverlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  animation: ${fadeIn} 0.25s ease-out;
 `;
 
 const LoginModalCard = styled.div`
-  background: #1a1a1a;
-  border-radius: 16px;
-  padding: 32px 24px;
-  max-width: 360px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 36px 28px 28px;
+  max-width: 380px;
   width: 100%;
   text-align: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
 `;
 
 const LoginModalTitle = styled.h2`
+  font-family: "Instrument Serif", serif;
   color: #fff;
-  font-size: 20px;
-  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 400;
+  margin: 0 0 6px;
 `;
 
 const LoginModalSub = styled.p`
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
-  margin: 0 0 24px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  margin: 0 0 28px;
 `;
 
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 `;
 
 const LoginInput = styled.input`
   width: 100%;
   padding: 14px 16px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   color: #fff;
   font-size: 14px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   box-sizing: border-box;
-  &::placeholder { color: rgba(255, 255, 255, 0.4); }
-  &:focus { outline: none; border-color: #e8743a; }
+  transition: all 0.2s;
+  &::placeholder { color: rgba(255, 255, 255, 0.3); }
+  &:focus { outline: none; border-color: rgba(232, 116, 58, 0.5); background: rgba(255,255,255,0.08); }
 `;
 
 const LoginBtn = styled.button`
   width: 100%;
   background: #e8743a;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 14px 20px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: #fff;
   cursor: pointer;
-  margin-top: 8px;
+  margin-top: 6px;
   transition: all 0.2s;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   &:hover { background: #d4632e; }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
 `;
@@ -232,31 +251,47 @@ const LoginBtn = styled.button`
 const LoginToggle = styled.button`
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
   cursor: pointer;
   margin-top: 16px;
-  text-decoration: underline;
-  &:hover { color: #fff; }
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  &:hover { color: rgba(255,255,255,0.7); }
 `;
 
 const LoginError = styled.div`
   color: #ff6b6b;
   font-size: 12px;
   text-align: left;
-  margin-top: -4px;
+  margin-top: -2px;
 `;
 
 const LoginModalClose = styled.button`
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 40px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 16px;
+  padding: 10px 28px;
   cursor: pointer;
+  font-size: 12px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  transition: all 0.2s;
+  &:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+`;
+
+const LoginCouponBanner = styled.div`
+  background: rgba(232, 116, 58, 0.1);
+  border: 1px solid rgba(232, 116, 58, 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 13px;
-  &:hover {
-    color: #fff;
-  }
+  color: #e8743a;
+  font-weight: 600;
+  line-height: 1.5;
+  span { font-size: 11px; color: rgba(232,116,58,0.7); font-weight: 400; display: block; margin-top: 2px; }
 `;
 
 /* ─── My Page ─── */
@@ -2644,7 +2679,7 @@ function App() {
   
   // 로그인 폼 상태
   const [isRegisterMode, setIsRegisterMode] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: "", password: "", name: "", phone: "" });
+  const [loginForm, setLoginForm] = useState({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
   const [loginError, setLoginError] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
 
@@ -2679,8 +2714,15 @@ function App() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
+
+    if (isRegisterMode) {
+      if (!loginForm.name.trim()) { setLoginError("이름을 입력해주세요."); return; }
+      if (!loginForm.phone.trim()) { setLoginError("전화번호를 입력해주세요."); return; }
+      if (loginForm.password !== loginForm.passwordConfirm) { setLoginError("비밀번호가 일치하지 않습니다."); return; }
+    }
+
     setLoginLoading(true);
-    
+
     try {
       const endpoint = isRegisterMode ? "/api/auth/register" : "/api/auth/login";
       const body = isRegisterMode 
@@ -2712,8 +2754,10 @@ function App() {
         zip_code: data.user.zip_code || "",
       });
       setShowLoginModal(false);
-      setLoginForm({ email: "", password: "", name: "", phone: "" });
+      setLoginForm({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
       setIsRegisterMode(false);
+      // 로그인 후 대기 중이던 액션 실행
+      if (pendingAction) { pendingAction(); setPendingAction(null); }
     } catch (error) {
       setLoginError("서버 연결에 실패했습니다.");
     }
@@ -2726,6 +2770,15 @@ function App() {
     setUser(null);
     setShowMyPage(false);
     setMyOrders([]);
+  };
+
+  // 로그인 필요 체크 — 미로그인 시 로그인 모달 띄우고 false 반환
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+  const requireLogin = (action: () => void): boolean => {
+    if (user) { action(); return true; }
+    setPendingAction(() => action);
+    setShowLoginModal(true);
+    return false;
   };
 
   // 마이페이지 열기 (주문 내역 로드)
@@ -3426,8 +3479,8 @@ function App() {
 
   return (
     <div>
-      {/* Global Header */}
-      <GlobalHeader>
+      {/* Global Header — visible after intro dismissed */}
+      <GlobalHeader visible={!introVisible}>
         <HeaderLogo onClick={() => { setShowMyPage(false); window.history.replaceState(null, "", "/"); }}>
           <img src="/logo.png" alt="더존바이오" />
           <span>THE ZONE BIO</span>
@@ -3447,13 +3500,37 @@ function App() {
 
       {/* Login Modal */}
       {showLoginModal && (
-        <LoginModalOverlay onClick={() => setShowLoginModal(false)}>
+        <LoginModalOverlay onClick={() => { setShowLoginModal(false); setPendingAction(null); }}>
           <LoginModalCard onClick={(e) => e.stopPropagation()}>
-            <LoginModalTitle>로그인</LoginModalTitle>
+            <LoginModalTitle>{isRegisterMode ? "회원가입" : "로그인"}</LoginModalTitle>
             <LoginModalSub>
-              {isRegisterMode ? "회원가입 후 이용하세요" : "이메일로 로그인하세요"}
+              {isRegisterMode ? "가입하고 3,000원 쿠폰 받기" : "이메일로 로그인하세요"}
             </LoginModalSub>
+            {isRegisterMode && (
+              <LoginCouponBanner>
+                회원가입 시 3,000원 할인 쿠폰 즉시 지급
+                <span>50,000원 이상 구매 시 사용 가능</span>
+              </LoginCouponBanner>
+            )}
             <LoginForm onSubmit={handleLogin}>
+              {isRegisterMode && (
+                <>
+                  <LoginInput
+                    type="text"
+                    placeholder="이름"
+                    value={loginForm.name}
+                    onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
+                    required
+                  />
+                  <LoginInput
+                    type="tel"
+                    placeholder="전화번호"
+                    value={loginForm.phone}
+                    onChange={(e) => setLoginForm({ ...loginForm, phone: e.target.value })}
+                    required
+                  />
+                </>
+              )}
               <LoginInput
                 type="email"
                 placeholder="이메일"
@@ -3470,24 +3547,18 @@ function App() {
                 minLength={6}
               />
               {isRegisterMode && (
-                <>
-                  <LoginInput
-                    type="text"
-                    placeholder="이름 (선택)"
-                    value={loginForm.name}
-                    onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
-                  />
-                  <LoginInput
-                    type="tel"
-                    placeholder="전화번호 (선택)"
-                    value={loginForm.phone}
-                    onChange={(e) => setLoginForm({ ...loginForm, phone: e.target.value })}
-                  />
-                </>
+                <LoginInput
+                  type="password"
+                  placeholder="비밀번호 확인"
+                  value={loginForm.passwordConfirm}
+                  onChange={(e) => setLoginForm({ ...loginForm, passwordConfirm: e.target.value })}
+                  required
+                  minLength={6}
+                />
               )}
               {loginError && <LoginError>{loginError}</LoginError>}
               <LoginBtn type="submit" disabled={loginLoading}>
-                {loginLoading ? "처리 중..." : isRegisterMode ? "회원가입" : "로그인"}
+                {loginLoading ? "처리 중..." : isRegisterMode ? "회원가입하고 쿠폰 받기" : "로그인"}
               </LoginBtn>
             </LoginForm>
             <LoginToggle
@@ -3502,7 +3573,8 @@ function App() {
             <LoginModalClose onClick={() => {
               setShowLoginModal(false);
               setLoginError("");
-              setLoginForm({ email: "", password: "", name: "", phone: "" });
+              setPendingAction(null);
+              setLoginForm({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
             }}>
               닫기
             </LoginModalClose>
@@ -4160,10 +4232,12 @@ function App() {
                     </PDCartBtn>
                     <PDBuyBtn
                       onClick={() => {
-                        addToCart(activeProduct, pdQty);
-                        setActiveProduct(null);
-                        setPdQty(1);
-                        setShowCheckout(true);
+                        requireLogin(() => {
+                          addToCart(activeProduct!, pdQty);
+                          setActiveProduct(null);
+                          setPdQty(1);
+                          setShowCheckout(true);
+                        });
                       }}
                     >
                       바로 결제
@@ -4238,8 +4312,10 @@ function App() {
               </CartTotal>
               <CartCheckoutBtn
                 onClick={() => {
-                  setCartOpen(false);
-                  setShowCheckout(true);
+                  requireLogin(() => {
+                    setCartOpen(false);
+                    setShowCheckout(true);
+                  });
                 }}
               >
                 CHECKOUT
@@ -4646,9 +4722,11 @@ function App() {
                   key={opt.key}
                   bg={opt.bg}
                   onClick={() => {
-                    addToCart("trial", 1, opt.key);
-                    setShowTrialModal(false);
-                    setShowCheckout(true);
+                    requireLogin(() => {
+                      addToCart("trial", 1, opt.key);
+                      setShowTrialModal(false);
+                      setShowCheckout(true);
+                    });
                   }}
                 >
                   <TrialOptionImg src={opt.image} alt={opt.label} />
