@@ -3024,22 +3024,7 @@ function App() {
                 <GridRow style={{ marginTop: 40 }}>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      trackViewProduct({
-                        product_key: "signature",
-                        product_name: "Signature 디카페인",
-                        price: 39000,
-                        quantity: 1,
-                      });
-                      trackOutboundClick(
-                        "https://smartstore.naver.com/thezonebio/products/12602305299",
-                        "Signature 디카페인",
-                      );
-                      window.open(
-                        "https://smartstore.naver.com/thezonebio/products/12602305299",
-                        "_blank",
-                      );
-                    }}
+                    onClick={() => setActiveProduct("signature")}
                   >
                     <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
                       <img
@@ -3066,22 +3051,7 @@ function App() {
                   </div>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      trackViewProduct({
-                        product_key: "house",
-                        product_name: "House 카페인",
-                        price: 36000,
-                        quantity: 1,
-                      });
-                      trackOutboundClick(
-                        "https://smartstore.naver.com/thezonebio/products/13041866619",
-                        "House 카페인",
-                      );
-                      window.open(
-                        "https://smartstore.naver.com/thezonebio/products/13041866619",
-                        "_blank",
-                      );
-                    }}
+                    onClick={() => setActiveProduct("house")}
                   >
                     <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
                       <img
@@ -3109,22 +3079,7 @@ function App() {
                 </GridRow>
                 <FlavorWide
                   style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    trackViewProduct({
-                      product_key: "vibrant",
-                      product_name: "Vibrant 산미",
-                      price: 42000,
-                      quantity: 1,
-                    });
-                    trackOutboundClick(
-                      "https://smartstore.naver.com/thezonebio/products/13041874028",
-                      "Vibrant 산미",
-                    );
-                    window.open(
-                      "https://smartstore.naver.com/thezonebio/products/13041874028",
-                      "_blank",
-                    );
-                  }}
+                  onClick={() => setActiveProduct("vibrant")}
                 >
                   <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
                     <img
