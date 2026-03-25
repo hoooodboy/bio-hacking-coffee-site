@@ -565,8 +565,7 @@ const ItemSub = styled.div`
   }
 `;
 
-/* ── Section 1: Event — 주석처리 ── */
-/*
+/* ── Section 1: Event ── */
 const EventSection = styled.section`
   background: transparent;
   padding: 72px 24px 56px;
@@ -600,7 +599,6 @@ const BannerNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.4);
   @media (min-width: 768px) { font-size: 11px; }
 `;
-*/
 
 const GridRow = styled.div`
   display: grid;
@@ -754,8 +752,7 @@ const TraceBody = styled.p`
   }
 `;
 
-/* ── CTA Banner — 주석처리 ── */
-/*
+/* ── CTA Banner ── */
 const CtaBanner = styled.section`
   padding: 48px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -829,7 +826,6 @@ const CtaNote = styled.div`
   font-weight: 300;
   color: rgba(255, 255, 255, 0.8);
 `;
-*/
 
 /* ── Section 5: Footer ── */
 const FooterSection = styled.footer`
@@ -2514,7 +2510,7 @@ function App() {
   const flavorBlock = useScrollReveal(0.15);
   const sourceBlock = useScrollReveal(0.15);
   const processBlock = useScrollReveal(0.15);
-  // const eventReveal = useScrollReveal(0.1); // 이벤트 섹션 주석처리
+  const eventReveal = useScrollReveal(0.1);
   const flavorReveal = useScrollReveal(0.1);
   const editorialReveal = useScrollReveal(0.1);
   const sustainReveal = useScrollReveal(0.1);
@@ -2974,8 +2970,7 @@ function App() {
           <SubPageWrap>
             <GrainCanvas ref={grainRef} />
             <SubPageContent>
-              {/* Section 1: Event + Products — 주석처리 */}
-              {/*
+              {/* Section 1: Event + Products */}
               <EventSection ref={eventReveal.ref}>
                 <div css={revealUp(eventReveal.visible)}>
                   <SecTitle>단 100개 한정</SecTitle>
@@ -3020,7 +3015,6 @@ function App() {
                   </BannerInfo>
                 </EventBanner>
               </EventSection>
-              */}
 
               {/* Section 2: Flavors */}
               <FlavorSection ref={flavorReveal.ref}>
@@ -3194,8 +3188,6 @@ function App() {
               </TraceSection>
 
               {/* Section 4.5: CTA Banner */}
-              {/* CTA 100ml 이벤트 — 주석처리 */}
-              {/*
               <CtaBanner>
                 <CtaCard>
                   <CtaImg>
@@ -3223,7 +3215,6 @@ function App() {
                   </CtaInfo>
                 </CtaCard>
               </CtaBanner>
-              */}
 
               {/* Section 5: Footer */}
               <FooterSection>
