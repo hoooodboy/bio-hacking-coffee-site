@@ -1,7 +1,14 @@
 import styled from "@emotion/styled";
 import { keyframes, css } from "@emotion/react";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Routes, Route, useNavigate, useLocation, useParams, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  useParams,
+  Navigate,
+} from "react-router-dom";
 import {
   trackViewProduct,
   trackAddToCart,
@@ -99,7 +106,8 @@ const GlobalHeader = styled.header<{ visible?: boolean }>`
   position: fixed;
   top: 0;
   left: 50%;
-  transform: translateX(-50%) translateY(${({ visible }) => visible ? "0" : "-100%"});
+  transform: translateX(-50%)
+    translateY(${({ visible }) => (visible ? "0" : "-100%")});
   width: 100%;
   max-width: 780px;
   height: 56px;
@@ -124,6 +132,7 @@ const HeaderLogo = styled.div`
   img {
     width: 28px;
     height: 28px;
+    object-fit: contain;
   }
   span {
     font-size: 14px;
@@ -199,7 +208,9 @@ const LoginModalCard = styled.div`
   max-width: 380px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 `;
 
 const LoginModalTitle = styled.h2`
@@ -234,8 +245,14 @@ const LoginInput = styled.input`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   box-sizing: border-box;
   transition: all 0.2s;
-  &::placeholder { color: rgba(255, 255, 255, 0.3); }
-  &:focus { outline: none; border-color: rgba(232, 116, 58, 0.5); background: rgba(255,255,255,0.08); }
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  &:focus {
+    outline: none;
+    border-color: rgba(232, 116, 58, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+  }
 `;
 
 const LoginBtn = styled.button`
@@ -251,8 +268,13 @@ const LoginBtn = styled.button`
   margin-top: 6px;
   transition: all 0.2s;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  &:hover { background: #d4632e; }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:hover {
+    background: #d4632e;
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 const LoginToggle = styled.button`
@@ -263,7 +285,9 @@ const LoginToggle = styled.button`
   cursor: pointer;
   margin-top: 16px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  &:hover { color: rgba(255,255,255,0.7); }
+  &:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const LoginError = styled.div`
@@ -274,8 +298,8 @@ const LoginError = styled.div`
 `;
 
 const LoginModalClose = styled.button`
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 40px;
   color: rgba(255, 255, 255, 0.4);
   margin-top: 16px;
@@ -284,7 +308,10 @@ const LoginModalClose = styled.button`
   font-size: 12px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   transition: all 0.2s;
-  &:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const LoginCouponBanner = styled.div`
@@ -298,7 +325,13 @@ const LoginCouponBanner = styled.div`
   color: #e8743a;
   font-weight: 600;
   line-height: 1.5;
-  span { font-size: 11px; color: rgba(232,116,58,0.7); font-weight: 400; display: block; margin-top: 2px; }
+  span {
+    font-size: 11px;
+    color: rgba(232, 116, 58, 0.7);
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+  }
 `;
 
 /* ─── Welcome (Signup Congrats) Modal ─── */
@@ -327,7 +360,9 @@ const WelcomeCard = styled.div`
   max-width: 380px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 `;
 
 const WelcomeEmoji = styled.div`
@@ -394,7 +429,9 @@ const WelcomeBtn = styled.button`
   cursor: pointer;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   transition: all 0.2s;
-  &:hover { background: #d4632e; }
+  &:hover {
+    background: #d4632e;
+  }
 `;
 
 /* ─── My Page ─── */
@@ -529,13 +566,21 @@ const OrderStatus = styled.span<{ status: string }>`
   padding: 4px 8px;
   border-radius: 4px;
   background: ${({ status }) =>
-    status === "pending" ? "#4a4a00" :
-    status === "shipped" ? "#004a4a" :
-    status === "delivered" ? "#004a00" : "#333"};
+    status === "pending"
+      ? "#4a4a00"
+      : status === "shipped"
+        ? "#004a4a"
+        : status === "delivered"
+          ? "#004a00"
+          : "#333"};
   color: ${({ status }) =>
-    status === "pending" ? "#ffff00" :
-    status === "shipped" ? "#00ffff" :
-    status === "delivered" ? "#00ff00" : "#aaa"};
+    status === "pending"
+      ? "#ffff00"
+      : status === "shipped"
+        ? "#00ffff"
+        : status === "delivered"
+          ? "#00ff00"
+          : "#aaa"};
 `;
 
 const OrderName = styled.div`
@@ -1078,33 +1123,80 @@ const EventSection = styled.section`
   padding: 72px 24px 56px;
 `;
 const EventBanner = styled.div`
-  display: flex; gap: 0; border-radius: 0; overflow: hidden; margin-top: 40px; margin-bottom: 12px;
+  display: flex;
+  gap: 0;
+  border-radius: 0;
+  overflow: hidden;
+  margin-top: 40px;
+  margin-bottom: 12px;
 `;
 const BannerImg = styled.div`
-  flex: 1; aspect-ratio: 1; background: #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center;
+  flex: 1;
+  aspect-ratio: 1;
+  background: #1a1a1a;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const BannerInfo = styled.div`
-  flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; gap: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 20px;
+  gap: 12px;
 `;
 const BannerTitle = styled.div`
-  font-family: "Instrument Serif", serif; font-size: 26px; font-weight: 400; color: #fff; line-height: 1.2;
-  em { font-style: italic; }
-  @media (min-width: 768px) { font-size: 32px; }
+  font-family: "Instrument Serif", serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+  em {
+    font-style: italic;
+  }
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
 `;
 const BannerDesc = styled.div`
-  font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.5;
-  @media (min-width: 768px) { font-size: 15px; }
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  @media (min-width: 768px) {
+    font-size: 15px;
+  }
 `;
 const BannerBtn = styled.div`
-  display: inline-block; align-self: flex-start; padding: 8px 20px; border-radius: 40px;
-  background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.25); font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px; font-weight: 600; color: #fff; cursor: pointer;
-  @media (min-width: 768px) { font-size: 14px; padding: 10px 28px; }
+  display: inline-block;
+  align-self: flex-start;
+  padding: 8px 20px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  @media (min-width: 768px) {
+    font-size: 14px;
+    padding: 10px 28px;
+  }
 `;
 const BannerNote = styled.div`
-  font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.4);
-  @media (min-width: 768px) { font-size: 11px; }
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.4);
+  @media (min-width: 768px) {
+    font-size: 11px;
+  }
 `;
 
 /* ── Trial Flavor Modal (Glassmorphism) ── */
@@ -1112,7 +1204,7 @@ const TrialModalOverlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: 250;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1123,14 +1215,16 @@ const TrialModalOverlay = styled.div`
 const TrialModalCard = styled.div`
   width: 100%;
   max-width: 380px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(40px) saturate(150%);
   -webkit-backdrop-filter: blur(40px) saturate(150%);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 24px;
   padding: 36px 28px 28px;
   text-align: center;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 `;
 const TrialModalTitle = styled.h3`
   font-family: "Instrument Serif", serif;
@@ -1142,7 +1236,7 @@ const TrialModalTitle = styled.h3`
 const TrialModalSub = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 12px;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
   margin: 0 0 28px;
 `;
 const TrialOptionList = styled.div`
@@ -1156,17 +1250,19 @@ const TrialOptionBtn = styled.button<{ bg: string }>`
   gap: 14px;
   width: 100%;
   padding: 14px 16px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   cursor: pointer;
   text-align: left;
   transition: all 0.2s ease;
   &:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(232,116,58,0.5);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(232, 116, 58, 0.5);
   }
-  &:active { transform: scale(0.98); }
+  &:active {
+    transform: scale(0.98);
+  }
 `;
 const TrialOptionImg = styled.img`
   width: 44px;
@@ -1178,21 +1274,24 @@ const TrialOptionLabel = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
 `;
 const TrialModalClose = styled.button`
   margin-top: 20px;
   padding: 10px 28px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 40px;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  &:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const GridRow = styled.div`
@@ -1357,7 +1456,11 @@ const CtaCard = styled.div`
   display: flex;
   border-radius: 0;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(232,116,58,0.12) 0%, rgba(232,116,58,0.04) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(232, 116, 58, 0.12) 0%,
+    rgba(232, 116, 58, 0.04) 100%
+  );
   border: 1px solid rgba(232, 116, 58, 0.15);
 `;
 const CtaImg = styled.div`
@@ -1367,8 +1470,14 @@ const CtaImg = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  img { width: 100%; height: 100%; object-fit: cover; }
-  @media (max-width: 480px) { flex: 0 0 35%; }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (max-width: 480px) {
+    flex: 0 0 35%;
+  }
 `;
 const CtaInfo = styled.div`
   flex: 1;
@@ -1385,7 +1494,9 @@ const CtaLabel = styled.div`
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #e8743a;
-  @media (min-width: 768px) { font-size: 11px; }
+  @media (min-width: 768px) {
+    font-size: 11px;
+  }
 `;
 const CtaText = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
@@ -1394,8 +1505,13 @@ const CtaText = styled.p`
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
   margin: 0;
-  strong { color: #fff; font-weight: 600; }
-  @media (min-width: 768px) { font-size: 18px; }
+  strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 `;
 const CtaButton = styled.button`
   display: inline-block;
@@ -1412,8 +1528,13 @@ const CtaButton = styled.button`
   color: #fff;
   cursor: pointer;
   letter-spacing: 0.5px;
-  &:hover { background: rgba(255, 255, 255, 0.2); }
-  @media (min-width: 768px) { font-size: 16px; padding: 14px 40px; }
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  @media (min-width: 768px) {
+    font-size: 16px;
+    padding: 14px 40px;
+  }
 `;
 const CtaNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
@@ -1795,8 +1916,15 @@ const PRODUCTS = {
     discount: "",
     specs: [
       { label: "WHAT YOU GET", value: "선택한 맛 100ml × 1병" },
-      { label: "OPTIONS", value: "Signature 디카페인 / House 카페인 / Vibrant 산미" },
-      { label: "FOR WHO", value: "집중력 향상이 필요한 모든 분. 첫 구매 전 맛을 확인하고 싶은 분." },
+      {
+        label: "OPTIONS",
+        value: "Signature 디카페인 / House 카페인 / Vibrant 산미",
+      },
+      {
+        label: "FOR WHO",
+        value:
+          "집중력 향상이 필요한 모든 분. 첫 구매 전 맛을 확인하고 싶은 분.",
+      },
       { label: "NOTE", value: "1인 1회 한정. 배송비 3,000원 별도." },
     ],
   },
@@ -1804,9 +1932,24 @@ const PRODUCTS = {
 
 // 체험 키트 맛 옵션
 const TRIAL_OPTIONS = [
-  { key: "signature", label: "Signature 디카페인", image: "/decaf.png", bg: "#4a1a1a" },
-  { key: "house", label: "House 카페인", image: "/caffeine.png", bg: "#1a3a5c" },
-  { key: "vibrant", label: "Vibrant 산미", image: "/acidity.png", bg: "#3a2010" },
+  {
+    key: "signature",
+    label: "Signature 디카페인",
+    image: "/decaf.png",
+    bg: "#4a1a1a",
+  },
+  {
+    key: "house",
+    label: "House 카페인",
+    image: "/caffeine.png",
+    bg: "#1a3a5c",
+  },
+  {
+    key: "vibrant",
+    label: "Vibrant 산미",
+    image: "/acidity.png",
+    bg: "#3a2010",
+  },
 ] as const;
 
 type ProductKey = keyof typeof PRODUCTS;
@@ -2715,8 +2858,26 @@ function CheckoutPageContent({
 }: {
   cart: { key: ProductKey; qty: number; option?: string }[];
   cartTotal: number;
-  shipping: { name: string; phone: string; email: string; zipCode: string; address: string; addressDetail: string; memo: string };
-  setShipping: React.Dispatch<React.SetStateAction<{ name: string; phone: string; email: string; zipCode: string; address: string; addressDetail: string; memo: string }>>;
+  shipping: {
+    name: string;
+    phone: string;
+    email: string;
+    zipCode: string;
+    address: string;
+    addressDetail: string;
+    memo: string;
+  };
+  setShipping: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      phone: string;
+      email: string;
+      zipCode: string;
+      address: string;
+      addressDetail: string;
+      memo: string;
+    }>
+  >;
   handleAddressSearch: () => void;
   handlePayment: () => Promise<void>;
   isProcessing: boolean;
@@ -2745,9 +2906,7 @@ function CheckoutPageContent({
 
   return (
     <CheckoutOverlay>
-      <CheckoutClose onClick={() => navigate("/")}>
-        CLOSE
-      </CheckoutClose>
+      <CheckoutClose onClick={() => navigate("/")}>CLOSE</CheckoutClose>
       <CheckoutLayout>
         {/* Left: Order Preview */}
         <CheckoutPreview>
@@ -2755,7 +2914,9 @@ function CheckoutPageContent({
           {cart.map((item, idx) => {
             const p = PRODUCTS[item.key];
             const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-            const opt = item.option ? TRIAL_OPTIONS.find(o => o.key === item.option) : null;
+            const opt = item.option
+              ? TRIAL_OPTIONS.find((o) => o.key === item.option)
+              : null;
             return (
               <CheckoutProductCard key={`${item.key}-${item.option || idx}`}>
                 <CheckoutProductThumb bg={opt?.bg || p.bg}>
@@ -2785,9 +2946,7 @@ function CheckoutPageContent({
             <CheckoutGrandTotal>
               <span>총 결제금액</span>
               <span>
-                {(
-                  cartTotal + (cartTotal >= 30000 ? 0 : 3000)
-                ).toLocaleString()}
+                {(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}
                 원
               </span>
             </CheckoutGrandTotal>
@@ -2961,13 +3120,17 @@ function App() {
     };
   }, []);
 
-  const [cart, setCartRaw] = useState<{ key: ProductKey; qty: number; option?: string }[]>(() => {
+  const [cart, setCartRaw] = useState<
+    { key: ProductKey; qty: number; option?: string }[]
+  >(() => {
     try {
       const saved = localStorage.getItem("lockin_cart");
       if (!saved) return [];
       const parsed = JSON.parse(saved);
       return parsed.filter((i: any) => i.key && i.key in PRODUCTS);
-    } catch { return []; }
+    } catch {
+      return [];
+    }
   });
   const setCart: typeof setCartRaw = (val) => {
     setCartRaw((prev) => {
@@ -3005,13 +3168,19 @@ function App() {
     zip_code: "",
   });
   const [profileSaving, setProfileSaving] = useState(false);
-  
+
   // 로그인 폼 상태
   const [isRegisterMode, setIsRegisterMode] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+    passwordConfirm: "",
+    name: "",
+    phone: "",
+  });
   const [loginError, setLoginError] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
-  
+
   // 체험 키트 재고 상태
   const [trialStock, setTrialStock] = useState<Record<string, number>>({});
 
@@ -3075,13 +3244,15 @@ function App() {
 
   // 체험 키트 구매 여부 확인
   const hasTrialPurchase = myOrders.some(
-    (o) => o.order_name?.includes("체험") || o.order_name?.includes("100ml")
+    (o) => o.order_name?.includes("체험") || o.order_name?.includes("100ml"),
   );
 
   // 체험 키트 버튼 클릭 핸들러
   const handleTrialClick = () => {
     if (user && hasTrialPurchase) {
-      alert("이미 체험 키트를 구매하셨습니다.\n체험 키트는 1인 1회만 구매 가능합니다.");
+      alert(
+        "이미 체험 키트를 구매하셨습니다.\n체험 키트는 1인 1회만 구매 가능합니다.",
+      );
       return;
     }
     setShowTrialModal(true);
@@ -3093,33 +3264,49 @@ function App() {
     setLoginError("");
 
     if (isRegisterMode) {
-      if (!loginForm.name.trim()) { setLoginError("이름을 입력해주세요."); return; }
-      if (!loginForm.phone.trim()) { setLoginError("전화번호를 입력해주세요."); return; }
-      if (loginForm.password !== loginForm.passwordConfirm) { setLoginError("비밀번호가 일치하지 않습니다."); return; }
+      if (!loginForm.name.trim()) {
+        setLoginError("이름을 입력해주세요.");
+        return;
+      }
+      if (!loginForm.phone.trim()) {
+        setLoginError("전화번호를 입력해주세요.");
+        return;
+      }
+      if (loginForm.password !== loginForm.passwordConfirm) {
+        setLoginError("비밀번호가 일치하지 않습니다.");
+        return;
+      }
     }
 
     setLoginLoading(true);
 
     try {
-      const endpoint = isRegisterMode ? "/api/auth/register" : "/api/auth/login";
-      const body = isRegisterMode 
-        ? { email: loginForm.email, password: loginForm.password, name: loginForm.name, phone: loginForm.phone }
+      const endpoint = isRegisterMode
+        ? "/api/auth/register"
+        : "/api/auth/login";
+      const body = isRegisterMode
+        ? {
+            email: loginForm.email,
+            password: loginForm.password,
+            name: loginForm.name,
+            phone: loginForm.phone,
+          }
         : { email: loginForm.email, password: loginForm.password };
-      
+
       const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         setLoginError(data.error || "오류가 발생했습니다.");
         setLoginLoading(false);
         return;
       }
-      
+
       // 토큰 저장 및 사용자 정보 설정
       localStorage.setItem("auth_token", data.token);
       setUser(data.user);
@@ -3131,7 +3318,13 @@ function App() {
         zip_code: data.user.zip_code || "",
       });
       setShowLoginModal(false);
-      setLoginForm({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
+      setLoginForm({
+        email: "",
+        password: "",
+        passwordConfirm: "",
+        name: "",
+        phone: "",
+      });
       const wasRegister = isRegisterMode;
       setIsRegisterMode(false);
       if (wasRegister) {
@@ -3139,7 +3332,10 @@ function App() {
         setShowWelcomeModal(true);
       } else {
         // 로그인 후 대기 중이던 액션 실행
-        if (pendingAction) { pendingAction(); setPendingAction(null); }
+        if (pendingAction) {
+          pendingAction();
+          setPendingAction(null);
+        }
       }
     } catch (error) {
       setLoginError("서버 연결에 실패했습니다.");
@@ -3158,7 +3354,10 @@ function App() {
   // 로그인 필요 체크 — 미로그인 시 로그인 모달 띄우고 false 반환
   const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
   const requireLogin = (action: () => void): boolean => {
-    if (user) { action(); return true; }
+    if (user) {
+      action();
+      return true;
+    }
     setPendingAction(() => action);
     setShowLoginModal(true);
     return false;
@@ -3206,10 +3405,14 @@ function App() {
   // 배송 상태 한글 변환
   const getShippingStatusText = (status: string) => {
     switch (status) {
-      case "pending": return "배송 준비중";
-      case "shipped": return "배송중";
-      case "delivered": return "배송 완료";
-      default: return status;
+      case "pending":
+        return "배송 준비중";
+      case "shipped":
+        return "배송중";
+      case "delivered":
+        return "배송 완료";
+      default:
+        return status;
     }
   };
 
@@ -3337,11 +3540,16 @@ function App() {
 
   // Page view tracking on route changes
   useEffect(() => {
-    const pageName = location.pathname === "/" ? "Home"
-      : location.pathname.startsWith("/product/") ? "Product Detail"
-      : location.pathname === "/checkout" ? "Checkout"
-      : location.pathname === "/order-complete" ? "Order Complete"
-      : location.pathname;
+    const pageName =
+      location.pathname === "/"
+        ? "Home"
+        : location.pathname.startsWith("/product/")
+          ? "Product Detail"
+          : location.pathname === "/checkout"
+            ? "Checkout"
+            : location.pathname === "/order-complete"
+              ? "Order Complete"
+              : location.pathname;
     trackPageView(pageName);
   }, [location.pathname]);
   const [shipping, setShipping] = useState({
@@ -3374,7 +3582,9 @@ function App() {
     // 장바구니 추가 트래킹
     const p = PRODUCTS[key];
     const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-    const optionLabel = option ? TRIAL_OPTIONS.find(o => o.key === option)?.label : undefined;
+    const optionLabel = option
+      ? TRIAL_OPTIONS.find((o) => o.key === option)?.label
+      : undefined;
     trackAddToCart({
       product_key: key,
       product_name: `${p.name} ${p.sub}${optionLabel ? ` - ${optionLabel}` : ""}`,
@@ -3423,10 +3633,11 @@ function App() {
     return sum + price * i.qty;
   }, 0);
 
-  const showFloatingCart = cart.length > 0
-    && !location.pathname.startsWith("/checkout")
-    && !location.pathname.startsWith("/order-complete")
-    && !location.pathname.startsWith("/product/");
+  const showFloatingCart =
+    cart.length > 0 &&
+    !location.pathname.startsWith("/checkout") &&
+    !location.pathname.startsWith("/order-complete") &&
+    !location.pathname.startsWith("/product/");
 
   const handleAddressSearch = () => {
     new window.daum.Postcode({
@@ -3841,7 +4052,12 @@ function App() {
     <div>
       {/* Global Header — visible after intro dismissed */}
       <GlobalHeader visible={showText || location.pathname !== "/"}>
-        <HeaderLogo onClick={() => { navigate("/"); setShowMyPage(false); }}>
+        <HeaderLogo
+          onClick={() => {
+            navigate("/");
+            setShowMyPage(false);
+          }}
+        >
           <img src="https://www.thezone.bio/logo.png" alt="더존바이오" />
         </HeaderLogo>
         <HeaderActions>
@@ -3859,19 +4075,44 @@ function App() {
 
       {/* Login Modal */}
       {showLoginModal && (
-        <LoginModalOverlay onClick={() => { setShowLoginModal(false); setPendingAction(null); }}>
+        <LoginModalOverlay
+          onClick={() => {
+            setShowLoginModal(false);
+            setPendingAction(null);
+          }}
+        >
           <LoginModalCard onClick={(e) => e.stopPropagation()}>
-            <LoginModalClose onClick={() => {
-              setShowLoginModal(false);
-              setLoginError("");
-              setPendingAction(null);
-              setLoginForm({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
-            }} style={{ position: "absolute", top: 16, right: 16, margin: 0, padding: "6px 10px", borderRadius: 8 }}>
+            <LoginModalClose
+              onClick={() => {
+                setShowLoginModal(false);
+                setLoginError("");
+                setPendingAction(null);
+                setLoginForm({
+                  email: "",
+                  password: "",
+                  passwordConfirm: "",
+                  name: "",
+                  phone: "",
+                });
+              }}
+              style={{
+                position: "absolute",
+                top: 16,
+                right: 16,
+                margin: 0,
+                padding: "6px 10px",
+                borderRadius: 8,
+              }}
+            >
               ✕
             </LoginModalClose>
-            <LoginModalTitle>{isRegisterMode ? "회원가입" : "로그인"}</LoginModalTitle>
+            <LoginModalTitle>
+              {isRegisterMode ? "회원가입" : "로그인"}
+            </LoginModalTitle>
             <LoginModalSub>
-              {isRegisterMode ? "가입하고 3,000원 쿠폰 받기" : "로그인하고 혜택을 받아보세요"}
+              {isRegisterMode
+                ? "가입하고 3,000원 쿠폰 받기"
+                : "로그인하고 혜택을 받아보세요"}
             </LoginModalSub>
             <LoginCouponBanner>
               회원가입 시 3,000원 할인 쿠폰 즉시 지급
@@ -3884,14 +4125,18 @@ function App() {
                     type="text"
                     placeholder="이름"
                     value={loginForm.name}
-                    onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
+                    onChange={(e) =>
+                      setLoginForm({ ...loginForm, name: e.target.value })
+                    }
                     required
                   />
                   <LoginInput
                     type="tel"
                     placeholder="전화번호"
                     value={loginForm.phone}
-                    onChange={(e) => setLoginForm({ ...loginForm, phone: e.target.value })}
+                    onChange={(e) =>
+                      setLoginForm({ ...loginForm, phone: e.target.value })
+                    }
                     required
                   />
                 </>
@@ -3900,14 +4145,18 @@ function App() {
                 type="email"
                 placeholder="이메일"
                 value={loginForm.email}
-                onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                onChange={(e) =>
+                  setLoginForm({ ...loginForm, email: e.target.value })
+                }
                 required
               />
               <LoginInput
                 type="password"
                 placeholder="비밀번호 (6자 이상)"
                 value={loginForm.password}
-                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                onChange={(e) =>
+                  setLoginForm({ ...loginForm, password: e.target.value })
+                }
                 required
                 minLength={6}
               />
@@ -3916,14 +4165,23 @@ function App() {
                   type="password"
                   placeholder="비밀번호 확인"
                   value={loginForm.passwordConfirm}
-                  onChange={(e) => setLoginForm({ ...loginForm, passwordConfirm: e.target.value })}
+                  onChange={(e) =>
+                    setLoginForm({
+                      ...loginForm,
+                      passwordConfirm: e.target.value,
+                    })
+                  }
                   required
                   minLength={6}
                 />
               )}
               {loginError && <LoginError>{loginError}</LoginError>}
               <LoginBtn type="submit" disabled={loginLoading}>
-                {loginLoading ? "처리 중..." : isRegisterMode ? "회원가입하고 쿠폰 받기" : "로그인"}
+                {loginLoading
+                  ? "처리 중..."
+                  : isRegisterMode
+                    ? "회원가입하고 쿠폰 받기"
+                    : "로그인"}
               </LoginBtn>
             </LoginForm>
             {pendingAction && (
@@ -3936,7 +4194,11 @@ function App() {
                   setPendingAction(null);
                   if (action) action();
                 }}
-                style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)", marginTop: 8 }}
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  color: "rgba(255,255,255,0.6)",
+                  marginTop: 8,
+                }}
               >
                 비회원으로 주문하기
               </LoginBtn>
@@ -3948,7 +4210,9 @@ function App() {
                 setLoginError("");
               }}
             >
-              {isRegisterMode ? "이미 계정이 있으신가요? 로그인" : "계정이 없으신가요? 회원가입"}
+              {isRegisterMode
+                ? "이미 계정이 있으신가요? 로그인"
+                : "계정이 없으신가요? 회원가입"}
             </LoginToggle>
           </LoginModalCard>
         </LoginModalOverlay>
@@ -3956,17 +4220,39 @@ function App() {
 
       {/* Welcome (Signup Congrats) Modal */}
       {showWelcomeModal && (
-        <WelcomeOverlay onClick={() => { setShowWelcomeModal(false); if (pendingAction) { pendingAction(); setPendingAction(null); } }}>
+        <WelcomeOverlay
+          onClick={() => {
+            setShowWelcomeModal(false);
+            if (pendingAction) {
+              pendingAction();
+              setPendingAction(null);
+            }
+          }}
+        >
           <WelcomeCard onClick={(e) => e.stopPropagation()}>
             <WelcomeEmoji>🎉</WelcomeEmoji>
             <WelcomeTitle>Welcome!</WelcomeTitle>
-            <WelcomeText>회원가입이 완료되었습니다.<br />감사합니다!</WelcomeText>
+            <WelcomeText>
+              회원가입이 완료되었습니다.
+              <br />
+              감사합니다!
+            </WelcomeText>
             <WelcomeCoupon>
               <WelcomeCouponAmount>3,000원</WelcomeCouponAmount>
               <WelcomeCouponLabel>할인 쿠폰 지급 완료</WelcomeCouponLabel>
-              <WelcomeCouponCondition>50,000원 이상 구매 시 사용 가능</WelcomeCouponCondition>
+              <WelcomeCouponCondition>
+                50,000원 이상 구매 시 사용 가능
+              </WelcomeCouponCondition>
             </WelcomeCoupon>
-            <WelcomeBtn onClick={() => { setShowWelcomeModal(false); if (pendingAction) { pendingAction(); setPendingAction(null); } }}>
+            <WelcomeBtn
+              onClick={() => {
+                setShowWelcomeModal(false);
+                if (pendingAction) {
+                  pendingAction();
+                  setPendingAction(null);
+                }
+              }}
+            >
               쇼핑 계속하기
             </WelcomeBtn>
           </WelcomeCard>
@@ -3979,7 +4265,9 @@ function App() {
           <MyPageContent>
             <MyPageHeader>
               <MyPageTitle>마이페이지</MyPageTitle>
-              <MyPageCloseBtn onClick={() => setShowMyPage(false)}>닫기</MyPageCloseBtn>
+              <MyPageCloseBtn onClick={() => setShowMyPage(false)}>
+                닫기
+              </MyPageCloseBtn>
             </MyPageHeader>
 
             {/* 회원 정보 */}
@@ -3990,7 +4278,9 @@ function App() {
                   <ProfileLabel>이름</ProfileLabel>
                   <ProfileInput
                     value={profileForm.name}
-                    onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                    onChange={(e) =>
+                      setProfileForm({ ...profileForm, name: e.target.value })
+                    }
                     placeholder="이름을 입력하세요"
                   />
                 </ProfileField>
@@ -3998,7 +4288,9 @@ function App() {
                   <ProfileLabel>전화번호</ProfileLabel>
                   <ProfileInput
                     value={profileForm.phone}
-                    onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                    onChange={(e) =>
+                      setProfileForm({ ...profileForm, phone: e.target.value })
+                    }
                     placeholder="010-0000-0000"
                   />
                 </ProfileField>
@@ -4006,7 +4298,12 @@ function App() {
                   <ProfileLabel>기본 배송지</ProfileLabel>
                   <ProfileInput
                     value={profileForm.address}
-                    onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
+                    onChange={(e) =>
+                      setProfileForm({
+                        ...profileForm,
+                        address: e.target.value,
+                      })
+                    }
                     placeholder="주소를 입력하세요"
                   />
                 </ProfileField>
@@ -4014,7 +4311,12 @@ function App() {
                   <ProfileLabel>상세 주소</ProfileLabel>
                   <ProfileInput
                     value={profileForm.address_detail}
-                    onChange={(e) => setProfileForm({ ...profileForm, address_detail: e.target.value })}
+                    onChange={(e) =>
+                      setProfileForm({
+                        ...profileForm,
+                        address_detail: e.target.value,
+                      })
+                    }
                     placeholder="상세 주소를 입력하세요"
                   />
                 </ProfileField>
@@ -4022,11 +4324,19 @@ function App() {
                   <ProfileLabel>우편번호</ProfileLabel>
                   <ProfileInput
                     value={profileForm.zip_code}
-                    onChange={(e) => setProfileForm({ ...profileForm, zip_code: e.target.value })}
+                    onChange={(e) =>
+                      setProfileForm({
+                        ...profileForm,
+                        zip_code: e.target.value,
+                      })
+                    }
                     placeholder="우편번호"
                   />
                 </ProfileField>
-                <ProfileSaveBtn onClick={handleSaveProfile} disabled={profileSaving}>
+                <ProfileSaveBtn
+                  onClick={handleSaveProfile}
+                  disabled={profileSaving}
+                >
                   {profileSaving ? "저장 중..." : "저장하기"}
                 </ProfileSaveBtn>
               </ProfileForm>
@@ -4041,14 +4351,18 @@ function App() {
                     <OrderCard key={order.id}>
                       <OrderCardTop>
                         <OrderDate>
-                          {new Date(order.created_at).toLocaleDateString("ko-KR")}
+                          {new Date(order.created_at).toLocaleDateString(
+                            "ko-KR",
+                          )}
                         </OrderDate>
                         <OrderStatus status={order.shipping_status}>
                           {getShippingStatusText(order.shipping_status)}
                         </OrderStatus>
                       </OrderCardTop>
                       <OrderName>{order.order_name}</OrderName>
-                      <OrderAmount>{order.amount.toLocaleString()}원</OrderAmount>
+                      <OrderAmount>
+                        {order.amount.toLocaleString()}원
+                      </OrderAmount>
                     </OrderCard>
                   ))}
                 </OrderList>
@@ -4063,754 +4377,815 @@ function App() {
       )}
 
       <Routes>
-        <Route path="/" element={<>
-      {/* Intro overlay — captures first tap for iOS video activation */}
-      {introVisible && (
-        <IntroOverlay
-          hiding={introHiding}
-          onClick={dismissIntro}
-          onTouchStart={dismissIntro}
-        >
-          <IntroLogo src="/logo.png" alt="더존바이오" />
-          <IntroText>Tap to Enter</IntroText>
-        </IntroOverlay>
-      )}
+        <Route
+          path="/"
+          element={
+            <>
+              {/* Intro overlay — captures first tap for iOS video activation */}
+              {introVisible && (
+                <IntroOverlay
+                  hiding={introHiding}
+                  onClick={dismissIntro}
+                  onTouchStart={dismissIntro}
+                >
+                  <IntroLogo src="/logo.png" alt="더존바이오" />
+                  <IntroText>Tap to Enter</IntroText>
+                </IntroOverlay>
+              )}
 
-      {/* Hero */}
-      <HeroFixed>
-        <HeroBlackout opacity={heroFade} />
-        <HeroVideo
-          ref={heroVideoRef}
-          src="/bg-video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
+              {/* Hero */}
+              <HeroFixed>
+                <HeroBlackout opacity={heroFade} />
+                <HeroVideo
+                  ref={heroVideoRef}
+                  src="/bg-video.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+                <HeroOverlay>
+                  <TopSection>
+                    <TopLeft>
+                      BIO HACKING
+                      <br />
+                      MUSHROOM COFFEE
+                    </TopLeft>
+                    <TopRight>
+                      LION'S MANE
+                      <br />
+                      MUSHROOM
+                    </TopRight>
+                  </TopSection>
+                  <MiddleSection>
+                    <FounderText>Founder's drinks</FounderText>
+                    <FocusText>
+                      Focus is the
+                      <br />
+                      new <em>Luxury</em>
+                    </FocusText>
+                  </MiddleSection>
+                  <BottomSection>
+                    <HeroLogo src="/logo.png" alt="더존바이오" />
+                    <MainTitle>몰입의 밀도</MainTitle>
+                    <SubText>
+                      주어진 시간 속<br />
+                      결과를 나누는 <br />
+                      차이입니다
+                    </SubText>
+                    <Arrow>↓</Arrow>
+                  </BottomSection>
+                </HeroOverlay>
+                <FooterText>unlock what you've been missing.</FooterText>
+              </HeroFixed>
+
+              {/* Invisible scroll area to trigger sheet */}
+              <div
+                style={{ height: "200dvh", position: "relative", zIndex: 0 }}
+              />
+
+              {/* Bottom Sheet Modal */}
+              <BottomSheet bottomOffset={sheetBottom} expanded={expanded}>
+                {/* Handle bar — peek state */}
+                <SheetHandle expanded={expanded}>
+                  <HandleBar />
+                </SheetHandle>
+
+                {/* Video background */}
+                <SheetVideo
+                  ref={videoRef}
+                  src="/product-video.mp4"
+                  scale={videoScale}
+                  muted
+                  playsInline
+                  preload="auto"
+                />
+
+                {/* Scrollable text content over video */}
+                <ScrollableContent
+                  ref={sheetContentRef}
+                  style={{
+                    overflowY: expanded ? "auto" : "hidden",
+                    height: "100%",
+                  }}
+                >
+                  <TextContent show={showText}>
+                    <OverlayBlock ref={heading.ref}>
+                      <HeadingNav>
+                        <NavLabel>Beyond Coffee</NavLabel>
+                        <NavLabel>001</NavLabel>
+                      </HeadingNav>
+                      <BigHeading css={revealUp(heading.visible)}>
+                        What if your coffee
+                        <br />
+                        was holding
+                        <br />
+                        you <em>back</em>?
+                      </BigHeading>
+                    </OverlayBlock>
+
+                    {/* Free-form scattered layout */}
+                    <FreeCanvas>
+                      {/* The Name — left, slightly tilted */}
+                      <StickyBlock padLeft="24px" ref={nameBlock.ref}>
+                        <div
+                          css={revealLeft(nameBlock.visible, 0)}
+                          style={{ transform: "rotate(-1deg)" }}
+                        >
+                          <WatermarkText
+                            size={80}
+                            style={{ marginBottom: -20, marginLeft: -12 }}
+                          >
+                            LOCK IN
+                          </WatermarkText>
+                          <LabelSmall>The Name</LabelSmall>
+                          <TitleLarge>
+                            Lock-in
+                            <br />
+                            Coffee
+                          </TitleLarge>
+                          <BodyText>
+                            일반 커피가 채울 수 없는 영역.
+                            <br />
+                            인지 기능과 몰입을 위해
+                            <br />
+                            설계된 바이오해킹 음료.
+                          </BodyText>
+                        </div>
+                      </StickyBlock>
+
+                      {/* The Flavor — right, tilted other way */}
+                      <StickyBlock
+                        align="right"
+                        padRight="24px"
+                        ref={flavorBlock.ref}
+                      >
+                        <div
+                          css={revealRight(flavorBlock.visible, 0.2)}
+                          style={{ transform: "rotate(1.5deg)" }}
+                        >
+                          <LabelSmall>The Flavor</LabelSmall>
+                          <TitleLarge>
+                            Nature's
+                            <br />
+                            Quiet Depth
+                          </TitleLarge>
+                          <BodyText style={{ marginLeft: "auto" }}>
+                            노루궁뎅이 버섯의 섬세한 뉘앙스와
+                            <br />
+                            스페셜티 원두의 깊은 바디가
+                            <br />
+                            만들어내는 미지의 풍미.
+                          </BodyText>
+                          <WatermarkText
+                            size={60}
+                            style={{ marginTop: -10, opacity: 0.1 }}
+                          >
+                            COFFEE
+                          </WatermarkText>
+                        </div>
+                      </StickyBlock>
+
+                      {/* The Source — left, scaled in */}
+                      <StickyBlock padLeft="32px" ref={sourceBlock.ref}>
+                        <div
+                          css={revealScale(sourceBlock.visible, 0)}
+                          style={{ transform: "rotate(-0.5deg)" }}
+                        >
+                          <LabelSmall>The Source</LabelSmall>
+                          <DetailTitle style={{ fontSize: 34 }}>
+                            Lion's
+                            <br />
+                            Mane
+                          </DetailTitle>
+                          <DetailBody>
+                            신경성장인자(NGF) 생성을 촉진하는
+                            <br />
+                            노루궁뎅이 버섯(Lion's Mane).
+                            <br />
+                            당신의 뇌가 기다려온 원료.
+                          </DetailBody>
+                        </div>
+                      </StickyBlock>
+
+                      {/* The Process — right, rising up */}
+                      <StickyBlock align="right" padRight="20px">
+                        <div
+                          ref={processBlock.ref}
+                          css={revealUp(processBlock.visible, 0.1)}
+                          style={{ transform: "rotate(2deg)" }}
+                        >
+                          <LabelSmall>The Process</LabelSmall>
+                          <DetailTitle>
+                            Cold Brew
+                            <br />
+                            Extraction
+                          </DetailTitle>
+                          <DetailBody style={{ marginLeft: "auto" }}>
+                            24시간 저온 추출.
+                            <br />
+                            열이 파괴하는 것들을 지킵니다.
+                          </DetailBody>
+                          <WatermarkText
+                            size={50}
+                            style={{ marginTop: -8, opacity: 0.1 }}
+                          >
+                            MUSHROOM
+                          </WatermarkText>
+                        </div>
+                      </StickyBlock>
+                    </FreeCanvas>
+                  </TextContent>
+
+                  {/* ─── Sub Pages (하위페이지.png) ─── */}
+                  <SubPageWrap>
+                    <GrainCanvas ref={grainRef} />
+                    <SubPageContent>
+                      {/* Section 1: Event + Products */}
+                      <EventSection ref={eventReveal.ref} data-section="event">
+                        <div css={revealUp(eventReveal.visible)}>
+                          <SecTitle>단 100개 한정</SecTitle>
+                          <SecSub>
+                            당신의 첫 번째 몰입.
+                            <br />
+                            100ml, 배송비만 부담하세요.
+                          </SecSub>
+                        </div>
+                        <EventBanner>
+                          <BannerImg>
+                            <img
+                              src="/event-hero.png"
+                              alt="100ml 무료 체험"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </BannerImg>
+                          <BannerInfo>
+                            <BannerTitle>
+                              100ml <em>무료</em>
+                              <br />
+                              체험 이벤트
+                            </BannerTitle>
+                            <BannerDesc>
+                              노루궁뎅이 버섯 × 스페셜티 콜드브루
+                              <br />한 모금이면 차이를 압니다.
+                            </BannerDesc>
+                            <BannerBtn onClick={handleTrialClick}>
+                              지금 경험하기
+                            </BannerBtn>
+                            <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
+                          </BannerInfo>
+                        </EventBanner>
+                      </EventSection>
+
+                      {/* Section 2: Flavors */}
+                      <FlavorSection ref={flavorReveal.ref}>
+                        <div css={revealUp(flavorReveal.visible)}>
+                          <SecTitle>The Flavors</SecTitle>
+                          <SecSub>
+                            Clean. Potent. Feel The
+                            <br />
+                            Difference
+                          </SecSub>
+                        </div>
+
+                        <GridRow style={{ marginTop: 40 }}>
+                          <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => goToProduct("signature")}
+                          >
+                            <GridImgBox
+                              bg="#4a1a1a"
+                              style={{ overflow: "hidden" }}
+                            >
+                              <img
+                                src="/decaf.png"
+                                alt="Signature 디카페인"
+                                style={{
+                                  width: "110%",
+                                  height: "110%",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </GridImgBox>
+                            <GridLabel>
+                              <ItemName>Signature</ItemName>
+                              <ItemSub>디카페인</ItemSub>
+                              <PriceRow>
+                                <PriceOrigRow>
+                                  <OrigPrice>70,000원</OrigPrice>
+                                  <DiscountBadge>44%</DiscountBadge>
+                                </PriceOrigRow>
+                                <SalePrice>39,000원</SalePrice>
+                              </PriceRow>
+                            </GridLabel>
+                          </div>
+                          <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => goToProduct("house")}
+                          >
+                            <GridImgBox
+                              bg="#1a3a5c"
+                              style={{ overflow: "hidden" }}
+                            >
+                              <img
+                                src="/caffeine.png"
+                                alt="카페인 부스트"
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </GridImgBox>
+                            <GridLabel>
+                              <ItemName>House</ItemName>
+                              <ItemSub>카페인</ItemSub>
+                              <PriceRow>
+                                <PriceOrigRow>
+                                  <OrigPrice>60,000원</OrigPrice>
+                                  <DiscountBadge>40%</DiscountBadge>
+                                </PriceOrigRow>
+                                <SalePrice>36,000원</SalePrice>
+                              </PriceRow>
+                            </GridLabel>
+                          </div>
+                        </GridRow>
+                        <FlavorWide
+                          style={{ cursor: "pointer" }}
+                          onClick={() => goToProduct("vibrant")}
+                        >
+                          <FlavorWideImg
+                            bg="#3a2010"
+                            style={{ overflow: "hidden" }}
+                          >
+                            <img
+                              src="/acidity.png"
+                              alt="Vibrant 산미"
+                              style={{
+                                width: "120%",
+                                height: "120%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </FlavorWideImg>
+                          <ItemName>Vibrant</ItemName>
+                          <ItemSub>산미</ItemSub>
+                          <PriceRow>
+                            <PriceOrigRow>
+                              <OrigPrice>80,000원</OrigPrice>
+                              <DiscountBadge>47%</DiscountBadge>
+                            </PriceOrigRow>
+                            <SalePrice>42,000원</SalePrice>
+                          </PriceRow>
+                        </FlavorWide>
+                      </FlavorSection>
+
+                      {/* Section 3: In Good Company */}
+                      <CompanySection ref={editorialReveal.ref}>
+                        <div css={revealUp(editorialReveal.visible)}>
+                          <CompanyTitle>
+                            In
+                            <br />
+                            Good
+                            <br />
+                            <em>Company</em>
+                          </CompanyTitle>
+
+                          <CompanyGrid>
+                            <GBox h={140} span={2}>
+                              <video
+                                src="/company-video.mp4"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                              />
+                            </GBox>
+                            <GBox h={140}>
+                              <img src="/company1.jpg" alt="company" />
+                            </GBox>
+                            <GBox h={120}>
+                              <img src="/company2.jpg" alt="company" />
+                            </GBox>
+                            <GBox h={120}>
+                              <img src="/company3.jpg" alt="company" />
+                            </GBox>
+                            <GBox h={120}>
+                              <img src="/company4.jpg" alt="company" />
+                            </GBox>
+                          </CompanyGrid>
+
+                          <CompanyBody>
+                            가장 깨어있는 크리에이터,
+                            <br />
+                            큐레이터, 그리고 공간들이
+                            <br />
+                            선택한 커피.
+                          </CompanyBody>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: 4,
+                            }}
+                          >
+                            <MetaLine
+                              onClick={() =>
+                                window.open(
+                                  "https://www.instagram.com/thezonebio.kr",
+                                  "_blank",
+                                )
+                              }
+                              style={{
+                                color: "#fff",
+                                textDecoration: "underline",
+                                textUnderlineOffset: 3,
+                                cursor: "pointer",
+                              }}
+                            >
+                              @thezonebio.kr
+                            </MetaLine>
+                          </div>
+                        </div>
+                      </CompanySection>
+
+                      {/* Section 4: Lock In Now */}
+                      <TraceSection ref={sustainReveal.ref}>
+                        <TraceTitle css={revealScale(sustainReveal.visible)}>
+                          LOCK IN <em>Now</em>
+                        </TraceTitle>
+                        <TraceBody>
+                          마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가
+                          끝난 적 있잖아요. 원할 때 바로 몰입에 들어가는 것 —
+                          바로 이 커피가 만들어진 이유입니다.
+                        </TraceBody>
+                      </TraceSection>
+
+                      {/* Section 4.5: CTA Banner */}
+                      <CtaBanner>
+                        <CtaCard>
+                          <CtaImg>
+                            <img src="/event-hero.png" alt="100ml 체험 키트" />
+                          </CtaImg>
+                          <CtaInfo>
+                            <CtaLabel>Free Trial</CtaLabel>
+                            <CtaText>
+                              아직 안 마셔봤다면,
+                              <br />
+                              지금이 기회입니다.
+                              <br />
+                              <strong>100ml 무료</strong>
+                            </CtaText>
+                            <CtaButton onClick={handleTrialClick}>
+                              지금 경험하기
+                            </CtaButton>
+                            <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
+                          </CtaInfo>
+                        </CtaCard>
+                      </CtaBanner>
+
+                      {/* Section 5: Footer */}
+                      <FooterSection>
+                        <FtLabel>Stay Locked In</FtLabel>
+                        <FtBrand>
+                          LOCK IN
+                          <br />
+                          COFFEE
+                        </FtBrand>
+                        <FtLogo src="/logo.png" alt="더존바이오" />
+
+                        <FtMarqueeWrap>
+                          <FtMarqueeTrack>
+                            <FtWatermark>
+                              unlock what you've been missing
+                            </FtWatermark>
+                            <FtWatermark>
+                              unlock what you've been missing
+                            </FtWatermark>
+                            <FtWatermark>
+                              unlock what you've been missing
+                            </FtWatermark>
+                            <FtWatermark>
+                              unlock what you've been missing
+                            </FtWatermark>
+                          </FtMarqueeTrack>
+                        </FtMarqueeWrap>
+
+                        <FtCopy>
+                          <span>© {new Date().getFullYear()} THEZONEBIO</span>
+                          <span>Made with focus</span>
+                        </FtCopy>
+
+                        <FtBizInfo>
+                          상호 : 더존바이오 &nbsp;|&nbsp; 대표 : 박민성
+                          &nbsp;|&nbsp; 사업자등록번호 : 787-31-01774
+                          <br />
+                          사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동
+                          31층 더블유엔73호(송도동, 송도 센트로드)
+                          <br />
+                          업태 : 도매 및 소매업 &nbsp;|&nbsp; 종목 : 전자상거래
+                          소매업 &nbsp;|&nbsp; 이메일 : me@thezonebio.com
+                          <br />
+                          통신판매업신고번호 : 제 2025-인천연수구-2735 호<br />
+                          고객센터 : 010-9942-7360
+                        </FtBizInfo>
+
+                        <FtPolicyLinks>
+                          <FtPolicyLink onClick={() => navigate("/refund")}>
+                            환불정책
+                          </FtPolicyLink>
+                          <FtPolicyLink onClick={() => navigate("/terms")}>
+                            이용약관
+                          </FtPolicyLink>
+                        </FtPolicyLinks>
+
+                        <FtSocialLinks>
+                          <FtSocialLink
+                            href="https://www.instagram.com/thezonebio.kr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Instagram
+                          </FtSocialLink>
+                          <FtSocialLink
+                            href="https://smartstore.naver.com/thezonebio"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Naver Store
+                          </FtSocialLink>
+                        </FtSocialLinks>
+                      </FooterSection>
+                    </SubPageContent>
+                  </SubPageWrap>
+                </ScrollableContent>
+              </BottomSheet>
+            </>
+          }
         />
-        <HeroOverlay>
-          <TopSection>
-            <TopLeft>
-              BIO HACKING
-              <br />
-              MUSHROOM COFFEE
-            </TopLeft>
-            <TopRight>
-              LION'S MANE
-              <br />
-              MUSHROOM
-            </TopRight>
-          </TopSection>
-          <MiddleSection>
-            <FounderText>Founder's drinks</FounderText>
-            <FocusText>
-              Focus is the
-              <br />
-              new <em>Luxury</em>
-            </FocusText>
-          </MiddleSection>
-          <BottomSection>
-            <HeroLogo src="/logo.png" alt="더존바이오" />
-            <MainTitle>몰입의 밀도</MainTitle>
-            <SubText>
-              주어진 시간 속<br />
-              결과를 나누는 <br />
-              차이입니다
-            </SubText>
-            <Arrow>↓</Arrow>
-          </BottomSection>
-        </HeroOverlay>
-        <FooterText>unlock what you've been missing.</FooterText>
-      </HeroFixed>
 
-      {/* Invisible scroll area to trigger sheet */}
-      <div style={{ height: "200dvh", position: "relative", zIndex: 0 }} />
-
-      {/* Bottom Sheet Modal */}
-      <BottomSheet bottomOffset={sheetBottom} expanded={expanded}>
-        {/* Handle bar — peek state */}
-        <SheetHandle expanded={expanded}>
-          <HandleBar />
-        </SheetHandle>
-
-        {/* Video background */}
-        <SheetVideo
-          ref={videoRef}
-          src="/product-video.mp4"
-          scale={videoScale}
-          muted
-          playsInline
-          preload="auto"
+        <Route
+          path="/product/:key"
+          element={
+            <ProductDetailPage
+              addToCart={addToCart}
+              requireLogin={requireLogin}
+              goToCheckout={goToCheckout}
+              navigate={navigate}
+            />
+          }
         />
 
-        {/* Scrollable text content over video */}
-        <ScrollableContent
-          ref={sheetContentRef}
-          style={{ overflowY: expanded ? "auto" : "hidden", height: "100%" }}
-        >
-          <TextContent show={showText}>
-            <OverlayBlock ref={heading.ref}>
-              <HeadingNav>
-                <NavLabel>Beyond Coffee</NavLabel>
-                <NavLabel>001</NavLabel>
-              </HeadingNav>
-              <BigHeading css={revealUp(heading.visible)}>
-                What if your coffee
+        <Route
+          path="/checkout"
+          element={
+            <CheckoutPageContent
+              cart={cart}
+              cartTotal={cartTotal}
+              shipping={shipping}
+              setShipping={setShipping}
+              handleAddressSearch={handleAddressSearch}
+              handlePayment={handlePayment}
+              isProcessing={isProcessing}
+              navigate={navigate}
+            />
+          }
+        />
+
+        <Route
+          path="/order-complete"
+          element={
+            <OrderCompleteOverlay>
+              <OrderCheckIcon>
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#e8743a"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </OrderCheckIcon>
+              <OrderTitle>주문 완료</OrderTitle>
+              <OrderSub>
+                결제가 정상적으로 완료되었습니다.
                 <br />
-                was holding
+                주문하신 상품은 빠르게 준비하여 발송해 드리겠습니다.
+              </OrderSub>
+              <OrderInfoCard>
+                <OrderInfoRow>
+                  <OrderInfoLabel>주문번호</OrderInfoLabel>
+                  <OrderInfoValue
+                    style={{ fontSize: 12, wordBreak: "break-all" }}
+                  >
+                    {orderComplete?.orderId}
+                  </OrderInfoValue>
+                </OrderInfoRow>
+                <OrderInfoRow>
+                  <OrderInfoLabel>결제금액</OrderInfoLabel>
+                  <OrderInfoValue>
+                    {orderComplete?.amount.toLocaleString()}원
+                  </OrderInfoValue>
+                </OrderInfoRow>
+                <OrderInfoRow>
+                  <OrderInfoLabel>결제수단</OrderInfoLabel>
+                  <OrderInfoValue>간편결제</OrderInfoValue>
+                </OrderInfoRow>
+                <OrderInfoRow>
+                  <OrderInfoLabel>결제상태</OrderInfoLabel>
+                  <OrderInfoValue style={{ color: "#e8743a" }}>
+                    결제완료
+                  </OrderInfoValue>
+                </OrderInfoRow>
+              </OrderInfoCard>
+              <OrderHomeBtn
+                onClick={() => {
+                  setOrderComplete(null);
+                  navigate("/", { replace: true });
+                }}
+              >
+                홈으로 돌아가기
+              </OrderHomeBtn>
+              <OrderContactNote>
+                주문 관련 문의: 010-9942-7360
                 <br />
-                you <em>back</em>?
-              </BigHeading>
-            </OverlayBlock>
+                me@thezonebio.com
+              </OrderContactNote>
+            </OrderCompleteOverlay>
+          }
+        />
 
-            {/* Free-form scattered layout */}
-            <FreeCanvas>
-              {/* The Name — left, slightly tilted */}
-              <StickyBlock padLeft="24px" ref={nameBlock.ref}>
-                <div
-                  css={revealLeft(nameBlock.visible, 0)}
-                  style={{ transform: "rotate(-1deg)" }}
-                >
-                  <WatermarkText
-                    size={80}
-                    style={{ marginBottom: -20, marginLeft: -12 }}
-                  >
-                    LOCK IN
-                  </WatermarkText>
-                  <LabelSmall>The Name</LabelSmall>
-                  <TitleLarge>
-                    Lock-in
-                    <br />
-                    Coffee
-                  </TitleLarge>
-                  <BodyText>
-                    일반 커피가 채울 수 없는 영역.
-                    <br />
-                    인지 기능과 몰입을 위해
-                    <br />
-                    설계된 바이오해킹 음료.
-                  </BodyText>
-                </div>
-              </StickyBlock>
+        <Route
+          path="/refund"
+          element={
+            <PolicyOverlay>
+              <PolicyClose onClick={() => navigate("/")}>CLOSE</PolicyClose>
+              <PolicyContent>
+                <h1>환불정책</h1>
 
-              {/* The Flavor — right, tilted other way */}
-              <StickyBlock align="right" padRight="24px" ref={flavorBlock.ref}>
-                <div
-                  css={revealRight(flavorBlock.visible, 0.2)}
-                  style={{ transform: "rotate(1.5deg)" }}
-                >
-                  <LabelSmall>The Flavor</LabelSmall>
-                  <TitleLarge>
-                    Nature's
-                    <br />
-                    Quiet Depth
-                  </TitleLarge>
-                  <BodyText style={{ marginLeft: "auto" }}>
-                    노루궁뎅이 버섯의 섬세한 뉘앙스와
-                    <br />
-                    스페셜티 원두의 깊은 바디가
-                    <br />
-                    만들어내는 미지의 풍미.
-                  </BodyText>
-                  <WatermarkText
-                    size={60}
-                    style={{ marginTop: -10, opacity: 0.1 }}
-                  >
-                    COFFEE
-                  </WatermarkText>
-                </div>
-              </StickyBlock>
+                <h2>1. 반품/환불 기본 안내</h2>
+                <p>
+                  상품 수령일로부터 7일 이내에 반품 및 환불을 요청하실 수
+                  있습니다. 단, 식품 특성상 고객의 단순 변심에 의한 반품은
+                  제한될 수 있으며, 상품 하자나 배송 오류의 경우 전액 환불
+                  처리됩니다.
+                </p>
 
-              {/* The Source — left, scaled in */}
-              <StickyBlock padLeft="32px" ref={sourceBlock.ref}>
-                <div
-                  css={revealScale(sourceBlock.visible, 0)}
-                  style={{ transform: "rotate(-0.5deg)" }}
-                >
-                  <LabelSmall>The Source</LabelSmall>
-                  <DetailTitle style={{ fontSize: 34 }}>
-                    Lion's
-                    <br />
-                    Mane
-                  </DetailTitle>
-                  <DetailBody>
-                    신경성장인자(NGF) 생성을 촉진하는
-                    <br />
-                    노루궁뎅이 버섯(Lion's Mane).
-                    <br />
-                    당신의 뇌가 기다려온 원료.
-                  </DetailBody>
-                </div>
-              </StickyBlock>
-
-              {/* The Process — right, rising up */}
-              <StickyBlock align="right" padRight="20px">
-                <div
-                  ref={processBlock.ref}
-                  css={revealUp(processBlock.visible, 0.1)}
-                  style={{ transform: "rotate(2deg)" }}
-                >
-                  <LabelSmall>The Process</LabelSmall>
-                  <DetailTitle>
-                    Cold Brew
-                    <br />
-                    Extraction
-                  </DetailTitle>
-                  <DetailBody style={{ marginLeft: "auto" }}>
-                    24시간 저온 추출.
-                    <br />
-                    열이 파괴하는 것들을 지킵니다.
-                  </DetailBody>
-                  <WatermarkText
-                    size={50}
-                    style={{ marginTop: -8, opacity: 0.1 }}
-                  >
-                    MUSHROOM
-                  </WatermarkText>
-                </div>
-              </StickyBlock>
-            </FreeCanvas>
-          </TextContent>
-
-          {/* ─── Sub Pages (하위페이지.png) ─── */}
-          <SubPageWrap>
-            <GrainCanvas ref={grainRef} />
-            <SubPageContent>
-              {/* Section 1: Event + Products */}
-              <EventSection ref={eventReveal.ref} data-section="event">
-                <div css={revealUp(eventReveal.visible)}>
-                  <SecTitle>단 100개 한정</SecTitle>
-                  <SecSub>
-                    당신의 첫 번째 몰입.
-                    <br />
-                    100ml, 배송비만 부담하세요.
-                  </SecSub>
-                </div>
-                <EventBanner>
-                  <BannerImg>
-                    <img
-                      src="/event-hero.png"
-                      alt="100ml 무료 체험"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </BannerImg>
-                  <BannerInfo>
-                    <BannerTitle>
-                      100ml <em>무료</em>
-                      <br />
-                      체험 이벤트
-                    </BannerTitle>
-                    <BannerDesc>
-                      노루궁뎅이 버섯 × 스페셜티 콜드브루
-                      <br />한 모금이면 차이를 압니다.
-                    </BannerDesc>
-                    <BannerBtn onClick={handleTrialClick}>
-                      지금 경험하기
-                    </BannerBtn>
-                    <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
-                  </BannerInfo>
-                </EventBanner>
-              </EventSection>
-
-              {/* Section 2: Flavors */}
-              <FlavorSection ref={flavorReveal.ref}>
-                <div css={revealUp(flavorReveal.visible)}>
-                  <SecTitle>The Flavors</SecTitle>
-                  <SecSub>
-                    Clean. Potent. Feel The
-                    <br />
-                    Difference
-                  </SecSub>
-                </div>
-
-                <GridRow style={{ marginTop: 40 }}>
-                  <div
-                    style={{ cursor: "pointer" }}
-                    onClick={() => goToProduct("signature")}
-                  >
-                    <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
-                      <img
-                        src="/decaf.png"
-                        alt="Signature 디카페인"
-                        style={{
-                          width: "110%",
-                          height: "110%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </GridImgBox>
-                    <GridLabel>
-                      <ItemName>Signature</ItemName>
-                      <ItemSub>디카페인</ItemSub>
-                      <PriceRow>
-                        <PriceOrigRow>
-                          <OrigPrice>70,000원</OrigPrice>
-                          <DiscountBadge>44%</DiscountBadge>
-                        </PriceOrigRow>
-                        <SalePrice>39,000원</SalePrice>
-                      </PriceRow>
-                    </GridLabel>
-                  </div>
-                  <div
-                    style={{ cursor: "pointer" }}
-                    onClick={() => goToProduct("house")}
-                  >
-                    <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
-                      <img
-                        src="/caffeine.png"
-                        alt="카페인 부스트"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </GridImgBox>
-                    <GridLabel>
-                      <ItemName>House</ItemName>
-                      <ItemSub>카페인</ItemSub>
-                      <PriceRow>
-                        <PriceOrigRow>
-                          <OrigPrice>60,000원</OrigPrice>
-                          <DiscountBadge>40%</DiscountBadge>
-                        </PriceOrigRow>
-                        <SalePrice>36,000원</SalePrice>
-                      </PriceRow>
-                    </GridLabel>
-                  </div>
-                </GridRow>
-                <FlavorWide
-                  style={{ cursor: "pointer" }}
-                  onClick={() => goToProduct("vibrant")}
-                >
-                  <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
-                    <img
-                      src="/acidity.png"
-                      alt="Vibrant 산미"
-                      style={{
-                        width: "120%",
-                        height: "120%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </FlavorWideImg>
-                  <ItemName>Vibrant</ItemName>
-                  <ItemSub>산미</ItemSub>
-                  <PriceRow>
-                    <PriceOrigRow>
-                      <OrigPrice>80,000원</OrigPrice>
-                      <DiscountBadge>47%</DiscountBadge>
-                    </PriceOrigRow>
-                    <SalePrice>42,000원</SalePrice>
-                  </PriceRow>
-                </FlavorWide>
-              </FlavorSection>
-
-              {/* Section 3: In Good Company */}
-              <CompanySection ref={editorialReveal.ref}>
-                <div css={revealUp(editorialReveal.visible)}>
-                  <CompanyTitle>
-                    In
-                    <br />
-                    Good
-                    <br />
-                    <em>Company</em>
-                  </CompanyTitle>
-
-                  <CompanyGrid>
-                    <GBox h={140} span={2}>
-                      <video
-                        src="/company-video.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                      />
-                    </GBox>
-                    <GBox h={140}>
-                      <img src="/company1.jpg" alt="company" />
-                    </GBox>
-                    <GBox h={120}>
-                      <img src="/company2.jpg" alt="company" />
-                    </GBox>
-                    <GBox h={120}>
-                      <img src="/company3.jpg" alt="company" />
-                    </GBox>
-                    <GBox h={120}>
-                      <img src="/company4.jpg" alt="company" />
-                    </GBox>
-                  </CompanyGrid>
-
-                  <CompanyBody>
-                    가장 깨어있는 크리에이터,
-                    <br />
-                    큐레이터, 그리고 공간들이
-                    <br />
-                    선택한 커피.
-                  </CompanyBody>
-                  <div
-                    style={{ display: "flex", flexDirection: "column", gap: 4 }}
-                  >
-                    <MetaLine
-                      onClick={() =>
-                        window.open(
-                          "https://www.instagram.com/thezonebio.kr",
-                          "_blank",
-                        )
-                      }
-                      style={{
-                        color: "#fff",
-                        textDecoration: "underline",
-                        textUnderlineOffset: 3,
-                        cursor: "pointer",
-                      }}
-                    >
-                      @thezonebio.kr
-                    </MetaLine>
-                  </div>
-                </div>
-              </CompanySection>
-
-              {/* Section 4: Lock In Now */}
-              <TraceSection ref={sustainReveal.ref}>
-                <TraceTitle css={revealScale(sustainReveal.visible)}>
-                  LOCK IN <em>Now</em>
-                </TraceTitle>
-                <TraceBody>
-                  마감은 다가오는데 머리는 멍하고, 앉아만 있다 하루가 끝난 적
-                  있잖아요. 원할 때 바로 몰입에 들어가는 것 — 바로 이 커피가
-                  만들어진 이유입니다.
-                </TraceBody>
-              </TraceSection>
-
-              {/* Section 4.5: CTA Banner */}
-              <CtaBanner>
-                <CtaCard>
-                  <CtaImg>
-                    <img src="/event-hero.png" alt="100ml 체험 키트" />
-                  </CtaImg>
-                  <CtaInfo>
-                    <CtaLabel>Free Trial</CtaLabel>
-                    <CtaText>
-                      아직 안 마셔봤다면,
-                      <br />
-                      지금이 기회입니다.
-                      <br />
-                      <strong>100ml 무료</strong>
-                    </CtaText>
-                    <CtaButton onClick={handleTrialClick}>
-                      지금 경험하기
-                    </CtaButton>
-                    <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
-                  </CtaInfo>
-                </CtaCard>
-              </CtaBanner>
-
-              {/* Section 5: Footer */}
-              <FooterSection>
-                <FtLabel>Stay Locked In</FtLabel>
-                <FtBrand>
-                  LOCK IN
+                <h2>2. 환불이 가능한 경우</h2>
+                <p>
+                  · 상품이 파손 또는 변질된 상태로 배송된 경우
                   <br />
-                  COFFEE
-                </FtBrand>
-                <FtLogo src="/logo.png" alt="더존바이오" />
+                  · 주문한 상품과 다른 상품이 배송된 경우
+                  <br />· 상품 수령 후 7일 이내 미개봉 상태인 경우
+                </p>
 
-                <FtMarqueeWrap>
-                  <FtMarqueeTrack>
-                    <FtWatermark>unlock what you've been missing</FtWatermark>
-                    <FtWatermark>unlock what you've been missing</FtWatermark>
-                    <FtWatermark>unlock what you've been missing</FtWatermark>
-                    <FtWatermark>unlock what you've been missing</FtWatermark>
-                  </FtMarqueeTrack>
-                </FtMarqueeWrap>
+                <h2>3. 환불이 불가한 경우</h2>
+                <p>
+                  · 개봉 후 일부 소비한 식품
+                  <br />
+                  · 고객의 보관 부주의로 인한 변질
+                  <br />· 수령일로부터 7일이 경과한 경우
+                </p>
 
-                <FtCopy>
-                  <span>© {new Date().getFullYear()} THEZONEBIO</span>
-                  <span>Made with focus</span>
-                </FtCopy>
+                <h2>4. 환불 절차</h2>
+                <p>
+                  고객센터(010-9942-7360) 또는 이메일(me@thezonebio.com)로
+                  문의해 주세요. 접수 후 1~2 영업일 내에 확인 후 처리되며, 카드
+                  결제 취소는 카드사에 따라 3~7 영업일 소요될 수 있습니다.
+                </p>
 
-                <FtBizInfo>
-                  상호 : 더존바이오 &nbsp;|&nbsp; 대표 : 박민성 &nbsp;|&nbsp;
-                  사업자등록번호 : 787-31-01774
+                <h2>5. 배송비 부담</h2>
+                <p>
+                  상품 하자 및 오배송의 경우 반품 배송비는 더존바이오가
+                  부담합니다. 단순 변심의 경우 왕복 배송비는 고객 부담입니다.
+                </p>
+
+                <div
+                  style={{
+                    marginTop: 40,
+                    padding: "16px 0",
+                    borderTop: "1px solid rgba(255,255,255,0.1)",
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.3)",
+                  }}
+                >
+                  상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 :
+                  787-31-01774
+                  <br />
+                  고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
+                </div>
+              </PolicyContent>
+            </PolicyOverlay>
+          }
+        />
+
+        <Route
+          path="/terms"
+          element={
+            <PolicyOverlay>
+              <PolicyClose onClick={() => navigate("/")}>CLOSE</PolicyClose>
+              <PolicyContent>
+                <h1>이용약관</h1>
+
+                <h2>제1조 (목적)</h2>
+                <p>
+                  본 약관은 더존바이오(이하 "회사")가 운영하는 온라인 쇼핑몰에서
+                  제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어
+                  회사와 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로
+                  합니다.
+                </p>
+
+                <h2>제2조 (정의)</h2>
+                <p>
+                  · "쇼핑몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기
+                  위하여 정보통신설비를 이용하여 설정한 가상의 영업장을
+                  말합니다.
+                  <br />· "이용자"란 쇼핑몰에 접속하여 본 약관에 따라 쇼핑몰이
+                  제공하는 서비스를 받는 회원 및 비회원을 말합니다.
+                </p>
+
+                <h2>제3조 (약관의 명시와 개정)</h2>
+                <p>
+                  회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 서비스 초기
+                  화면에 게시합니다. 약관을 개정할 경우 적용일자 및 개정사유를
+                  명시하여 현행 약관과 함께 7일 전에 공지합니다.
+                </p>
+
+                <h2>제4조 (서비스의 제공 및 변경)</h2>
+                <p>
+                  회사는 다음과 같은 서비스를 제공합니다.
+                  <br />
+                  · 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
+                  <br />
+                  · 구매계약이 체결된 재화 또는 용역의 배송
+                  <br />· 기타 회사가 정하는 서비스
+                </p>
+
+                <h2>제5조 (구매 및 결제)</h2>
+                <p>
+                  이용자는 쇼핑몰에서 다음의 방법으로 구매를 신청하며, 회사는
+                  이용자의 구매 신청에 대하여 각 호의 사항을 알기 쉽게
+                  제공하여야 합니다.
+                  <br />
+                  · 재화 등의 검색 및 선택
+                  <br />
+                  · 성명, 주소, 전화번호, 결제 정보 입력
+                  <br />
+                  · 약관 동의 확인
+                  <br />· 결제 방법 선택 및 결제
+                </p>
+
+                <h2>제6조 (배송)</h2>
+                <p>
+                  회사는 이용자와 배송 시기에 관한 별도의 약정이 없는 이상,
+                  주문일로부터 3~5 영업일 이내에 배송합니다. 다만, 회사의 사정에
+                  의해 지연될 수 있으며 이 경우 사전에 안내합니다.
+                </p>
+
+                <h2>제7조 (개인정보보호)</h2>
+                <p>
+                  회사는 이용자의 개인정보를 수집 시 서비스 제공에 필요한
+                  최소한의 정보만을 수집하며, 개인정보처리방침에 따라 이용자의
+                  개인정보를 보호합니다.
+                </p>
+
+                <h2>제8조 (분쟁해결)</h2>
+                <p>
+                  회사와 이용자 간에 발생한 분쟁에 관하여는 전자거래기본법,
+                  전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한
+                  법률 등 관련 법령에 따릅니다.
+                </p>
+
+                <div
+                  style={{
+                    marginTop: 40,
+                    padding: "16px 0",
+                    borderTop: "1px solid rgba(255,255,255,0.1)",
+                    fontSize: 11,
+                    color: "rgba(255,255,255,0.3)",
+                  }}
+                >
+                  상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 :
+                  787-31-01774
                   <br />
                   사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층
                   더블유엔73호(송도동, 송도 센트로드)
                   <br />
-                  업태 : 도매 및 소매업 &nbsp;|&nbsp; 종목 : 전자상거래 소매업
-                  &nbsp;|&nbsp; 이메일 : me@thezonebio.com
-                  <br />
                   통신판매업신고번호 : 제 2025-인천연수구-2735 호<br />
-                  고객센터 : 010-9942-7360
-                </FtBizInfo>
-
-                <FtPolicyLinks>
-                  <FtPolicyLink onClick={() => navigate("/refund")}>
-                    환불정책
-                  </FtPolicyLink>
-                  <FtPolicyLink onClick={() => navigate("/terms")}>
-                    이용약관
-                  </FtPolicyLink>
-                </FtPolicyLinks>
-
-                <FtSocialLinks>
-                  <FtSocialLink
-                    href="https://www.instagram.com/thezonebio.kr"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Instagram
-                  </FtSocialLink>
-                  <FtSocialLink
-                    href="https://smartstore.naver.com/thezonebio"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Naver Store
-                  </FtSocialLink>
-                </FtSocialLinks>
-              </FooterSection>
-            </SubPageContent>
-          </SubPageWrap>
-        </ScrollableContent>
-      </BottomSheet>
-
-      </>} />
-
-        <Route path="/product/:key" element={
-          <ProductDetailPage
-            addToCart={addToCart}
-            requireLogin={requireLogin}
-            goToCheckout={goToCheckout}
-            navigate={navigate}
-          />
-        } />
-
-        <Route path="/checkout" element={
-          <CheckoutPageContent
-            cart={cart}
-            cartTotal={cartTotal}
-            shipping={shipping}
-            setShipping={setShipping}
-            handleAddressSearch={handleAddressSearch}
-            handlePayment={handlePayment}
-            isProcessing={isProcessing}
-            navigate={navigate}
-          />
-        } />
-
-        <Route path="/order-complete" element={
-          <OrderCompleteOverlay>
-            <OrderCheckIcon>
-              <svg
-                width="36"
-                height="36"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#e8743a"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </OrderCheckIcon>
-            <OrderTitle>주문 완료</OrderTitle>
-            <OrderSub>
-              결제가 정상적으로 완료되었습니다.
-              <br />
-              주문하신 상품은 빠르게 준비하여 발송해 드리겠습니다.
-            </OrderSub>
-            <OrderInfoCard>
-              <OrderInfoRow>
-                <OrderInfoLabel>주문번호</OrderInfoLabel>
-                <OrderInfoValue style={{ fontSize: 12, wordBreak: "break-all" }}>
-                  {orderComplete?.orderId}
-                </OrderInfoValue>
-              </OrderInfoRow>
-              <OrderInfoRow>
-                <OrderInfoLabel>결제금액</OrderInfoLabel>
-                <OrderInfoValue>
-                  {orderComplete?.amount.toLocaleString()}원
-                </OrderInfoValue>
-              </OrderInfoRow>
-              <OrderInfoRow>
-                <OrderInfoLabel>결제수단</OrderInfoLabel>
-                <OrderInfoValue>간편결제</OrderInfoValue>
-              </OrderInfoRow>
-              <OrderInfoRow>
-                <OrderInfoLabel>결제상태</OrderInfoLabel>
-                <OrderInfoValue style={{ color: "#e8743a" }}>
-                  결제완료
-                </OrderInfoValue>
-              </OrderInfoRow>
-            </OrderInfoCard>
-            <OrderHomeBtn onClick={() => { setOrderComplete(null); navigate("/", { replace: true }); }}>
-              홈으로 돌아가기
-            </OrderHomeBtn>
-            <OrderContactNote>
-              주문 관련 문의: 010-9942-7360
-              <br />
-              me@thezonebio.com
-            </OrderContactNote>
-          </OrderCompleteOverlay>
-        } />
-
-        <Route path="/refund" element={
-          <PolicyOverlay>
-            <PolicyClose onClick={() => navigate("/")}>CLOSE</PolicyClose>
-            <PolicyContent>
-              <h1>환불정책</h1>
-
-              <h2>1. 반품/환불 기본 안내</h2>
-              <p>
-                상품 수령일로부터 7일 이내에 반품 및 환불을 요청하실 수 있습니다.
-                단, 식품 특성상 고객의 단순 변심에 의한 반품은 제한될 수 있으며,
-                상품 하자나 배송 오류의 경우 전액 환불 처리됩니다.
-              </p>
-
-              <h2>2. 환불이 가능한 경우</h2>
-              <p>
-                · 상품이 파손 또는 변질된 상태로 배송된 경우
-                <br />
-                · 주문한 상품과 다른 상품이 배송된 경우
-                <br />· 상품 수령 후 7일 이내 미개봉 상태인 경우
-              </p>
-
-              <h2>3. 환불이 불가한 경우</h2>
-              <p>
-                · 개봉 후 일부 소비한 식품
-                <br />
-                · 고객의 보관 부주의로 인한 변질
-                <br />· 수령일로부터 7일이 경과한 경우
-              </p>
-
-              <h2>4. 환불 절차</h2>
-              <p>
-                고객센터(010-9942-7360) 또는 이메일(me@thezonebio.com)로 문의해
-                주세요. 접수 후 1~2 영업일 내에 확인 후 처리되며, 카드 결제 취소는
-                카드사에 따라 3~7 영업일 소요될 수 있습니다.
-              </p>
-
-              <h2>5. 배송비 부담</h2>
-              <p>
-                상품 하자 및 오배송의 경우 반품 배송비는 더존바이오가 부담합니다.
-                단순 변심의 경우 왕복 배송비는 고객 부담입니다.
-              </p>
-
-              <div
-                style={{
-                  marginTop: 40,
-                  padding: "16px 0",
-                  borderTop: "1px solid rgba(255,255,255,0.1)",
-                  fontSize: 11,
-                  color: "rgba(255,255,255,0.3)",
-                }}
-              >
-                상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
-                <br />
-                고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
-              </div>
-            </PolicyContent>
-          </PolicyOverlay>
-        } />
-
-        <Route path="/terms" element={
-          <PolicyOverlay>
-            <PolicyClose onClick={() => navigate("/")}>CLOSE</PolicyClose>
-            <PolicyContent>
-              <h1>이용약관</h1>
-
-              <h2>제1조 (목적)</h2>
-              <p>
-                본 약관은 더존바이오(이하 "회사")가 운영하는 온라인 쇼핑몰에서
-                제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 회사와
-                이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
-              </p>
-
-              <h2>제2조 (정의)</h2>
-              <p>
-                · "쇼핑몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여
-                정보통신설비를 이용하여 설정한 가상의 영업장을 말합니다.
-                <br />· "이용자"란 쇼핑몰에 접속하여 본 약관에 따라 쇼핑몰이
-                제공하는 서비스를 받는 회원 및 비회원을 말합니다.
-              </p>
-
-              <h2>제3조 (약관의 명시와 개정)</h2>
-              <p>
-                회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 서비스 초기
-                화면에 게시합니다. 약관을 개정할 경우 적용일자 및 개정사유를
-                명시하여 현행 약관과 함께 7일 전에 공지합니다.
-              </p>
-
-              <h2>제4조 (서비스의 제공 및 변경)</h2>
-              <p>
-                회사는 다음과 같은 서비스를 제공합니다.
-                <br />
-                · 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
-                <br />
-                · 구매계약이 체결된 재화 또는 용역의 배송
-                <br />· 기타 회사가 정하는 서비스
-              </p>
-
-              <h2>제5조 (구매 및 결제)</h2>
-              <p>
-                이용자는 쇼핑몰에서 다음의 방법으로 구매를 신청하며, 회사는
-                이용자의 구매 신청에 대하여 각 호의 사항을 알기 쉽게 제공하여야
-                합니다.
-                <br />
-                · 재화 등의 검색 및 선택
-                <br />
-                · 성명, 주소, 전화번호, 결제 정보 입력
-                <br />
-                · 약관 동의 확인
-                <br />· 결제 방법 선택 및 결제
-              </p>
-
-              <h2>제6조 (배송)</h2>
-              <p>
-                회사는 이용자와 배송 시기에 관한 별도의 약정이 없는 이상,
-                주문일로부터 3~5 영업일 이내에 배송합니다. 다만, 회사의 사정에
-                의해 지연될 수 있으며 이 경우 사전에 안내합니다.
-              </p>
-
-              <h2>제7조 (개인정보보호)</h2>
-              <p>
-                회사는 이용자의 개인정보를 수집 시 서비스 제공에 필요한 최소한의
-                정보만을 수집하며, 개인정보처리방침에 따라 이용자의 개인정보를
-                보호합니다.
-              </p>
-
-              <h2>제8조 (분쟁해결)</h2>
-              <p>
-                회사와 이용자 간에 발생한 분쟁에 관하여는 전자거래기본법,
-                전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한
-                법률 등 관련 법령에 따릅니다.
-              </p>
-
-              <div
-                style={{
-                  marginTop: 40,
-                  padding: "16px 0",
-                  borderTop: "1px solid rgba(255,255,255,0.1)",
-                  fontSize: 11,
-                  color: "rgba(255,255,255,0.3)",
-                }}
-              >
-                상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
-                <br />
-                사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층
-                더블유엔73호(송도동, 송도 센트로드)
-                <br />
-                통신판매업신고번호 : 제 2025-인천연수구-2735 호<br />
-                고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
-              </div>
-            </PolicyContent>
-          </PolicyOverlay>
-        } />
+                  고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
+                </div>
+              </PolicyContent>
+            </PolicyOverlay>
+          }
+        />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -4819,7 +5194,15 @@ function App() {
       {paymentProcessing && !orderComplete && (
         <OrderCompleteOverlay>
           <OrderCheckIcon style={{ animation: "spin 1s linear infinite" }}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8743a" strokeWidth="2.5" strokeLinecap="round">
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#e8743a"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            >
               <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
             </svg>
           </OrderCheckIcon>
@@ -4840,7 +5223,9 @@ function App() {
               {cart.map((item, idx) => {
                 const p = PRODUCTS[item.key];
                 const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-                const optionLabel = item.option ? TRIAL_OPTIONS.find(o => o.key === item.option)?.label : null;
+                const optionLabel = item.option
+                  ? TRIAL_OPTIONS.find((o) => o.key === item.option)?.label
+                  : null;
                 return (
                   <CartItemRow key={`${item.key}-${item.option || idx}`}>
                     <div>
@@ -4929,12 +5314,23 @@ function App() {
                         goToCheckout();
                       }
                     }}
-                    style={{ opacity: isSoldOut ? 0.4 : 1, cursor: isSoldOut ? "not-allowed" : "pointer" }}
+                    style={{
+                      opacity: isSoldOut ? 0.4 : 1,
+                      cursor: isSoldOut ? "not-allowed" : "pointer",
+                    }}
                   >
                     <TrialOptionImg src={opt.image} alt={opt.label} />
                     <div style={{ flex: 1 }}>
                       <TrialOptionLabel>{opt.label}</TrialOptionLabel>
-                      <div style={{ fontSize: 11, color: isSoldOut ? "#ff6b6b" : "rgba(255,255,255,0.5)", marginTop: 2 }}>
+                      <div
+                        style={{
+                          fontSize: 11,
+                          color: isSoldOut
+                            ? "#ff6b6b"
+                            : "rgba(255,255,255,0.5)",
+                          marginTop: 2,
+                        }}
+                      >
                         {isSoldOut ? "품절" : `잔여 ${stock}개`}
                       </div>
                     </div>
