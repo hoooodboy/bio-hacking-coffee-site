@@ -2126,7 +2126,7 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [payMethod, setPayMethod] = useState<"CARD" | "TRANSFER">("CARD");
+  const payMethod = "EASY_PAY";
   const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(
     initialRoute.policy,
   );
@@ -3506,7 +3506,8 @@ function App() {
                     value={shipping.zipCode}
                     readOnly
                     placeholder="우편번호"
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, cursor: "pointer" }}
+                    onClick={handleAddressSearch}
                   />
                   <CheckoutAddrBtn onClick={handleAddressSearch}>
                     주소 검색
@@ -3515,8 +3516,9 @@ function App() {
                 <CheckoutInput
                   value={shipping.address}
                   readOnly
-                  placeholder="주소"
-                  style={{ marginTop: 8 }}
+                  placeholder="주소를 검색해주세요"
+                  style={{ marginTop: 8, cursor: "pointer" }}
+                  onClick={handleAddressSearch}
                 />
                 <CheckoutInput
                   value={shipping.addressDetail}
@@ -3540,48 +3542,6 @@ function App() {
                   }
                   placeholder="부재 시 문 앞에 놓아주세요"
                 />
-              </CheckoutSection>
-
-              <CheckoutSection>
-                <CheckoutLabel>결제 수단</CheckoutLabel>
-                <div style={{ display: "flex", gap: 8 }}>
-                  {(
-                    [
-                      { key: "CARD" as const, label: "카드결제" },
-                      { key: "TRANSFER" as const, label: "계좌이체" },
-                    ] as const
-                  ).map((m) => (
-                    <button
-                      key={m.key}
-                      onClick={() => setPayMethod(m.key)}
-                      style={{
-                        flex: 1,
-                        padding: "12px 0",
-                        borderRadius: 8,
-                        border:
-                          payMethod === m.key
-                            ? "1.5px solid #e8743a"
-                            : "1px solid rgba(255,255,255,0.1)",
-                        background:
-                          payMethod === m.key
-                            ? "rgba(232,116,58,0.1)"
-                            : "rgba(255,255,255,0.04)",
-                        color:
-                          payMethod === m.key
-                            ? "#e8743a"
-                            : "rgba(255,255,255,0.5)",
-                        fontFamily:
-                          '"Pretendard Variable", Pretendard, sans-serif',
-                        fontSize: 13,
-                        fontWeight: 500,
-                        cursor: "pointer",
-                        transition: "all 0.2s",
-                      }}
-                    >
-                      {m.label}
-                    </button>
-                  ))}
-                </div>
               </CheckoutSection>
 
               <CheckoutPayBtn
@@ -3640,7 +3600,7 @@ function App() {
             </OrderInfoRow>
             <OrderInfoRow>
               <OrderInfoLabel>결제수단</OrderInfoLabel>
-              <OrderInfoValue>카드결제</OrderInfoValue>
+              <OrderInfoValue>간편결제</OrderInfoValue>
             </OrderInfoRow>
             <OrderInfoRow>
               <OrderInfoLabel>결제상태</OrderInfoLabel>
