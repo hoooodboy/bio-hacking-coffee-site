@@ -1339,6 +1339,34 @@ const PDBuyBtn = styled.button`
   }
 `;
 
+const PDCartBtn = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  color: #111;
+  border: 1px solid #111;
+  border-radius: 40px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  @media (min-width: 768px) {
+    font-size: 13px;
+    padding: 14px 28px;
+  }
+`;
+
+const PDBtnRow = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+`;
+
 const PDPriceArea = styled.div`
   margin-top: 16px;
   display: flex;
@@ -3304,15 +3332,27 @@ function App() {
                     <QtyNum>{pdQty}</QtyNum>
                     <QtyBtn onClick={() => setPdQty((q) => q + 1)}>+</QtyBtn>
                   </PDQtyRow>
-                  <PDBuyBtn
-                    onClick={() => {
-                      addToCart(activeProduct, pdQty);
-                      setActiveProduct(null);
-                      setPdQty(1);
-                    }}
-                  >
-                    장바구니 담기
-                  </PDBuyBtn>
+                  <PDBtnRow>
+                    <PDCartBtn
+                      onClick={() => {
+                        addToCart(activeProduct, pdQty);
+                        setActiveProduct(null);
+                        setPdQty(1);
+                      }}
+                    >
+                      장바구니 담기
+                    </PDCartBtn>
+                    <PDBuyBtn
+                      onClick={() => {
+                        addToCart(activeProduct, pdQty);
+                        setActiveProduct(null);
+                        setPdQty(1);
+                        setShowCheckout(true);
+                      }}
+                    >
+                      바로 결제
+                    </PDBuyBtn>
+                  </PDBtnRow>
                   <PDSpecsTable>
                     {p.specs.map((s, i) => (
                       <PDSpecRow key={i}>
