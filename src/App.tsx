@@ -570,9 +570,116 @@ const EventSection = styled.section`
   background: transparent;
   padding: 72px 24px 56px;
 `;
+const EventBanner = styled.div`
+  display: flex; gap: 0; border-radius: 0; overflow: hidden; margin-top: 40px; margin-bottom: 12px;
+`;
+const BannerImg = styled.div`
+  flex: 1; aspect-ratio: 1; background: #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center;
+`;
+const BannerInfo = styled.div`
+  flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; gap: 12px;
+`;
+const BannerTitle = styled.div`
+  font-family: "Instrument Serif", serif; font-size: 26px; font-weight: 400; color: #fff; line-height: 1.2;
+  em { font-style: italic; }
+  @media (min-width: 768px) { font-size: 32px; }
+`;
+const BannerDesc = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.5;
+  @media (min-width: 768px) { font-size: 15px; }
+`;
+const BannerBtn = styled.div`
+  display: inline-block; align-self: flex-start; padding: 8px 20px; border-radius: 40px;
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.25); font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px; font-weight: 600; color: #fff; cursor: pointer;
+  @media (min-width: 768px) { font-size: 14px; padding: 10px 28px; }
+`;
 const BannerNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.4);
   @media (min-width: 768px) { font-size: 11px; }
+`;
+
+/* ── Trial Flavor Modal ── */
+const TrialModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 780px;
+  height: 100dvh;
+  z-index: 250;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+`;
+const TrialModalCard = styled.div`
+  background: #111;
+  border-radius: 16px;
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+`;
+const TrialModalTitle = styled.h3`
+  font-family: "Instrument Serif", serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 8px;
+`;
+const TrialModalSub = styled.p`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin: 0 0 24px;
+`;
+const TrialOptionList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+const TrialOptionBtn = styled.button<{ bg: string }>`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: ${({ bg }) => bg};
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s;
+  &:hover { border-color: rgba(255,255,255,0.4); }
+`;
+const TrialOptionImg = styled.img`
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+`;
+const TrialOptionLabel = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+`;
+const TrialModalClose = styled.button`
+  margin-top: 20px;
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 40px;
+  color: rgba(255,255,255,0.6);
+  font-family: "Roboto Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  &:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
 `;
 
 const GridRow = styled.div`
@@ -1171,52 +1278,29 @@ const PRODUCTS = {
       },
     ],
   },
-  "trial-signature": {
-    name: "100ml 체험",
-    sub: "Signature 디카페인",
-    image: "/decaf.png",
-    bg: "#4a1a1a",
+  trial: {
+    name: "100ml 무료 체험",
+    sub: "이벤트",
+    image: "/event-hero.png",
+    bg: "#1a1a1a",
     price: "0원",
     origPrice: "0원",
     discount: "",
     specs: [
-      { label: "WHAT YOU GET", value: "Signature 디카페인 100ml × 1병" },
-      { label: "FLAVOR", value: "노루궁뎅이 버섯의 깊은 풍미와 스페셜티 디카페인 원두의 부드러운 밸런스" },
-      { label: "FOR WHO", value: "카페인 없이 집중력을 원하는 분. 밤에도 마실 수 있는 커피를 찾는 분." },
-      { label: "NOTE", value: "1인 1회 한정. 배송비 3,000원 별도." },
-    ],
-  },
-  "trial-house": {
-    name: "100ml 체험",
-    sub: "House 카페인",
-    image: "/caffeine.png",
-    bg: "#1a3a5c",
-    price: "0원",
-    origPrice: "0원",
-    discount: "",
-    specs: [
-      { label: "WHAT YOU GET", value: "House 카페인 100ml × 1병" },
-      { label: "FLAVOR", value: "스페셜티 원두의 깔끔한 첫 맛, 노루궁뎅이 버섯이 더하는 깊은 여운" },
-      { label: "FOR WHO", value: "크래시 없는 에너지를 원하는 분. 선명한 집중력이 필요한 분." },
-      { label: "NOTE", value: "1인 1회 한정. 배송비 3,000원 별도." },
-    ],
-  },
-  "trial-vibrant": {
-    name: "100ml 체험",
-    sub: "Vibrant 산미",
-    image: "/acidity.png",
-    bg: "#3a2010",
-    price: "0원",
-    origPrice: "0원",
-    discount: "",
-    specs: [
-      { label: "WHAT YOU GET", value: "Vibrant 산미 100ml × 1병" },
-      { label: "FLAVOR", value: "밝은 산미와 과일 향이 감각을 깨우는 프리미엄 블렌드" },
-      { label: "FOR WHO", value: "생동감 넘치는 산미를 좋아하는 분. 감각적인 커피를 찾는 분." },
+      { label: "WHAT YOU GET", value: "선택한 맛 100ml × 1병" },
+      { label: "OPTIONS", value: "Signature 디카페인 / House 카페인 / Vibrant 산미" },
+      { label: "FOR WHO", value: "집중력 향상이 필요한 모든 분. 첫 구매 전 맛을 확인하고 싶은 분." },
       { label: "NOTE", value: "1인 1회 한정. 배송비 3,000원 별도." },
     ],
   },
 } as const;
+
+// 체험 키트 맛 옵션
+const TRIAL_OPTIONS = [
+  { key: "signature", label: "Signature 디카페인", image: "/decaf.png", bg: "#4a1a1a" },
+  { key: "house", label: "House 카페인", image: "/caffeine.png", bg: "#1a3a5c" },
+  { key: "vibrant", label: "Vibrant 산미", image: "/acidity.png", bg: "#3a2010" },
+] as const;
 
 type ProductKey = keyof typeof PRODUCTS;
 
@@ -2135,7 +2219,7 @@ function App() {
     initialRoute.product,
   );
   const [pdQty, setPdQty] = useState(1);
-  const [cart, setCartRaw] = useState<{ key: ProductKey; qty: number }[]>(() => {
+  const [cart, setCartRaw] = useState<{ key: ProductKey; qty: number; option?: string }[]>(() => {
     try {
       const saved = localStorage.getItem("lockin_cart");
       return saved ? JSON.parse(saved) : [];
@@ -2149,6 +2233,7 @@ function App() {
     });
   };
   const [cartOpen, setCartOpen] = useState(false);
+  const [showTrialModal, setShowTrialModal] = useState(false);
   const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
   const payMethod = "CARD";
@@ -2291,7 +2376,7 @@ function App() {
       });
       trackInitiateCheckout(items, cartTotal);
       // 무료체험인 경우 리드 트래킹
-      if (cart.some((i) => i.key.startsWith("trial-"))) {
+      if (cart.some((i) => i.key === "trial")) {
         trackLead(0);
       }
     } else {
@@ -2356,24 +2441,26 @@ function App() {
     memo: "",
   });
 
-  const addToCart = (key: ProductKey, qty: number) => {
+  const addToCart = (key: ProductKey, qty: number, option?: string) => {
     // 장바구니 추가 트래킹
     const p = PRODUCTS[key];
     const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+    const optionLabel = option ? TRIAL_OPTIONS.find(o => o.key === option)?.label : undefined;
     trackAddToCart({
       product_key: key,
-      product_name: `${p.name} ${p.sub}`,
+      product_name: `${p.name} ${p.sub}${optionLabel ? ` - ${optionLabel}` : ""}`,
       price,
       quantity: qty,
     });
 
     setCart((prev) => {
-      const existing = prev.find((i) => i.key === key);
+      // trial의 경우 option으로 구분
+      const existing = prev.find((i) => i.key === key && i.option === option);
       if (existing)
         return prev.map((i) =>
-          i.key === key ? { ...i, qty: i.qty + qty } : i,
+          i.key === key && i.option === option ? { ...i, qty: i.qty + qty } : i,
         );
-      return [...prev, { key, qty }];
+      return [...prev, { key, qty, option }];
     });
   };
 
@@ -3002,43 +3089,41 @@ function App() {
               {/* Section 1: Event + Products */}
               <EventSection ref={eventReveal.ref} data-section="event">
                 <div css={revealUp(eventReveal.visible)}>
-                  <SecTitle>100ml 체험 키트</SecTitle>
+                  <SecTitle>단 100개 한정</SecTitle>
                   <SecSub>
-                    각 30개 한정.
+                    당신의 첫 번째 몰입.
                     <br />
-                    배송비만 부담하세요.
+                    100ml, 배송비만 부담하세요.
                   </SecSub>
                 </div>
-                <GridRow style={{ marginTop: 32 }}>
-                  {(["trial-signature", "trial-house", "trial-vibrant"] as const).map((key) => {
-                    const p = PRODUCTS[key];
-                    return (
-                      <div
-                        key={key}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          setCart([{ key, qty: 1 }]);
-                          setCartOpen(false);
-                          setShowCheckout(true);
-                        }}
-                      >
-                        <GridImgBox bg={p.bg} style={{ overflow: "hidden" }}>
-                          <img
-                            src={p.image}
-                            alt={p.sub}
-                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                          />
-                        </GridImgBox>
-                        <GridLabel>
-                          <ItemName>{p.name}</ItemName>
-                          <ItemSub>{p.sub}</ItemSub>
-                          <SalePrice style={{ marginTop: 4 }}>무료 (배송비 3,000원)</SalePrice>
-                        </GridLabel>
-                      </div>
-                    );
-                  })}
-                </GridRow>
-                <BannerNote style={{ marginTop: 16, textAlign: "center" }}>* 1인 1회 한정</BannerNote>
+                <EventBanner>
+                  <BannerImg>
+                    <img
+                      src="/event-hero.png"
+                      alt="100ml 무료 체험"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </BannerImg>
+                  <BannerInfo>
+                    <BannerTitle>
+                      100ml <em>무료</em>
+                      <br />
+                      체험 이벤트
+                    </BannerTitle>
+                    <BannerDesc>
+                      노루궁뎅이 버섯 × 스페셜티 콜드브루
+                      <br />한 모금이면 차이를 압니다.
+                    </BannerDesc>
+                    <BannerBtn onClick={() => setShowTrialModal(true)}>
+                      지금 경험하기
+                    </BannerBtn>
+                    <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
+                  </BannerInfo>
+                </EventBanner>
               </EventSection>
 
               {/* Section 2: Flavors */}
@@ -3216,7 +3301,7 @@ function App() {
               <CtaBanner>
                 <CtaCard>
                   <CtaImg>
-                    <img src="/decaf.png" alt="100ml 체험 키트" />
+                    <img src="/event-hero.png" alt="100ml 체험 키트" />
                   </CtaImg>
                   <CtaInfo>
                     <CtaLabel>Free Trial</CtaLabel>
@@ -3225,17 +3310,12 @@ function App() {
                       <br />
                       지금이 기회입니다.
                       <br />
-                      <strong>3종 중 택1, 무료</strong>
+                      <strong>100ml 무료</strong>
                     </CtaText>
-                    <CtaButton
-                      onClick={() => {
-                        // 상단 체험 키트 섹션으로 스크롤
-                        document.querySelector('[data-section="event"]')?.scrollIntoView({ behavior: "smooth" });
-                      }}
-                    >
-                      체험 키트 선택하기
+                    <CtaButton onClick={() => setShowTrialModal(true)}>
+                      지금 경험하기
                     </CtaButton>
-                    <CtaNote>* 배송비 3,000원 · 1인 1회 · 각 30개 한정</CtaNote>
+                    <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
                   </CtaInfo>
                 </CtaCard>
               </CtaBanner>
@@ -3387,14 +3467,15 @@ function App() {
               <CartTitle>
                 Cart ({cart.reduce((s, i) => s + i.qty, 0)})
               </CartTitle>
-              {cart.map((item) => {
+              {cart.map((item, idx) => {
                 const p = PRODUCTS[item.key];
                 const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+                const optionLabel = item.option ? TRIAL_OPTIONS.find(o => o.key === item.option)?.label : null;
                 return (
-                  <CartItemRow key={item.key}>
+                  <CartItemRow key={`${item.key}-${item.option || idx}`}>
                     <div>
                       <CartItemName>
-                        {p.name} {p.sub}
+                        {p.name} {optionLabel ? `- ${optionLabel}` : p.sub}
                       </CartItemName>
                       <CartItemPrice>
                         {(price * item.qty).toLocaleString()}원
@@ -3461,18 +3542,19 @@ function App() {
             {/* Left: Order Preview */}
             <CheckoutPreview>
               <CheckoutPreviewTitle>주문 확인</CheckoutPreviewTitle>
-              {cart.map((item) => {
+              {cart.map((item, idx) => {
                 const p = PRODUCTS[item.key];
                 const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+                const opt = item.option ? TRIAL_OPTIONS.find(o => o.key === item.option) : null;
                 return (
-                  <CheckoutProductCard key={item.key}>
-                    <CheckoutProductThumb bg={p.bg}>
-                      <img src={p.image} alt={p.name} />
+                  <CheckoutProductCard key={`${item.key}-${item.option || idx}`}>
+                    <CheckoutProductThumb bg={opt?.bg || p.bg}>
+                      <img src={opt?.image || p.image} alt={p.name} />
                     </CheckoutProductThumb>
                     <CheckoutProductInfo>
                       <CheckoutProductName>{p.name}</CheckoutProductName>
                       <CheckoutProductSub>
-                        {p.sub} · {item.qty}개
+                        {opt?.label || p.sub} · {item.qty}개
                       </CheckoutProductSub>
                     </CheckoutProductInfo>
                     <CheckoutProductPrice>
@@ -3826,6 +3908,35 @@ function App() {
             </div>
           </PolicyContent>
         </PolicyOverlay>
+      )}
+
+      {/* Trial Flavor Selection Modal */}
+      {showTrialModal && (
+        <TrialModalOverlay onClick={() => setShowTrialModal(false)}>
+          <TrialModalCard onClick={(e) => e.stopPropagation()}>
+            <TrialModalTitle>맛을 선택하세요</TrialModalTitle>
+            <TrialModalSub>100ml 무료 체험 · 배송비 3,000원</TrialModalSub>
+            <TrialOptionList>
+              {TRIAL_OPTIONS.map((opt) => (
+                <TrialOptionBtn
+                  key={opt.key}
+                  bg={opt.bg}
+                  onClick={() => {
+                    addToCart("trial", 1, opt.key);
+                    setShowTrialModal(false);
+                    setShowCheckout(true);
+                  }}
+                >
+                  <TrialOptionImg src={opt.image} alt={opt.label} />
+                  <TrialOptionLabel>{opt.label}</TrialOptionLabel>
+                </TrialOptionBtn>
+              ))}
+            </TrialOptionList>
+            <TrialModalClose onClick={() => setShowTrialModal(false)}>
+              닫기
+            </TrialModalClose>
+          </TrialModalCard>
+        </TrialModalOverlay>
       )}
     </div>
   );
