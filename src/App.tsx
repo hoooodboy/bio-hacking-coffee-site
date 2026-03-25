@@ -295,6 +295,102 @@ const LoginCouponBanner = styled.div`
   span { font-size: 11px; color: rgba(232,116,58,0.7); font-weight: 400; display: block; margin-top: 2px; }
 `;
 
+/* ─── Welcome (Signup Congrats) Modal ─── */
+
+const WelcomeOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+`;
+
+const WelcomeCard = styled.div`
+  position: relative;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 48px 28px 36px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+`;
+
+const WelcomeEmoji = styled.div`
+  font-size: 48px;
+  margin-bottom: 16px;
+`;
+
+const WelcomeTitle = styled.h2`
+  font-family: "Instrument Serif", serif;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 400;
+  margin: 0 0 8px;
+`;
+
+const WelcomeText = styled.p`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 24px;
+`;
+
+const WelcomeCoupon = styled.div`
+  background: rgba(232, 116, 58, 0.12);
+  border: 1px solid rgba(232, 116, 58, 0.25);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+`;
+
+const WelcomeCouponAmount = styled.div`
+  font-family: "Instrument Serif", serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: #e8743a;
+  line-height: 1;
+  margin-bottom: 4px;
+`;
+
+const WelcomeCouponLabel = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8743a;
+`;
+
+const WelcomeCouponCondition = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  color: rgba(232, 116, 58, 0.6);
+  margin-top: 4px;
+`;
+
+const WelcomeBtn = styled.button`
+  width: 100%;
+  background: #e8743a;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  transition: all 0.2s;
+  &:hover { background: #d4632e; }
+`;
+
 /* ─── My Page ─── */
 
 const MyPageOverlay = styled.div`
@@ -1813,10 +1909,11 @@ const PDSub = styled.div`
 `;
 
 const PDBuyBtn = styled.button`
+  flex: 1;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin-top: 20px;
   padding: 12px 24px;
   background: #111;
   color: #fff;
@@ -1835,8 +1932,10 @@ const PDBuyBtn = styled.button`
 `;
 
 const PDCartBtn = styled.button`
+  flex: 1;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 12px 24px;
   background: transparent;
@@ -2667,6 +2766,7 @@ function App() {
   // 로그인 관련 상태
   const [user, setUser] = useState<User | null>(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [showMyPage, setShowMyPage] = useState(false);
   const [myOrders, setMyOrders] = useState<Order[]>([]);
   const [profileForm, setProfileForm] = useState({
@@ -2756,9 +2856,14 @@ function App() {
       });
       setShowLoginModal(false);
       setLoginForm({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
+      const wasRegister = isRegisterMode;
       setIsRegisterMode(false);
-      // 로그인 후 대기 중이던 액션 실행
-      if (pendingAction) { pendingAction(); setPendingAction(null); }
+      if (wasRegister) {
+        setShowWelcomeModal(true);
+      } else {
+        // 로그인 후 대기 중이던 액션 실행
+        if (pendingAction) { pendingAction(); setPendingAction(null); }
+      }
     } catch (error) {
       setLoginError("서버 연결에 실패했습니다.");
     }
@@ -3481,10 +3586,9 @@ function App() {
   return (
     <div>
       {/* Global Header — visible after intro dismissed */}
-      <GlobalHeader visible={!introVisible}>
+      <GlobalHeader visible={showText}>
         <HeaderLogo onClick={() => { setShowMyPage(false); window.history.replaceState(null, "", "/"); }}>
-          <img src="/logo.png" alt="더존바이오" />
-          <span>THE ZONE BIO</span>
+          <img src="https://www.thezone.bio/logo.png" alt="더존바이오" />
         </HeaderLogo>
         <HeaderActions>
           {user ? (
@@ -3594,6 +3698,25 @@ function App() {
             </LoginToggle>
           </LoginModalCard>
         </LoginModalOverlay>
+      )}
+
+      {/* Welcome (Signup Congrats) Modal */}
+      {showWelcomeModal && (
+        <WelcomeOverlay onClick={() => { setShowWelcomeModal(false); if (pendingAction) { pendingAction(); setPendingAction(null); } }}>
+          <WelcomeCard onClick={(e) => e.stopPropagation()}>
+            <WelcomeEmoji>🎉</WelcomeEmoji>
+            <WelcomeTitle>Welcome!</WelcomeTitle>
+            <WelcomeText>회원가입이 완료되었습니다.<br />감사합니다!</WelcomeText>
+            <WelcomeCoupon>
+              <WelcomeCouponAmount>3,000원</WelcomeCouponAmount>
+              <WelcomeCouponLabel>할인 쿠폰 지급 완료</WelcomeCouponLabel>
+              <WelcomeCouponCondition>50,000원 이상 구매 시 사용 가능</WelcomeCouponCondition>
+            </WelcomeCoupon>
+            <WelcomeBtn onClick={() => { setShowWelcomeModal(false); if (pendingAction) { pendingAction(); setPendingAction(null); } }}>
+              쇼핑 계속하기
+            </WelcomeBtn>
+          </WelcomeCard>
+        </WelcomeOverlay>
       )}
 
       {/* My Page */}
