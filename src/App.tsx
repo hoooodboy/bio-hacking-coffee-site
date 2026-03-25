@@ -173,7 +173,7 @@ const HeaderUserBtn = styled.button`
 const LoginModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 250;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
@@ -1822,18 +1822,9 @@ const pdSlideUp = keyframes`
 `;
 
 const PDOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 780px;
-  height: 100dvh;
-  z-index: 200;
+  min-height: 100dvh;
   background: #f5f0ea;
   animation: ${pdFadeIn} 0.3s ease-out;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 `;
 
 const PDLayout = styled.div`
@@ -1958,7 +1949,6 @@ const PDBtnRow = styled.div`
   display: flex;
   gap: 12px;
   margin-top: 20px;
-  flex-wrap: wrap;
 `;
 
 const PDPriceArea = styled.div`
@@ -3605,8 +3595,8 @@ function App() {
   return (
     <div>
       {/* Global Header — visible after intro dismissed */}
-      <GlobalHeader visible={showText}>
-        <HeaderLogo onClick={() => { setShowMyPage(false); window.history.replaceState(null, "", "/"); }}>
+      <GlobalHeader visible={showText || !!activeProduct}>
+        <HeaderLogo onClick={() => { setActiveProduct(null); setPdQty(1); setShowMyPage(false); }}>
           <img src="https://www.thezone.bio/logo.png" alt="더존바이오" />
         </HeaderLogo>
         <HeaderActions>
@@ -3827,6 +3817,7 @@ function App() {
         </MyPageOverlay>
       )}
 
+      {!activeProduct && !showCheckout && !policyModal && (<>
       {/* Intro overlay — captures first tap for iOS video activation */}
       {introVisible && (
         <IntroOverlay
@@ -4341,7 +4332,9 @@ function App() {
         </ScrollableContent>
       </BottomSheet>
 
-      {/* Product Detail Modal */}
+      </>)}
+
+      {/* Product Detail Page */}
       {activeProduct &&
         (() => {
           const p = PRODUCTS[activeProduct];
