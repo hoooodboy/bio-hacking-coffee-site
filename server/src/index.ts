@@ -4,6 +4,7 @@ import { paymentRouter } from "./routes/payment";
 import { orderRouter } from "./routes/order";
 import { userRouter } from "./routes/user";
 import { inventoryRouter } from "./routes/inventory";
+import { authRouter } from "./routes/auth";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -27,6 +28,7 @@ app.get("/", (_req, res) => {
 });
 
 // Routes
+app.use("/api/auth", authRouter);
 app.use("/api/payment", paymentRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/users", userRouter);

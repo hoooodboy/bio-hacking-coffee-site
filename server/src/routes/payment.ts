@@ -8,7 +8,7 @@ const TOSS_SECRET_KEY = process.env.TOSS_SECRET_KEY || "live_sk_Z1aOwX7K8m1AZNJm
 
 // 결제 승인
 router.post("/confirm", async (req: Request, res: Response) => {
-  const { paymentKey, orderId, amount } = req.body;
+  const { paymentKey, orderId, amount, userId } = req.body;
 
   if (!paymentKey || !orderId || !amount) {
     res.status(400).json({ error: "Missing required fields: paymentKey, orderId, amount" });
@@ -40,6 +40,7 @@ router.post("/confirm", async (req: Request, res: Response) => {
       order_id: orderId,
       payment_key: paymentKey,
       amount,
+      user_id: userId || null, // 로그인한 사용자의 ID 연동
       status: "DONE",
       method: tossData.method || "카드",
       order_name: tossData.orderName || "",

@@ -14,6 +14,29 @@ import {
 
 const API_URL = "https://bio-hacking-coffee-api.onrender.com";
 
+// 사용자 타입 정의
+interface User {
+  id: string;
+  kakao_id: string;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  address_detail: string | null;
+  zip_code: string | null;
+}
+
+// 주문 타입 정의
+interface Order {
+  id: number;
+  order_id: string;
+  amount: number;
+  status: string;
+  order_name: string;
+  shipping_status: string;
+  created_at: string;
+}
+
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -63,6 +86,324 @@ const revealRight = (visible: boolean, delay = 0) => css`
   transition:
     opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s,
     transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s;
+`;
+
+/* ─── Global Header ─── */
+
+const GlobalHeader = styled.header`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 780px;
+  height: 56px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+const HeaderLogo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  img {
+    width: 28px;
+    height: 28px;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const HeaderBtn = styled.button`
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+`;
+
+const HeaderUserBtn = styled.button`
+  background: #e8743a;
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    background: #d66830;
+  }
+`;
+
+/* ─── Login Modal ─── */
+
+const LoginModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+`;
+
+const LoginModalCard = styled.div`
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 32px 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+`;
+
+const LoginModalTitle = styled.h2`
+  color: #fff;
+  font-size: 20px;
+  margin: 0 0 8px;
+`;
+
+const LoginModalSub = styled.p`
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  margin: 0 0 24px;
+`;
+
+const KakaoLoginBtn = styled.button`
+  width: 100%;
+  background: #fee500;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #191919;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  &:hover {
+    background: #f5dc00;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const LoginModalClose = styled.button`
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 16px;
+  cursor: pointer;
+  font-size: 13px;
+  &:hover {
+    color: #fff;
+  }
+`;
+
+/* ─── My Page ─── */
+
+const MyPageOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: #000;
+  overflow-y: auto;
+  padding-top: 56px;
+`;
+
+const MyPageContent = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+`;
+
+const MyPageHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+`;
+
+const MyPageTitle = styled.h1`
+  color: #fff;
+  font-size: 24px;
+  margin: 0;
+`;
+
+const MyPageCloseBtn = styled.button`
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+`;
+
+const MyPageSection = styled.section`
+  margin-bottom: 32px;
+`;
+
+const MyPageSectionTitle = styled.h2`
+  color: #fff;
+  font-size: 16px;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+const ProfileForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const ProfileField = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const ProfileLabel = styled.label`
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+`;
+
+const ProfileInput = styled.input`
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  color: #fff;
+  font-size: 14px;
+  &:focus {
+    outline: none;
+    border-color: #e8743a;
+  }
+`;
+
+const ProfileSaveBtn = styled.button`
+  background: #e8743a;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px;
+  &:hover {
+    background: #d66830;
+  }
+  &:disabled {
+    background: #666;
+    cursor: not-allowed;
+  }
+`;
+
+const OrderList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const OrderCard = styled.div`
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 16px;
+`;
+
+const OrderCardTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+`;
+
+const OrderDate = styled.span`
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+`;
+
+const OrderStatus = styled.span<{ status: string }>`
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: ${({ status }) =>
+    status === "pending" ? "#4a4a00" :
+    status === "shipped" ? "#004a4a" :
+    status === "delivered" ? "#004a00" : "#333"};
+  color: ${({ status }) =>
+    status === "pending" ? "#ffff00" :
+    status === "shipped" ? "#00ffff" :
+    status === "delivered" ? "#00ff00" : "#aaa"};
+`;
+
+const OrderName = styled.div`
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 4px;
+`;
+
+const OrderAmount = styled.div`
+  color: #e8743a;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+const EmptyOrders = styled.div`
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  padding: 40px 0;
+`;
+
+const LogoutBtn = styled.button`
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 16px;
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+  }
 `;
 
 /* ─── Hero Section ─── */
@@ -2265,6 +2606,154 @@ function App() {
   } | null>(null);
   const [paymentProcessing, setPaymentProcessing] = useState(isPaymentSuccess);
 
+  // 로그인 관련 상태
+  const [user, setUser] = useState<User | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showMyPage, setShowMyPage] = useState(false);
+  const [myOrders, setMyOrders] = useState<Order[]>([]);
+  const [profileForm, setProfileForm] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    address_detail: "",
+    zip_code: "",
+  });
+  const [profileSaving, setProfileSaving] = useState(false);
+
+  // 로그인 토큰 확인 및 사용자 정보 로드
+  useEffect(() => {
+    const token = localStorage.getItem("auth_token");
+    if (token) {
+      fetch(`${API_URL}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((r) => {
+          if (!r.ok) throw new Error("Invalid token");
+          return r.json();
+        })
+        .then((userData: User) => {
+          setUser(userData);
+          setProfileForm({
+            name: userData.name || "",
+            phone: userData.phone || "",
+            address: userData.address || "",
+            address_detail: userData.address_detail || "",
+            zip_code: userData.zip_code || "",
+          });
+        })
+        .catch(() => {
+          localStorage.removeItem("auth_token");
+        });
+    }
+  }, []);
+
+  // 카카오 로그인 콜백 처리
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const auth = params.get("auth");
+    const token = params.get("token");
+
+    if (auth === "success" && token) {
+      localStorage.setItem("auth_token", token);
+      // 사용자 정보 로드
+      fetch(`${API_URL}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((r) => r.json())
+        .then((userData: User) => {
+          setUser(userData);
+          setProfileForm({
+            name: userData.name || "",
+            phone: userData.phone || "",
+            address: userData.address || "",
+            address_detail: userData.address_detail || "",
+            zip_code: userData.zip_code || "",
+          });
+        });
+      // URL에서 파라미터 제거
+      params.delete("auth");
+      params.delete("token");
+      const clean = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
+      window.history.replaceState(null, "", clean);
+    } else if (auth === "error") {
+      alert("로그인에 실패했습니다. 다시 시도해주세요.");
+      params.delete("auth");
+      params.delete("message");
+      const clean = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
+      window.history.replaceState(null, "", clean);
+    }
+  }, []);
+
+  // 카카오 로그인 시작
+  const handleKakaoLogin = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/auth/kakao`);
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      alert("로그인 연결에 실패했습니다.");
+    }
+  };
+
+  // 로그아웃
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    setUser(null);
+    setShowMyPage(false);
+    setMyOrders([]);
+  };
+
+  // 마이페이지 열기 (주문 내역 로드)
+  const openMyPage = async () => {
+    setShowMyPage(true);
+    if (user) {
+      try {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(`${API_URL}/api/users/${user.id}/orders`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        const orders = await res.json();
+        setMyOrders(orders);
+      } catch (error) {
+        console.error("Failed to load orders:", error);
+      }
+    }
+  };
+
+  // 프로필 저장
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    setProfileSaving(true);
+    try {
+      const token = localStorage.getItem("auth_token");
+      await fetch(`${API_URL}/api/users/${user.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(profileForm),
+      });
+      setUser({ ...user, ...profileForm });
+      alert("저장되었습니다.");
+    } catch (error) {
+      alert("저장에 실패했습니다.");
+    }
+    setProfileSaving(false);
+  };
+
+  // 배송 상태 한글 변환
+  const getShippingStatusText = (status: string) => {
+    switch (status) {
+      case "pending": return "배송 준비중";
+      case "shipped": return "배송중";
+      case "delivered": return "배송 완료";
+      default: return status;
+    }
+  };
+
   // 결제 완료 URL 파라미터 감지 → 서버 승인 요청
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -2273,7 +2762,8 @@ function App() {
       const orderId = params.get("orderId") || "";
       const amount = parseInt(params.get("amount") || "0");
       const paymentKey = params.get("paymentKey") || "";
-      // 서버에 결제 승인 요청
+      // 서버에 결제 승인 요청 (로그인한 경우 userId 포함)
+      const savedUserId = sessionStorage.getItem("checkout_user_id") || "";
       fetch(`${API_URL}/api/payment/confirm`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -2281,6 +2771,7 @@ function App() {
           paymentKey,
           orderId,
           amount,
+          userId: savedUserId || undefined,
           fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || "",
           fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || "",
         }),
@@ -2331,6 +2822,7 @@ function App() {
             }
             sessionStorage.removeItem("shipping");
             sessionStorage.removeItem("cart");
+            sessionStorage.removeItem("checkout_user_id");
           } else {
             setPaymentProcessing(false);
             window.history.replaceState(null, "", "/");
@@ -2455,6 +2947,21 @@ function App() {
     memo: "",
   });
 
+  // 로그인한 사용자의 기본 배송 정보 자동 채우기
+  useEffect(() => {
+    if (user && showCheckout) {
+      setShipping((prev) => ({
+        ...prev,
+        name: prev.name || user.name || "",
+        phone: prev.phone || user.phone || "",
+        email: prev.email || user.email || "",
+        zipCode: prev.zipCode || user.zip_code || "",
+        address: prev.address || user.address || "",
+        addressDetail: prev.addressDetail || user.address_detail || "",
+      }));
+    }
+  }, [user, showCheckout]);
+
   const addToCart = (key: ProductKey, qty: number, option?: string) => {
     // 장바구니 추가 트래킹
     const p = PRODUCTS[key];
@@ -2523,6 +3030,12 @@ function App() {
     // 배송 정보를 sessionStorage에 저장 (결제 후 서버 전송용)
     sessionStorage.setItem("shipping", JSON.stringify(shipping));
     sessionStorage.setItem("cart", JSON.stringify(cart));
+    // 로그인한 경우 userId 저장
+    if (user) {
+      sessionStorage.setItem("checkout_user_id", user.id);
+    } else {
+      sessionStorage.removeItem("checkout_user_id");
+    }
     try {
       const clientKey = "live_ck_5OWRapdA8dJOA1QZMXEAVo1zEqZK";
       const tossPayments = window.TossPayments(clientKey);
@@ -2890,6 +3403,133 @@ function App() {
 
   return (
     <div>
+      {/* Global Header */}
+      <GlobalHeader>
+        <HeaderLogo onClick={() => { setShowMyPage(false); window.history.replaceState(null, "", "/"); }}>
+          <img src="/logo.png" alt="더존바이오" />
+          <span>THE ZONE BIO</span>
+        </HeaderLogo>
+        <HeaderActions>
+          {user ? (
+            <HeaderUserBtn onClick={openMyPage}>
+              {user.name || "마이페이지"}
+            </HeaderUserBtn>
+          ) : (
+            <HeaderBtn onClick={() => setShowLoginModal(true)}>
+              로그인
+            </HeaderBtn>
+          )}
+        </HeaderActions>
+      </GlobalHeader>
+
+      {/* Login Modal */}
+      {showLoginModal && (
+        <LoginModalOverlay onClick={() => setShowLoginModal(false)}>
+          <LoginModalCard onClick={(e) => e.stopPropagation()}>
+            <LoginModalTitle>로그인</LoginModalTitle>
+            <LoginModalSub>카카오 계정으로 간편하게 로그인하세요</LoginModalSub>
+            <KakaoLoginBtn onClick={handleKakaoLogin}>
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3C6.48 3 2 6.48 2 10.5c0 2.53 1.67 4.74 4.17 6.02-.13.47-.83 3.04-.87 3.27 0 0-.02.08.04.11.06.03.14.01.14.01.18-.03 2.14-1.4 3.12-2.06.46.07.93.15 1.4.15 5.52 0 10-3.48 10-7.5S17.52 3 12 3z"/>
+              </svg>
+              카카오로 시작하기
+            </KakaoLoginBtn>
+            <LoginModalClose onClick={() => setShowLoginModal(false)}>
+              닫기
+            </LoginModalClose>
+          </LoginModalCard>
+        </LoginModalOverlay>
+      )}
+
+      {/* My Page */}
+      {showMyPage && user && (
+        <MyPageOverlay>
+          <MyPageContent>
+            <MyPageHeader>
+              <MyPageTitle>마이페이지</MyPageTitle>
+              <MyPageCloseBtn onClick={() => setShowMyPage(false)}>닫기</MyPageCloseBtn>
+            </MyPageHeader>
+
+            {/* 회원 정보 */}
+            <MyPageSection>
+              <MyPageSectionTitle>회원 정보</MyPageSectionTitle>
+              <ProfileForm>
+                <ProfileField>
+                  <ProfileLabel>이름</ProfileLabel>
+                  <ProfileInput
+                    value={profileForm.name}
+                    onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                    placeholder="이름을 입력하세요"
+                  />
+                </ProfileField>
+                <ProfileField>
+                  <ProfileLabel>전화번호</ProfileLabel>
+                  <ProfileInput
+                    value={profileForm.phone}
+                    onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                    placeholder="010-0000-0000"
+                  />
+                </ProfileField>
+                <ProfileField>
+                  <ProfileLabel>기본 배송지</ProfileLabel>
+                  <ProfileInput
+                    value={profileForm.address}
+                    onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
+                    placeholder="주소를 입력하세요"
+                  />
+                </ProfileField>
+                <ProfileField>
+                  <ProfileLabel>상세 주소</ProfileLabel>
+                  <ProfileInput
+                    value={profileForm.address_detail}
+                    onChange={(e) => setProfileForm({ ...profileForm, address_detail: e.target.value })}
+                    placeholder="상세 주소를 입력하세요"
+                  />
+                </ProfileField>
+                <ProfileField>
+                  <ProfileLabel>우편번호</ProfileLabel>
+                  <ProfileInput
+                    value={profileForm.zip_code}
+                    onChange={(e) => setProfileForm({ ...profileForm, zip_code: e.target.value })}
+                    placeholder="우편번호"
+                  />
+                </ProfileField>
+                <ProfileSaveBtn onClick={handleSaveProfile} disabled={profileSaving}>
+                  {profileSaving ? "저장 중..." : "저장하기"}
+                </ProfileSaveBtn>
+              </ProfileForm>
+            </MyPageSection>
+
+            {/* 주문 내역 */}
+            <MyPageSection>
+              <MyPageSectionTitle>주문 내역</MyPageSectionTitle>
+              {myOrders.length > 0 ? (
+                <OrderList>
+                  {myOrders.map((order) => (
+                    <OrderCard key={order.id}>
+                      <OrderCardTop>
+                        <OrderDate>
+                          {new Date(order.created_at).toLocaleDateString("ko-KR")}
+                        </OrderDate>
+                        <OrderStatus status={order.shipping_status}>
+                          {getShippingStatusText(order.shipping_status)}
+                        </OrderStatus>
+                      </OrderCardTop>
+                      <OrderName>{order.order_name}</OrderName>
+                      <OrderAmount>{order.amount.toLocaleString()}원</OrderAmount>
+                    </OrderCard>
+                  ))}
+                </OrderList>
+              ) : (
+                <EmptyOrders>주문 내역이 없습니다</EmptyOrders>
+              )}
+            </MyPageSection>
+
+            <LogoutBtn onClick={handleLogout}>로그아웃</LogoutBtn>
+          </MyPageContent>
+        </MyPageOverlay>
+      )}
+
       {/* Intro overlay — captures first tap for iOS video activation */}
       {introVisible && (
         <IntroOverlay
