@@ -183,6 +183,7 @@ const LoginModalOverlay = styled.div`
 `;
 
 const LoginModalCard = styled.div`
+  position: relative;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(40px) saturate(150%);
   -webkit-backdrop-filter: blur(40px) saturate(150%);
@@ -196,7 +197,7 @@ const LoginModalCard = styled.div`
 `;
 
 const LoginModalTitle = styled.h2`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   color: #fff;
   font-size: 26px;
   font-weight: 400;
@@ -565,7 +566,7 @@ const FounderText = styled.div`
 `;
 
 const FocusText = styled.div`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 28px;
   font-weight: 400;
   text-align: right;
@@ -737,7 +738,7 @@ const NavLabel = styled.span`
 `;
 
 const BigHeading = styled.h2`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 42px;
   font-weight: 400;
   line-height: 1.15;
@@ -765,7 +766,7 @@ const LabelSmall = styled.div`
 `;
 
 const TitleLarge = styled.div`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 36px;
   font-weight: 400;
   line-height: 1.2;
@@ -822,7 +823,7 @@ const WatermarkText = styled.div<{ size?: number }>`
 `;
 
 const DetailTitle = styled.div`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 30px;
   font-weight: 400;
   line-height: 1.25;
@@ -882,7 +883,7 @@ const SubPageContent = styled.div`
 
 /* ── Shared sub-page styles ── */
 const SecTitle = styled.h2`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 32px;
   font-weight: 400;
   color: #fff;
@@ -893,7 +894,7 @@ const SecTitle = styled.h2`
 `;
 
 const SecSub = styled.p`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 22px;
   font-weight: 400;
   font-style: italic;
@@ -984,7 +985,7 @@ const BannerInfo = styled.div`
   flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; gap: 12px;
 `;
 const BannerTitle = styled.div`
-  font-family: "Instrument Serif", serif; font-size: 26px; font-weight: 400; color: #fff; line-height: 1.2;
+  font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 26px; font-weight: 400; color: #fff; line-height: 1.2;
   em { font-style: italic; }
   @media (min-width: 768px) { font-size: 32px; }
 `;
@@ -1030,7 +1031,7 @@ const TrialModalCard = styled.div`
   box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
 `;
 const TrialModalTitle = styled.h3`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 26px;
   font-weight: 400;
   color: #fff;
@@ -1140,7 +1141,7 @@ const CompanySection = styled.section`
 `;
 
 const CompanyTitle = styled.h2`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 56px;
   font-weight: 400;
   color: #fff;
@@ -1214,7 +1215,7 @@ const TraceSection = styled.section`
 `;
 
 const TraceTitle = styled.h2`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 48px;
   font-weight: 400;
   color: #fff;
@@ -1381,7 +1382,7 @@ const FtMarqueeTrack = styled.div`
 `;
 
 const FtWatermark = styled.span`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 80px;
   @media (min-width: 768px) {
     font-size: 120px;
@@ -1789,7 +1790,7 @@ const PDClose = styled.button`
 `;
 
 const PDName = styled.h2`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 40px;
   font-weight: 400;
   color: #111;
@@ -2212,7 +2213,7 @@ const CheckoutPreview = styled.div`
 `;
 
 const CheckoutPreviewTitle = styled.div`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 28px;
   font-weight: 400;
   color: #fff;
@@ -2453,7 +2454,7 @@ const OrderCheckIcon = styled.div`
 `;
 
 const OrderTitle = styled.h2`
-  font-family: "Instrument Serif", serif;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 32px;
   font-weight: 400;
   color: #fff;
@@ -3502,16 +3503,22 @@ function App() {
       {showLoginModal && (
         <LoginModalOverlay onClick={() => { setShowLoginModal(false); setPendingAction(null); }}>
           <LoginModalCard onClick={(e) => e.stopPropagation()}>
+            <LoginModalClose onClick={() => {
+              setShowLoginModal(false);
+              setLoginError("");
+              setPendingAction(null);
+              setLoginForm({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
+            }} style={{ position: "absolute", top: 16, right: 16, margin: 0, padding: "6px 10px", borderRadius: 8 }}>
+              ✕
+            </LoginModalClose>
             <LoginModalTitle>{isRegisterMode ? "회원가입" : "로그인"}</LoginModalTitle>
             <LoginModalSub>
-              {isRegisterMode ? "가입하고 3,000원 쿠폰 받기" : "이메일로 로그인하세요"}
+              {isRegisterMode ? "가입하고 3,000원 쿠폰 받기" : "로그인하고 혜택을 받아보세요"}
             </LoginModalSub>
-            {isRegisterMode && (
-              <LoginCouponBanner>
-                회원가입 시 3,000원 할인 쿠폰 즉시 지급
-                <span>50,000원 이상 구매 시 사용 가능</span>
-              </LoginCouponBanner>
-            )}
+            <LoginCouponBanner>
+              회원가입 시 3,000원 할인 쿠폰 즉시 지급
+              <span>50,000원 이상 구매 시 사용 가능</span>
+            </LoginCouponBanner>
             <LoginForm onSubmit={handleLogin}>
               {isRegisterMode && (
                 <>
@@ -3561,6 +3568,21 @@ function App() {
                 {loginLoading ? "처리 중..." : isRegisterMode ? "회원가입하고 쿠폰 받기" : "로그인"}
               </LoginBtn>
             </LoginForm>
+            {pendingAction && (
+              <LoginToggle
+                type="button"
+                onClick={() => {
+                  setShowLoginModal(false);
+                  setLoginError("");
+                  const action = pendingAction;
+                  setPendingAction(null);
+                  if (action) action();
+                }}
+                style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none", marginTop: 14 }}
+              >
+                비회원으로 주문하기
+              </LoginToggle>
+            )}
             <LoginToggle
               type="button"
               onClick={() => {
@@ -3570,14 +3592,6 @@ function App() {
             >
               {isRegisterMode ? "이미 계정이 있으신가요? 로그인" : "계정이 없으신가요? 회원가입"}
             </LoginToggle>
-            <LoginModalClose onClick={() => {
-              setShowLoginModal(false);
-              setLoginError("");
-              setPendingAction(null);
-              setLoginForm({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
-            }}>
-              닫기
-            </LoginModalClose>
           </LoginModalCard>
         </LoginModalOverlay>
       )}
@@ -4722,11 +4736,14 @@ function App() {
                   key={opt.key}
                   bg={opt.bg}
                   onClick={() => {
-                    requireLogin(() => {
-                      addToCart("trial", 1, opt.key);
-                      setShowTrialModal(false);
+                    addToCart("trial", 1, opt.key);
+                    setShowTrialModal(false);
+                    if (!user) {
+                      setPendingAction(() => () => setShowCheckout(true));
+                      setShowLoginModal(true);
+                    } else {
                       setShowCheckout(true);
-                    });
+                    }
                   }}
                 >
                   <TrialOptionImg src={opt.image} alt={opt.label} />
