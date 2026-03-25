@@ -1566,16 +1566,10 @@ const FtSocialLink = styled.a`
 
 /* ── Policy Modal ── */
 const PolicyOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 780px;
-  height: 100dvh;
-  z-index: 300;
+  min-height: 100dvh;
   background: #111;
-  overflow-y: auto;
+  position: relative;
+  z-index: 1;
   -webkit-overflow-scrolling: touch;
   animation: ${fadeIn} 0.3s ease-out;
 `;
@@ -1831,6 +1825,8 @@ const PDOverlay = styled.div`
   min-height: 100dvh;
   background: #f5f0ea;
   animation: ${pdFadeIn} 0.3s ease-out;
+  position: relative;
+  z-index: 1;
 `;
 
 const PDLayout = styled.div`
@@ -2281,16 +2277,10 @@ declare global {
 }
 
 const CheckoutOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 780px;
-  height: 100dvh;
-  z-index: 210;
+  min-height: 100dvh;
   background: #0a0a0a;
-  overflow-y: auto;
+  position: relative;
+  z-index: 1;
   -webkit-overflow-scrolling: touch;
   animation: ${pdFadeIn} 0.3s ease-out;
   color: #fff;
@@ -2516,16 +2506,10 @@ const CheckoutClose = styled.button`
 /* ─── Order Complete ─── */
 
 const OrderCompleteOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 780px;
-  height: 100dvh;
-  z-index: 220;
+  min-height: 100dvh;
   background: #0a0a0a;
-  overflow-y: auto;
+  position: relative;
+  z-index: 1;
   -webkit-overflow-scrolling: touch;
   animation: ${pdFadeIn} 0.3s ease-out;
   color: #fff;
