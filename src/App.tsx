@@ -969,98 +969,92 @@ const BannerNote = styled.div`
   @media (min-width: 768px) { font-size: 11px; }
 `;
 
-/* ── Trial Flavor Modal ── */
+/* ── Trial Flavor Modal (Glassmorphism) ── */
 const TrialModalOverlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 780px;
-  height: 100dvh;
+  inset: 0;
   z-index: 250;
-  background: rgba(0,0,0,0.92);
-  backdrop-filter: blur(20px);
+  background: rgba(0,0,0,0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
   box-sizing: border-box;
-  animation: ${fadeIn} 0.3s ease-out;
+  animation: ${fadeIn} 0.25s ease-out;
 `;
 const TrialModalCard = styled.div`
   width: 100%;
-  max-width: 480px;
+  max-width: 380px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 24px;
+  padding: 36px 28px 28px;
   text-align: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
 `;
 const TrialModalTitle = styled.h3`
   font-family: "Instrument Serif", serif;
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 400;
   color: #fff;
-  margin: 0 0 8px;
-  @media (min-width: 768px) { font-size: 36px; }
+  margin: 0 0 6px;
 `;
 const TrialModalSub = styled.p`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255,255,255,0.4);
-  margin: 0 0 36px;
-  letter-spacing: 0.5px;
+  margin: 0 0 28px;
 `;
 const TrialOptionList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  @media (max-width: 400px) { gap: 8px; }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 const TrialOptionBtn = styled.button<{ bg: string }>`
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 14px;
-  padding: 20px 12px 18px;
-  background: ${({ bg }) => bg};
-  border: 1.5px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
   cursor: pointer;
-  text-align: center;
-  transition: all 0.25s ease;
+  text-align: left;
+  transition: all 0.2s ease;
   &:hover {
-    border-color: #e8743a;
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(232,116,58,0.15);
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(232,116,58,0.5);
   }
-  &:active { transform: translateY(-1px); }
+  &:active { transform: scale(0.98); }
 `;
 const TrialOptionImg = styled.img`
-  width: 72px;
-  height: 72px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   object-fit: cover;
-  @media (max-width: 400px) { width: 56px; height: 56px; }
 `;
 const TrialOptionLabel = styled.span`
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   color: rgba(255,255,255,0.9);
-  line-height: 1.4;
-  @media (max-width: 400px) { font-size: 11px; }
 `;
 const TrialModalClose = styled.button`
-  margin-top: 28px;
-  padding: 12px 32px;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.15);
+  margin-top: 20px;
+  padding: 10px 28px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 40px;
-  color: rgba(255,255,255,0.5);
-  font-family: "Roboto Mono", monospace;
-  font-size: 11px;
-  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.4);
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
-  &:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+  &:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
 `;
 
 const GridRow = styled.div`
