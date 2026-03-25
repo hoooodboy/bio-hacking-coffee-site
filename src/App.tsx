@@ -2135,7 +2135,19 @@ function App() {
     initialRoute.product,
   );
   const [pdQty, setPdQty] = useState(1);
-  const [cart, setCart] = useState<{ key: ProductKey; qty: number }[]>([]);
+  const [cart, setCartRaw] = useState<{ key: ProductKey; qty: number }[]>(() => {
+    try {
+      const saved = localStorage.getItem("lockin_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+  const setCart: typeof setCartRaw = (val) => {
+    setCartRaw((prev) => {
+      const next = typeof val === "function" ? val(prev) : val;
+      localStorage.setItem("lockin_cart", JSON.stringify(next));
+      return next;
+    });
+  };
   const [cartOpen, setCartOpen] = useState(false);
   const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
