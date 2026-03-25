@@ -135,6 +135,86 @@ export function trackLead(value?: number) {
   pushDataLayer("generate_lead", { value, currency: "KRW" });
 }
 
+// 회원가입 완료
+export function trackCompleteRegistration(method = "email") {
+  fbq("track", "CompleteRegistration", {
+    content_name: "signup",
+    status: true,
+  });
+  pushDataLayer("sign_up", { method });
+}
+
+// 결제 정보 입력 (배송정보 입력 완료 시)
+export function trackAddPaymentInfo(items: ProductItem[], totalValue: number) {
+  fbq("track", "AddPaymentInfo", {
+    content_ids: items.map((i) => i.product_key),
+    contents: items.map((i) => ({ id: i.product_key, quantity: i.quantity })),
+    value: totalValue,
+    currency: "KRW",
+  });
+  pushDataLayer("add_payment_info", {
+    currency: "KRW",
+    value: totalValue,
+    items: items.map((item) => ({
+      item_id: item.product_key,
+      item_name: item.product_name,
+      price: item.price,
+      quantity: item.quantity,
+    })),
+  });
+}
+
+// 장바구니 제거
+export function trackRemoveFromCart(product: ProductItem) {
+  pushDataLayer("remove_from_cart", {
+    currency: "KRW",
+    value: product.price * product.quantity,
+    items: [
+      {
+        item_id: product.product_key,
+        item_name: product.product_name,
+        price: product.price,
+        quantity: product.quantity,
+      },
+    ],
+  });
+  fbq("trackCustom", "RemoveFromCart", {
+    content_ids: [product.product_key],
+    content_name: product.product_name,
+    value: product.price * product.quantity,
+    currency: "KRW",
+  });
+}
+
+// 결제 이탈 (체크아웃 페이지 떠남)
+export function trackCheckoutAbandoned(items: ProductItem[], totalValue: number) {
+  pushDataLayer("checkout_abandoned", {
+    currency: "KRW",
+    value: totalValue,
+    items: items.map((item) => ({
+      item_id: item.product_key,
+      item_name: item.product_name,
+      price: item.price,
+      quantity: item.quantity,
+    })),
+  });
+  fbq("trackCustom", "CheckoutAbandoned", {
+    content_ids: items.map((i) => i.product_key),
+    num_items: items.reduce((sum, i) => sum + i.quantity, 0),
+    value: totalValue,
+    currency: "KRW",
+  });
+}
+
+// 페이지 조회 (SPA 라우팅용)
+export function trackPageView(pageName: string, url?: string) {
+  fbq("track", "PageView");
+  pushDataLayer("page_view", {
+    page_title: pageName,
+    page_location: url || window.location.href,
+  });
+}
+
 // ============================================
 // 행동 추적 (이탈 분석용)
 // ============================================

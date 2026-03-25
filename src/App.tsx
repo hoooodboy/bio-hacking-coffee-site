@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { keyframes, css } from "@emotion/react";
 import { useEffect, useRef, useState, useCallback } from "react";
+import { Routes, Route, useNavigate, useLocation, useParams, Navigate } from "react-router-dom";
 import {
   trackViewProduct,
   trackAddToCart,
@@ -10,6 +11,11 @@ import {
   trackSectionView,
   initScrollTracking,
   initTimeTracking,
+  trackCompleteRegistration,
+  trackAddPaymentInfo,
+  trackRemoveFromCart,
+  trackCheckoutAbandoned,
+  trackPageView,
 } from "./lib/analytics";
 
 const API_URL = "https://bio-hacking-coffee-api.onrender.com";
@@ -2626,6 +2632,285 @@ const OrderContactNote = styled.p`
   line-height: 1.6;
 `;
 
+/* ─── Page Components (defined inside App.tsx for shared access to styled components) ─── */
+
+function ProductDetailPage({
+  addToCart,
+  requireLogin,
+  goToCheckout,
+  navigate,
+}: {
+  addToCart: (key: ProductKey, qty: number, option?: string) => void;
+  requireLogin: (action: () => void) => boolean;
+  goToCheckout: () => void;
+  navigate: ReturnType<typeof useNavigate>;
+}) {
+  const { key } = useParams();
+  const [pdQty, setPdQty] = useState(1);
+  const productKey = key as ProductKey;
+  if (!productKey || !(productKey in PRODUCTS)) {
+    return <Navigate to="/" replace />;
+  }
+  const p = PRODUCTS[productKey];
+
+  return (
+    <PDOverlay>
+      <PDClose
+        onClick={() => {
+          navigate("/");
+          setPdQty(1);
+        }}
+      >
+        CLOSE
+      </PDClose>
+      <PDLayout>
+        <PDImagePanel bg={p.bg}>
+          <PDProductImage src={p.image} alt={p.name} />
+        </PDImagePanel>
+        <PDInfoPanel>
+          <PDName>{p.name}</PDName>
+          <PDSub>{p.sub}</PDSub>
+          <PDPriceArea>
+            <PDPriceOrigRow>
+              <PDOrigPrice>{p.origPrice}</PDOrigPrice>
+              <PDDiscount>{p.discount}</PDDiscount>
+            </PDPriceOrigRow>
+            <PDSalePrice>{p.price}</PDSalePrice>
+          </PDPriceArea>
+          <PDQtyRow>
+            <QtyBtn onClick={() => setPdQty((q) => Math.max(1, q - 1))}>
+              −
+            </QtyBtn>
+            <QtyNum>{pdQty}</QtyNum>
+            <QtyBtn onClick={() => setPdQty((q) => q + 1)}>+</QtyBtn>
+          </PDQtyRow>
+          <PDBtnRow>
+            <PDCartBtn
+              onClick={() => {
+                addToCart(productKey, pdQty);
+                navigate("/");
+                setPdQty(1);
+              }}
+            >
+              장바구니 담기
+            </PDCartBtn>
+            <PDBuyBtn
+              onClick={() => {
+                requireLogin(() => {
+                  addToCart(productKey, pdQty);
+                  goToCheckout();
+                });
+              }}
+            >
+              바로 결제
+            </PDBuyBtn>
+          </PDBtnRow>
+          <PDSpecsTable>
+            {p.specs.map((s, i) => (
+              <PDSpecRow key={i}>
+                <PDSpecLabel>{s.label}</PDSpecLabel>
+                <PDSpecValue>{s.value}</PDSpecValue>
+              </PDSpecRow>
+            ))}
+          </PDSpecsTable>
+        </PDInfoPanel>
+      </PDLayout>
+    </PDOverlay>
+  );
+}
+
+function CheckoutPageContent({
+  cart,
+  cartTotal,
+  shipping,
+  setShipping,
+  handleAddressSearch,
+  handlePayment,
+  isProcessing,
+  navigate,
+}: {
+  cart: { key: ProductKey; qty: number; option?: string }[];
+  cartTotal: number;
+  shipping: { name: string; phone: string; email: string; zipCode: string; address: string; addressDetail: string; memo: string };
+  setShipping: React.Dispatch<React.SetStateAction<{ name: string; phone: string; email: string; zipCode: string; address: string; addressDetail: string; memo: string }>>;
+  handleAddressSearch: () => void;
+  handlePayment: () => Promise<void>;
+  isProcessing: boolean;
+  navigate: ReturnType<typeof useNavigate>;
+}) {
+  // Checkout abandoned tracking
+  useEffect(() => {
+    const currentCart = cart;
+    const currentCartTotal = cartTotal;
+    return () => {
+      if (currentCart.length > 0) {
+        const items = currentCart.map((item) => {
+          const p = PRODUCTS[item.key];
+          const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+          return {
+            product_key: item.key,
+            product_name: `${p.name} ${p.sub}`,
+            price,
+            quantity: item.qty,
+          };
+        });
+        trackCheckoutAbandoned(items, currentCartTotal);
+      }
+    };
+  }, []);
+
+  return (
+    <CheckoutOverlay>
+      <CheckoutClose onClick={() => navigate("/")}>
+        CLOSE
+      </CheckoutClose>
+      <CheckoutLayout>
+        {/* Left: Order Preview */}
+        <CheckoutPreview>
+          <CheckoutPreviewTitle>주문 확인</CheckoutPreviewTitle>
+          {cart.map((item, idx) => {
+            const p = PRODUCTS[item.key];
+            const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+            const opt = item.option ? TRIAL_OPTIONS.find(o => o.key === item.option) : null;
+            return (
+              <CheckoutProductCard key={`${item.key}-${item.option || idx}`}>
+                <CheckoutProductThumb bg={opt?.bg || p.bg}>
+                  <img src={opt?.image || p.image} alt={p.name} />
+                </CheckoutProductThumb>
+                <CheckoutProductInfo>
+                  <CheckoutProductName>{p.name}</CheckoutProductName>
+                  <CheckoutProductSub>
+                    {opt?.label || p.sub} · {item.qty}개
+                  </CheckoutProductSub>
+                </CheckoutProductInfo>
+                <CheckoutProductPrice>
+                  {(price * item.qty).toLocaleString()}원
+                </CheckoutProductPrice>
+              </CheckoutProductCard>
+            );
+          })}
+          <CheckoutTotalBlock>
+            <CheckoutTotalRow>
+              <span>상품 금액</span>
+              <span>{cartTotal.toLocaleString()}원</span>
+            </CheckoutTotalRow>
+            <CheckoutTotalRow>
+              <span>배송비</span>
+              <span>{cartTotal >= 30000 ? "무료" : "3,000원"}</span>
+            </CheckoutTotalRow>
+            <CheckoutGrandTotal>
+              <span>총 결제금액</span>
+              <span>
+                {(
+                  cartTotal + (cartTotal >= 30000 ? 0 : 3000)
+                ).toLocaleString()}
+                원
+              </span>
+            </CheckoutGrandTotal>
+          </CheckoutTotalBlock>
+        </CheckoutPreview>
+
+        {/* Right: Shipping Form */}
+        <CheckoutFormPanel>
+          <CheckoutFormTitle>배송 정보</CheckoutFormTitle>
+
+          <CheckoutSection>
+            <CheckoutLabel>이름</CheckoutLabel>
+            <CheckoutInput
+              value={shipping.name}
+              onChange={(e) =>
+                setShipping((p) => ({ ...p, name: e.target.value }))
+              }
+              placeholder="홍길동"
+            />
+          </CheckoutSection>
+
+          <CheckoutSection>
+            <CheckoutLabel>연락처</CheckoutLabel>
+            <CheckoutInput
+              value={shipping.phone}
+              onChange={(e) =>
+                setShipping((p) => ({ ...p, phone: e.target.value }))
+              }
+              placeholder="010-0000-0000"
+            />
+          </CheckoutSection>
+
+          <CheckoutSection>
+            <CheckoutLabel>이메일</CheckoutLabel>
+            <CheckoutInput
+              value={shipping.email}
+              onChange={(e) =>
+                setShipping((p) => ({ ...p, email: e.target.value }))
+              }
+              placeholder="email@example.com"
+            />
+          </CheckoutSection>
+
+          <CheckoutSection>
+            <CheckoutLabel>주소</CheckoutLabel>
+            <CheckoutInputRow>
+              <CheckoutInput
+                value={shipping.zipCode}
+                readOnly
+                placeholder="우편번호"
+                style={{ flex: 1, cursor: "pointer" }}
+                onClick={handleAddressSearch}
+              />
+              <CheckoutAddrBtn onClick={handleAddressSearch}>
+                주소 검색
+              </CheckoutAddrBtn>
+            </CheckoutInputRow>
+            <CheckoutInput
+              value={shipping.address}
+              readOnly
+              placeholder="주소를 검색해주세요"
+              style={{ marginTop: 8, cursor: "pointer" }}
+              onClick={handleAddressSearch}
+            />
+            <CheckoutInput
+              value={shipping.addressDetail}
+              onChange={(e) =>
+                setShipping((p) => ({
+                  ...p,
+                  addressDetail: e.target.value,
+                }))
+              }
+              placeholder="상세주소"
+              style={{ marginTop: 8 }}
+            />
+          </CheckoutSection>
+
+          <CheckoutSection>
+            <CheckoutLabel>배송 메모</CheckoutLabel>
+            <CheckoutInput
+              value={shipping.memo}
+              onChange={(e) =>
+                setShipping((p) => ({ ...p, memo: e.target.value }))
+              }
+              placeholder="부재 시 문 앞에 놓아주세요"
+            />
+          </CheckoutSection>
+
+          <CheckoutPayBtn
+            onClick={handlePayment}
+            disabled={
+              isProcessing ||
+              !shipping.name ||
+              !shipping.phone ||
+              !shipping.address
+            }
+          >
+            {isProcessing
+              ? "처리 중..."
+              : `${(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}원 결제하기`}
+          </CheckoutPayBtn>
+        </CheckoutFormPanel>
+      </CheckoutLayout>
+    </CheckoutOverlay>
+  );
+}
+
 /* ─── App ─── */
 
 function App() {
@@ -2641,30 +2926,8 @@ function App() {
   );
   const [introVisible, setIntroVisible] = useState(true);
   const [introHiding, setIntroHiding] = useState(false);
-  // URL-based routing helpers
-  const getInitialRoute = () => {
-    const path = window.location.pathname;
-    if (path.startsWith("/product/")) {
-      const key = path.replace("/product/", "") as ProductKey;
-      if (key in PRODUCTS)
-        return {
-          product: key,
-          checkout: false,
-          policy: null as "refund" | "terms" | null,
-        };
-    }
-    if (path === "/checkout")
-      return {
-        product: null,
-        checkout: true,
-        policy: null as "refund" | "terms" | null,
-      };
-    if (path === "/refund")
-      return { product: null, checkout: false, policy: "refund" as const };
-    if (path === "/terms")
-      return { product: null, checkout: false, policy: "terms" as const };
-    return { product: null, checkout: false, policy: null };
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // UTM 파라미터 수집 & sessionStorage 저장
   useEffect(() => {
@@ -2714,11 +2977,6 @@ function App() {
     };
   }, []);
 
-  const initialRoute = getInitialRoute();
-  const [activeProduct, setActiveProductRaw] = useState<ProductKey | null>(
-    initialRoute.product,
-  );
-  const [pdQty, setPdQty] = useState(1);
   const [cart, setCartRaw] = useState<{ key: ProductKey; qty: number; option?: string }[]>(() => {
     try {
       const saved = localStorage.getItem("lockin_cart");
@@ -2736,12 +2994,8 @@ function App() {
   };
   const [cartOpen, setCartOpen] = useState(false);
   const [showTrialModal, setShowTrialModal] = useState(false);
-  const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
   const payMethod = "CARD";
-  const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(
-    initialRoute.policy,
-  );
   // 결제 성공 파라미터 감지 → 즉시 처리중 상태로 시작
   const initParams = new URLSearchParams(window.location.search);
   const isPaymentSuccess = initParams.get("payment") === "success";
@@ -2868,6 +3122,7 @@ function App() {
       const wasRegister = isRegisterMode;
       setIsRegisterMode(false);
       if (wasRegister) {
+        trackCompleteRegistration("email");
         setShowWelcomeModal(true);
       } else {
         // 로그인 후 대기 중이던 액션 실행
@@ -2991,7 +3246,7 @@ function App() {
             }
             setOrderComplete({ orderId, amount, paymentKey });
             setPaymentProcessing(false);
-            window.history.replaceState(null, "", "/order-complete");
+            navigate("/order-complete", { replace: true });
             setCart([]);
             // 배송 정보 서버에 저장
             const savedShipping = JSON.parse(
@@ -3016,7 +3271,7 @@ function App() {
             sessionStorage.removeItem("checkout_user_id");
           } else {
             setPaymentProcessing(false);
-            window.history.replaceState(null, "", "/");
+            navigate("/", { replace: true });
             alert(
               data.message ||
                 "결제 승인에 실패했습니다. 고객센터에 문의해주세요.",
@@ -3025,109 +3280,57 @@ function App() {
         })
         .catch(() => {
           setPaymentProcessing(false);
-          window.history.replaceState(null, "", "/");
+          navigate("/", { replace: true });
           alert("결제 승인 중 오류가 발생했습니다. 고객센터에 문의해주세요.");
         });
     } else if (payment === "fail") {
       alert("결제에 실패했습니다. 다시 시도해주세요.");
-      window.history.replaceState(null, "", "/");
+      navigate("/", { replace: true });
     }
   }, []);
 
-  const navigate = (path: string) => {
-    window.history.pushState(null, "", path);
+  const goToProduct = (key: ProductKey) => {
+    navigate(`/product/${key}`);
+    // 상품 조회 트래킹
+    const p = PRODUCTS[key];
+    const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+    trackViewProduct({
+      product_key: key,
+      product_name: `${p.name} ${p.sub}`,
+      price,
+      quantity: 1,
+    });
   };
 
-  const setActiveProduct = (key: ProductKey | null) => {
-    setActiveProductRaw(key);
-    if (key) {
-      navigate(`/product/${key}`);
-      // 상품 조회 트래킹
-      const p = PRODUCTS[key];
+  const goToCheckout = () => {
+    navigate("/checkout");
+    // 결제 시작 트래킹
+    const items = cart.map((item) => {
+      const p = PRODUCTS[item.key];
       const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-      trackViewProduct({
-        product_key: key,
+      return {
+        product_key: item.key,
         product_name: `${p.name} ${p.sub}`,
         price,
-        quantity: 1,
-      });
-    } else {
-      navigate("/");
+        quantity: item.qty,
+      };
+    });
+    trackInitiateCheckout(items, cartTotal);
+    // 무료체험인 경우 리드 트래킹
+    if (cart.some((i) => i.key === "trial")) {
+      trackLead(0);
     }
   };
 
-  const setShowCheckout = (show: boolean) => {
-    setShowCheckoutRaw(show);
-    if (show) {
-      navigate("/checkout");
-      // 결제 시작 트래킹
-      const items = cart.map((item) => {
-        const p = PRODUCTS[item.key];
-        const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-        return {
-          product_key: item.key,
-          product_name: `${p.name} ${p.sub}`,
-          price,
-          quantity: item.qty,
-        };
-      });
-      trackInitiateCheckout(items, cartTotal);
-      // 무료체험인 경우 리드 트래킹
-      if (cart.some((i) => i.key === "trial")) {
-        trackLead(0);
-      }
-    } else {
-      navigate("/");
-    }
-  };
-
-  const setPolicyModal = (val: "refund" | "terms" | null) => {
-    setPolicyModalRaw(val);
-    if (val) navigate(`/${val}`);
-    else navigate("/");
-  };
-
+  // Page view tracking on route changes
   useEffect(() => {
-    const onPop = () => {
-      const path = window.location.pathname;
-      if (path.startsWith("/product/")) {
-        const key = path.replace("/product/", "") as ProductKey;
-        if (key in PRODUCTS) {
-          setActiveProductRaw(key);
-          setShowCheckoutRaw(false);
-          setPolicyModalRaw(null);
-          return;
-        }
-      }
-      if (path === "/checkout") {
-        setShowCheckoutRaw(true);
-        setActiveProductRaw(null);
-        setPolicyModalRaw(null);
-        return;
-      }
-      if (path === "/refund") {
-        setPolicyModalRaw("refund");
-        setActiveProductRaw(null);
-        setShowCheckoutRaw(false);
-        return;
-      }
-      if (path === "/terms") {
-        setPolicyModalRaw("terms");
-        setActiveProductRaw(null);
-        setShowCheckoutRaw(false);
-        return;
-      }
-      if (path === "/order-complete") {
-        return; // 주문완료 페이지는 그대로 유지
-      }
-      setOrderComplete(null);
-      setActiveProductRaw(null);
-      setShowCheckoutRaw(false);
-      setPolicyModalRaw(null);
-    };
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, []);
+    const pageName = location.pathname === "/" ? "Home"
+      : location.pathname.startsWith("/product/") ? "Product Detail"
+      : location.pathname === "/checkout" ? "Checkout"
+      : location.pathname === "/order-complete" ? "Order Complete"
+      : location.pathname;
+    trackPageView(pageName);
+  }, [location.pathname]);
   const [shipping, setShipping] = useState({
     name: "",
     phone: "",
@@ -3139,8 +3342,9 @@ function App() {
   });
 
   // 로그인한 사용자의 기본 배송 정보 자동 채우기
+  const isOnCheckout = location.pathname === "/checkout";
   useEffect(() => {
-    if (user && showCheckout) {
+    if (user && isOnCheckout) {
       setShipping((prev) => ({
         ...prev,
         name: prev.name || user.name || "",
@@ -3151,7 +3355,7 @@ function App() {
         addressDetail: prev.addressDetail || user.address_detail || "",
       }));
     }
-  }, [user, showCheckout]);
+  }, [user, isOnCheckout]);
 
   const addToCart = (key: ProductKey, qty: number, option?: string) => {
     // 장바구니 추가 트래킹
@@ -3185,6 +3389,17 @@ function App() {
   };
 
   const removeFromCart = (key: ProductKey) => {
+    const item = cart.find((i) => i.key === key);
+    if (item) {
+      const p = PRODUCTS[item.key];
+      const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+      trackRemoveFromCart({
+        product_key: item.key,
+        product_name: `${p.name} ${p.sub}`,
+        price,
+        quantity: item.qty,
+      });
+    }
     setCart((prev) => prev.filter((i) => i.key !== key));
   };
 
@@ -3194,6 +3409,11 @@ function App() {
     const price = parseInt(p.price.replace(/[^0-9]/g, ""));
     return sum + price * i.qty;
   }, 0);
+
+  const showFloatingCart = cart.length > 0
+    && !location.pathname.startsWith("/checkout")
+    && !location.pathname.startsWith("/order-complete")
+    && !location.pathname.startsWith("/product/");
 
   const handleAddressSearch = () => {
     new window.daum.Postcode({
@@ -3218,6 +3438,18 @@ function App() {
   const handlePayment = async () => {
     if (!shipping.name || !shipping.phone || !shipping.address) return;
     setIsProcessing(true);
+    // 결제 정보 입력 트래킹
+    const paymentItems = cart.map((item) => {
+      const p = PRODUCTS[item.key];
+      const price = parseInt(p.price.replace(/[^0-9]/g, ""));
+      return {
+        product_key: item.key,
+        product_name: `${p.name} ${p.sub}`,
+        price,
+        quantity: item.qty,
+      };
+    });
+    trackAddPaymentInfo(paymentItems, cartTotal);
     // 배송 정보를 sessionStorage에 저장 (결제 후 서버 전송용)
     sessionStorage.setItem("shipping", JSON.stringify(shipping));
     sessionStorage.setItem("cart", JSON.stringify(cart));
@@ -3595,8 +3827,8 @@ function App() {
   return (
     <div>
       {/* Global Header — visible after intro dismissed */}
-      <GlobalHeader visible={showText || !!activeProduct}>
-        <HeaderLogo onClick={() => { setActiveProduct(null); setPdQty(1); setShowMyPage(false); }}>
+      <GlobalHeader visible={showText || location.pathname !== "/"}>
+        <HeaderLogo onClick={() => { navigate("/"); setShowMyPage(false); }}>
           <img src="https://www.thezone.bio/logo.png" alt="더존바이오" />
         </HeaderLogo>
         <HeaderActions>
@@ -3817,7 +4049,8 @@ function App() {
         </MyPageOverlay>
       )}
 
-      {!activeProduct && !showCheckout && !policyModal && (<>
+      <Routes>
+        <Route path="/" element={<>
       {/* Intro overlay — captures first tap for iOS video activation */}
       {introVisible && (
         <IntroOverlay
@@ -4083,7 +4316,7 @@ function App() {
                 <GridRow style={{ marginTop: 40 }}>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => setActiveProduct("signature")}
+                    onClick={() => goToProduct("signature")}
                   >
                     <GridImgBox bg="#4a1a1a" style={{ overflow: "hidden" }}>
                       <img
@@ -4110,7 +4343,7 @@ function App() {
                   </div>
                   <div
                     style={{ cursor: "pointer" }}
-                    onClick={() => setActiveProduct("house")}
+                    onClick={() => goToProduct("house")}
                   >
                     <GridImgBox bg="#1a3a5c" style={{ overflow: "hidden" }}>
                       <img
@@ -4138,7 +4371,7 @@ function App() {
                 </GridRow>
                 <FlavorWide
                   style={{ cursor: "pointer" }}
-                  onClick={() => setActiveProduct("vibrant")}
+                  onClick={() => goToProduct("vibrant")}
                 >
                   <FlavorWideImg bg="#3a2010" style={{ overflow: "hidden" }}>
                     <img
@@ -4302,10 +4535,10 @@ function App() {
                 </FtBizInfo>
 
                 <FtPolicyLinks>
-                  <FtPolicyLink onClick={() => setPolicyModal("refund")}>
+                  <FtPolicyLink onClick={() => navigate("/refund")}>
                     환불정책
                   </FtPolicyLink>
-                  <FtPolicyLink onClick={() => setPolicyModal("terms")}>
+                  <FtPolicyLink onClick={() => navigate("/terms")}>
                     이용약관
                   </FtPolicyLink>
                 </FtPolicyLinks>
@@ -4332,82 +4565,259 @@ function App() {
         </ScrollableContent>
       </BottomSheet>
 
-      </>)}
+      </>} />
 
-      {/* Product Detail Page */}
-      {activeProduct &&
-        (() => {
-          const p = PRODUCTS[activeProduct];
-          return (
-            <PDOverlay>
-              <PDClose
-                onClick={() => {
-                  setActiveProduct(null);
-                  setPdQty(1);
+        <Route path="/product/:key" element={
+          <ProductDetailPage
+            addToCart={addToCart}
+            requireLogin={requireLogin}
+            goToCheckout={goToCheckout}
+            navigate={navigate}
+          />
+        } />
+
+        <Route path="/checkout" element={
+          <CheckoutPageContent
+            cart={cart}
+            cartTotal={cartTotal}
+            shipping={shipping}
+            setShipping={setShipping}
+            handleAddressSearch={handleAddressSearch}
+            handlePayment={handlePayment}
+            isProcessing={isProcessing}
+            navigate={navigate}
+          />
+        } />
+
+        <Route path="/order-complete" element={
+          <OrderCompleteOverlay>
+            <OrderCheckIcon>
+              <svg
+                width="36"
+                height="36"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#e8743a"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </OrderCheckIcon>
+            <OrderTitle>주문 완료</OrderTitle>
+            <OrderSub>
+              결제가 정상적으로 완료되었습니다.
+              <br />
+              주문하신 상품은 빠르게 준비하여 발송해 드리겠습니다.
+            </OrderSub>
+            <OrderInfoCard>
+              <OrderInfoRow>
+                <OrderInfoLabel>주문번호</OrderInfoLabel>
+                <OrderInfoValue style={{ fontSize: 12, wordBreak: "break-all" }}>
+                  {orderComplete?.orderId}
+                </OrderInfoValue>
+              </OrderInfoRow>
+              <OrderInfoRow>
+                <OrderInfoLabel>결제금액</OrderInfoLabel>
+                <OrderInfoValue>
+                  {orderComplete?.amount.toLocaleString()}원
+                </OrderInfoValue>
+              </OrderInfoRow>
+              <OrderInfoRow>
+                <OrderInfoLabel>결제수단</OrderInfoLabel>
+                <OrderInfoValue>간편결제</OrderInfoValue>
+              </OrderInfoRow>
+              <OrderInfoRow>
+                <OrderInfoLabel>결제상태</OrderInfoLabel>
+                <OrderInfoValue style={{ color: "#e8743a" }}>
+                  결제완료
+                </OrderInfoValue>
+              </OrderInfoRow>
+            </OrderInfoCard>
+            <OrderHomeBtn onClick={() => { setOrderComplete(null); navigate("/", { replace: true }); }}>
+              홈으로 돌아가기
+            </OrderHomeBtn>
+            <OrderContactNote>
+              주문 관련 문의: 010-9942-7360
+              <br />
+              me@thezonebio.com
+            </OrderContactNote>
+          </OrderCompleteOverlay>
+        } />
+
+        <Route path="/refund" element={
+          <PolicyOverlay>
+            <PolicyClose onClick={() => navigate("/")}>CLOSE</PolicyClose>
+            <PolicyContent>
+              <h1>환불정책</h1>
+
+              <h2>1. 반품/환불 기본 안내</h2>
+              <p>
+                상품 수령일로부터 7일 이내에 반품 및 환불을 요청하실 수 있습니다.
+                단, 식품 특성상 고객의 단순 변심에 의한 반품은 제한될 수 있으며,
+                상품 하자나 배송 오류의 경우 전액 환불 처리됩니다.
+              </p>
+
+              <h2>2. 환불이 가능한 경우</h2>
+              <p>
+                · 상품이 파손 또는 변질된 상태로 배송된 경우
+                <br />
+                · 주문한 상품과 다른 상품이 배송된 경우
+                <br />· 상품 수령 후 7일 이내 미개봉 상태인 경우
+              </p>
+
+              <h2>3. 환불이 불가한 경우</h2>
+              <p>
+                · 개봉 후 일부 소비한 식품
+                <br />
+                · 고객의 보관 부주의로 인한 변질
+                <br />· 수령일로부터 7일이 경과한 경우
+              </p>
+
+              <h2>4. 환불 절차</h2>
+              <p>
+                고객센터(010-9942-7360) 또는 이메일(me@thezonebio.com)로 문의해
+                주세요. 접수 후 1~2 영업일 내에 확인 후 처리되며, 카드 결제 취소는
+                카드사에 따라 3~7 영업일 소요될 수 있습니다.
+              </p>
+
+              <h2>5. 배송비 부담</h2>
+              <p>
+                상품 하자 및 오배송의 경우 반품 배송비는 더존바이오가 부담합니다.
+                단순 변심의 경우 왕복 배송비는 고객 부담입니다.
+              </p>
+
+              <div
+                style={{
+                  marginTop: 40,
+                  padding: "16px 0",
+                  borderTop: "1px solid rgba(255,255,255,0.1)",
+                  fontSize: 11,
+                  color: "rgba(255,255,255,0.3)",
                 }}
               >
-                CLOSE
-              </PDClose>
-              <PDLayout>
-                <PDImagePanel bg={p.bg}>
-                  <PDProductImage src={p.image} alt={p.name} />
-                </PDImagePanel>
-                <PDInfoPanel>
-                  <PDName>{p.name}</PDName>
-                  <PDSub>{p.sub}</PDSub>
-                  <PDPriceArea>
-                    <PDPriceOrigRow>
-                      <PDOrigPrice>{p.origPrice}</PDOrigPrice>
-                      <PDDiscount>{p.discount}</PDDiscount>
-                    </PDPriceOrigRow>
-                    <PDSalePrice>{p.price}</PDSalePrice>
-                  </PDPriceArea>
-                  <PDQtyRow>
-                    <QtyBtn onClick={() => setPdQty((q) => Math.max(1, q - 1))}>
-                      −
-                    </QtyBtn>
-                    <QtyNum>{pdQty}</QtyNum>
-                    <QtyBtn onClick={() => setPdQty((q) => q + 1)}>+</QtyBtn>
-                  </PDQtyRow>
-                  <PDBtnRow>
-                    <PDCartBtn
-                      onClick={() => {
-                        addToCart(activeProduct, pdQty);
-                        setActiveProduct(null);
-                        setPdQty(1);
-                      }}
-                    >
-                      장바구니 담기
-                    </PDCartBtn>
-                    <PDBuyBtn
-                      onClick={() => {
-                        requireLogin(() => {
-                          addToCart(activeProduct!, pdQty);
-                          setActiveProduct(null);
-                          setPdQty(1);
-                          setShowCheckout(true);
-                        });
-                      }}
-                    >
-                      바로 결제
-                    </PDBuyBtn>
-                  </PDBtnRow>
-                  <PDSpecsTable>
-                    {p.specs.map((s, i) => (
-                      <PDSpecRow key={i}>
-                        <PDSpecLabel>{s.label}</PDSpecLabel>
-                        <PDSpecValue>{s.value}</PDSpecValue>
-                      </PDSpecRow>
-                    ))}
-                  </PDSpecsTable>
-                </PDInfoPanel>
-              </PDLayout>
-            </PDOverlay>
-          );
-        })()}
+                상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
+                <br />
+                고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
+              </div>
+            </PolicyContent>
+          </PolicyOverlay>
+        } />
 
-      {/* Floating Cart */}
-      {cart.length > 0 && !activeProduct && !showCheckout && (
+        <Route path="/terms" element={
+          <PolicyOverlay>
+            <PolicyClose onClick={() => navigate("/")}>CLOSE</PolicyClose>
+            <PolicyContent>
+              <h1>이용약관</h1>
+
+              <h2>제1조 (목적)</h2>
+              <p>
+                본 약관은 더존바이오(이하 "회사")가 운영하는 온라인 쇼핑몰에서
+                제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 회사와
+                이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
+              </p>
+
+              <h2>제2조 (정의)</h2>
+              <p>
+                · "쇼핑몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여
+                정보통신설비를 이용하여 설정한 가상의 영업장을 말합니다.
+                <br />· "이용자"란 쇼핑몰에 접속하여 본 약관에 따라 쇼핑몰이
+                제공하는 서비스를 받는 회원 및 비회원을 말합니다.
+              </p>
+
+              <h2>제3조 (약관의 명시와 개정)</h2>
+              <p>
+                회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 서비스 초기
+                화면에 게시합니다. 약관을 개정할 경우 적용일자 및 개정사유를
+                명시하여 현행 약관과 함께 7일 전에 공지합니다.
+              </p>
+
+              <h2>제4조 (서비스의 제공 및 변경)</h2>
+              <p>
+                회사는 다음과 같은 서비스를 제공합니다.
+                <br />
+                · 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
+                <br />
+                · 구매계약이 체결된 재화 또는 용역의 배송
+                <br />· 기타 회사가 정하는 서비스
+              </p>
+
+              <h2>제5조 (구매 및 결제)</h2>
+              <p>
+                이용자는 쇼핑몰에서 다음의 방법으로 구매를 신청하며, 회사는
+                이용자의 구매 신청에 대하여 각 호의 사항을 알기 쉽게 제공하여야
+                합니다.
+                <br />
+                · 재화 등의 검색 및 선택
+                <br />
+                · 성명, 주소, 전화번호, 결제 정보 입력
+                <br />
+                · 약관 동의 확인
+                <br />· 결제 방법 선택 및 결제
+              </p>
+
+              <h2>제6조 (배송)</h2>
+              <p>
+                회사는 이용자와 배송 시기에 관한 별도의 약정이 없는 이상,
+                주문일로부터 3~5 영업일 이내에 배송합니다. 다만, 회사의 사정에
+                의해 지연될 수 있으며 이 경우 사전에 안내합니다.
+              </p>
+
+              <h2>제7조 (개인정보보호)</h2>
+              <p>
+                회사는 이용자의 개인정보를 수집 시 서비스 제공에 필요한 최소한의
+                정보만을 수집하며, 개인정보처리방침에 따라 이용자의 개인정보를
+                보호합니다.
+              </p>
+
+              <h2>제8조 (분쟁해결)</h2>
+              <p>
+                회사와 이용자 간에 발생한 분쟁에 관하여는 전자거래기본법,
+                전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한
+                법률 등 관련 법령에 따릅니다.
+              </p>
+
+              <div
+                style={{
+                  marginTop: 40,
+                  padding: "16px 0",
+                  borderTop: "1px solid rgba(255,255,255,0.1)",
+                  fontSize: 11,
+                  color: "rgba(255,255,255,0.3)",
+                }}
+              >
+                상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
+                <br />
+                사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층
+                더블유엔73호(송도동, 송도 센트로드)
+                <br />
+                통신판매업신고번호 : 제 2025-인천연수구-2735 호<br />
+                고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
+              </div>
+            </PolicyContent>
+          </PolicyOverlay>
+        } />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+
+      {/* Payment Processing (global overlay) */}
+      {paymentProcessing && !orderComplete && (
+        <OrderCompleteOverlay>
+          <OrderCheckIcon style={{ animation: "spin 1s linear infinite" }}>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8743a" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+          </OrderCheckIcon>
+          <OrderTitle>결제 확인 중</OrderTitle>
+          <OrderSub>잠시만 기다려주세요...</OrderSub>
+          <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+        </OrderCompleteOverlay>
+      )}
+
+      {/* Floating Cart - not on checkout or order-complete */}
+      {showFloatingCart && (
         <>
           {cartOpen && (
             <CartFloat>
@@ -4463,7 +4873,7 @@ function App() {
                 onClick={() => {
                   requireLogin(() => {
                     setCartOpen(false);
-                    setShowCheckout(true);
+                    goToCheckout();
                   });
                 }}
               >
@@ -4479,384 +4889,6 @@ function App() {
             {cartOpen ? "✕" : "🛒"}
           </CartFab>
         </>
-      )}
-
-      {/* Checkout Modal */}
-      {showCheckout && (
-        <CheckoutOverlay>
-          <CheckoutClose onClick={() => setShowCheckout(false)}>
-            CLOSE
-          </CheckoutClose>
-          <CheckoutLayout>
-            {/* Left: Order Preview */}
-            <CheckoutPreview>
-              <CheckoutPreviewTitle>주문 확인</CheckoutPreviewTitle>
-              {cart.map((item, idx) => {
-                const p = PRODUCTS[item.key];
-                const price = parseInt(p.price.replace(/[^0-9]/g, ""));
-                const opt = item.option ? TRIAL_OPTIONS.find(o => o.key === item.option) : null;
-                return (
-                  <CheckoutProductCard key={`${item.key}-${item.option || idx}`}>
-                    <CheckoutProductThumb bg={opt?.bg || p.bg}>
-                      <img src={opt?.image || p.image} alt={p.name} />
-                    </CheckoutProductThumb>
-                    <CheckoutProductInfo>
-                      <CheckoutProductName>{p.name}</CheckoutProductName>
-                      <CheckoutProductSub>
-                        {opt?.label || p.sub} · {item.qty}개
-                      </CheckoutProductSub>
-                    </CheckoutProductInfo>
-                    <CheckoutProductPrice>
-                      {(price * item.qty).toLocaleString()}원
-                    </CheckoutProductPrice>
-                  </CheckoutProductCard>
-                );
-              })}
-              <CheckoutTotalBlock>
-                <CheckoutTotalRow>
-                  <span>상품 금액</span>
-                  <span>{cartTotal.toLocaleString()}원</span>
-                </CheckoutTotalRow>
-                <CheckoutTotalRow>
-                  <span>배송비</span>
-                  <span>{cartTotal >= 30000 ? "무료" : "3,000원"}</span>
-                </CheckoutTotalRow>
-                <CheckoutGrandTotal>
-                  <span>총 결제금액</span>
-                  <span>
-                    {(
-                      cartTotal + (cartTotal >= 30000 ? 0 : 3000)
-                    ).toLocaleString()}
-                    원
-                  </span>
-                </CheckoutGrandTotal>
-              </CheckoutTotalBlock>
-            </CheckoutPreview>
-
-            {/* Right: Shipping Form */}
-            <CheckoutFormPanel>
-              <CheckoutFormTitle>배송 정보</CheckoutFormTitle>
-
-              <CheckoutSection>
-                <CheckoutLabel>이름</CheckoutLabel>
-                <CheckoutInput
-                  value={shipping.name}
-                  onChange={(e) =>
-                    setShipping((p) => ({ ...p, name: e.target.value }))
-                  }
-                  placeholder="홍길동"
-                />
-              </CheckoutSection>
-
-              <CheckoutSection>
-                <CheckoutLabel>연락처</CheckoutLabel>
-                <CheckoutInput
-                  value={shipping.phone}
-                  onChange={(e) =>
-                    setShipping((p) => ({ ...p, phone: e.target.value }))
-                  }
-                  placeholder="010-0000-0000"
-                />
-              </CheckoutSection>
-
-              <CheckoutSection>
-                <CheckoutLabel>이메일</CheckoutLabel>
-                <CheckoutInput
-                  value={shipping.email}
-                  onChange={(e) =>
-                    setShipping((p) => ({ ...p, email: e.target.value }))
-                  }
-                  placeholder="email@example.com"
-                />
-              </CheckoutSection>
-
-              <CheckoutSection>
-                <CheckoutLabel>주소</CheckoutLabel>
-                <CheckoutInputRow>
-                  <CheckoutInput
-                    value={shipping.zipCode}
-                    readOnly
-                    placeholder="우편번호"
-                    style={{ flex: 1, cursor: "pointer" }}
-                    onClick={handleAddressSearch}
-                  />
-                  <CheckoutAddrBtn onClick={handleAddressSearch}>
-                    주소 검색
-                  </CheckoutAddrBtn>
-                </CheckoutInputRow>
-                <CheckoutInput
-                  value={shipping.address}
-                  readOnly
-                  placeholder="주소를 검색해주세요"
-                  style={{ marginTop: 8, cursor: "pointer" }}
-                  onClick={handleAddressSearch}
-                />
-                <CheckoutInput
-                  value={shipping.addressDetail}
-                  onChange={(e) =>
-                    setShipping((p) => ({
-                      ...p,
-                      addressDetail: e.target.value,
-                    }))
-                  }
-                  placeholder="상세주소"
-                  style={{ marginTop: 8 }}
-                />
-              </CheckoutSection>
-
-              <CheckoutSection>
-                <CheckoutLabel>배송 메모</CheckoutLabel>
-                <CheckoutInput
-                  value={shipping.memo}
-                  onChange={(e) =>
-                    setShipping((p) => ({ ...p, memo: e.target.value }))
-                  }
-                  placeholder="부재 시 문 앞에 놓아주세요"
-                />
-              </CheckoutSection>
-
-              <CheckoutPayBtn
-                onClick={handlePayment}
-                disabled={
-                  isProcessing ||
-                  !shipping.name ||
-                  !shipping.phone ||
-                  !shipping.address
-                }
-              >
-                {isProcessing
-                  ? "처리 중..."
-                  : `${(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}원 결제하기`}
-              </CheckoutPayBtn>
-            </CheckoutFormPanel>
-          </CheckoutLayout>
-        </CheckoutOverlay>
-      )}
-
-      {/* Payment Processing */}
-      {paymentProcessing && !orderComplete && (
-        <OrderCompleteOverlay>
-          <OrderCheckIcon style={{ animation: "spin 1s linear infinite" }}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8743a" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-            </svg>
-          </OrderCheckIcon>
-          <OrderTitle>결제 확인 중</OrderTitle>
-          <OrderSub>잠시만 기다려주세요...</OrderSub>
-          <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
-        </OrderCompleteOverlay>
-      )}
-
-      {/* Order Complete Page */}
-      {orderComplete && (
-        <OrderCompleteOverlay>
-          <OrderCheckIcon>
-            <svg
-              width="36"
-              height="36"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#e8743a"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          </OrderCheckIcon>
-          <OrderTitle>주문 완료</OrderTitle>
-          <OrderSub>
-            결제가 정상적으로 완료되었습니다.
-            <br />
-            주문하신 상품은 빠르게 준비하여 발송해 드리겠습니다.
-          </OrderSub>
-          <OrderInfoCard>
-            <OrderInfoRow>
-              <OrderInfoLabel>주문번호</OrderInfoLabel>
-              <OrderInfoValue style={{ fontSize: 12, wordBreak: "break-all" }}>
-                {orderComplete.orderId}
-              </OrderInfoValue>
-            </OrderInfoRow>
-            <OrderInfoRow>
-              <OrderInfoLabel>결제금액</OrderInfoLabel>
-              <OrderInfoValue>
-                {orderComplete.amount.toLocaleString()}원
-              </OrderInfoValue>
-            </OrderInfoRow>
-            <OrderInfoRow>
-              <OrderInfoLabel>결제수단</OrderInfoLabel>
-              <OrderInfoValue>간편결제</OrderInfoValue>
-            </OrderInfoRow>
-            <OrderInfoRow>
-              <OrderInfoLabel>결제상태</OrderInfoLabel>
-              <OrderInfoValue style={{ color: "#e8743a" }}>
-                결제완료
-              </OrderInfoValue>
-            </OrderInfoRow>
-          </OrderInfoCard>
-          <OrderHomeBtn onClick={() => { setOrderComplete(null); window.history.replaceState(null, "", "/"); }}>
-            홈으로 돌아가기
-          </OrderHomeBtn>
-          <OrderContactNote>
-            주문 관련 문의: 010-9942-7360
-            <br />
-            me@thezonebio.com
-          </OrderContactNote>
-        </OrderCompleteOverlay>
-      )}
-
-      {/* Policy Modals */}
-      {policyModal === "refund" && (
-        <PolicyOverlay>
-          <PolicyClose onClick={() => setPolicyModal(null)}>CLOSE</PolicyClose>
-          <PolicyContent>
-            <h1>환불정책</h1>
-
-            <h2>1. 반품/환불 기본 안내</h2>
-            <p>
-              상품 수령일로부터 7일 이내에 반품 및 환불을 요청하실 수 있습니다.
-              단, 식품 특성상 고객의 단순 변심에 의한 반품은 제한될 수 있으며,
-              상품 하자나 배송 오류의 경우 전액 환불 처리됩니다.
-            </p>
-
-            <h2>2. 환불이 가능한 경우</h2>
-            <p>
-              · 상품이 파손 또는 변질된 상태로 배송된 경우
-              <br />
-              · 주문한 상품과 다른 상품이 배송된 경우
-              <br />· 상품 수령 후 7일 이내 미개봉 상태인 경우
-            </p>
-
-            <h2>3. 환불이 불가한 경우</h2>
-            <p>
-              · 개봉 후 일부 소비한 식품
-              <br />
-              · 고객의 보관 부주의로 인한 변질
-              <br />· 수령일로부터 7일이 경과한 경우
-            </p>
-
-            <h2>4. 환불 절차</h2>
-            <p>
-              고객센터(010-9942-7360) 또는 이메일(me@thezonebio.com)로 문의해
-              주세요. 접수 후 1~2 영업일 내에 확인 후 처리되며, 카드 결제 취소는
-              카드사에 따라 3~7 영업일 소요될 수 있습니다.
-            </p>
-
-            <h2>5. 배송비 부담</h2>
-            <p>
-              상품 하자 및 오배송의 경우 반품 배송비는 더존바이오가 부담합니다.
-              단순 변심의 경우 왕복 배송비는 고객 부담입니다.
-            </p>
-
-            <div
-              style={{
-                marginTop: 40,
-                padding: "16px 0",
-                borderTop: "1px solid rgba(255,255,255,0.1)",
-                fontSize: 11,
-                color: "rgba(255,255,255,0.3)",
-              }}
-            >
-              상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
-              <br />
-              고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
-            </div>
-          </PolicyContent>
-        </PolicyOverlay>
-      )}
-
-      {policyModal === "terms" && (
-        <PolicyOverlay>
-          <PolicyClose onClick={() => setPolicyModal(null)}>CLOSE</PolicyClose>
-          <PolicyContent>
-            <h1>이용약관</h1>
-
-            <h2>제1조 (목적)</h2>
-            <p>
-              본 약관은 더존바이오(이하 "회사")가 운영하는 온라인 쇼핑몰에서
-              제공하는 인터넷 관련 서비스(이하 "서비스")를 이용함에 있어 회사와
-              이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
-            </p>
-
-            <h2>제2조 (정의)</h2>
-            <p>
-              · "쇼핑몰"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여
-              정보통신설비를 이용하여 설정한 가상의 영업장을 말합니다.
-              <br />· "이용자"란 쇼핑몰에 접속하여 본 약관에 따라 쇼핑몰이
-              제공하는 서비스를 받는 회원 및 비회원을 말합니다.
-            </p>
-
-            <h2>제3조 (약관의 명시와 개정)</h2>
-            <p>
-              회사는 본 약관의 내용을 이용자가 쉽게 알 수 있도록 서비스 초기
-              화면에 게시합니다. 약관을 개정할 경우 적용일자 및 개정사유를
-              명시하여 현행 약관과 함께 7일 전에 공지합니다.
-            </p>
-
-            <h2>제4조 (서비스의 제공 및 변경)</h2>
-            <p>
-              회사는 다음과 같은 서비스를 제공합니다.
-              <br />
-              · 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결
-              <br />
-              · 구매계약이 체결된 재화 또는 용역의 배송
-              <br />· 기타 회사가 정하는 서비스
-            </p>
-
-            <h2>제5조 (구매 및 결제)</h2>
-            <p>
-              이용자는 쇼핑몰에서 다음의 방법으로 구매를 신청하며, 회사는
-              이용자의 구매 신청에 대하여 각 호의 사항을 알기 쉽게 제공하여야
-              합니다.
-              <br />
-              · 재화 등의 검색 및 선택
-              <br />
-              · 성명, 주소, 전화번호, 결제 정보 입력
-              <br />
-              · 약관 동의 확인
-              <br />· 결제 방법 선택 및 결제
-            </p>
-
-            <h2>제6조 (배송)</h2>
-            <p>
-              회사는 이용자와 배송 시기에 관한 별도의 약정이 없는 이상,
-              주문일로부터 3~5 영업일 이내에 배송합니다. 다만, 회사의 사정에
-              의해 지연될 수 있으며 이 경우 사전에 안내합니다.
-            </p>
-
-            <h2>제7조 (개인정보보호)</h2>
-            <p>
-              회사는 이용자의 개인정보를 수집 시 서비스 제공에 필요한 최소한의
-              정보만을 수집하며, 개인정보처리방침에 따라 이용자의 개인정보를
-              보호합니다.
-            </p>
-
-            <h2>제8조 (분쟁해결)</h2>
-            <p>
-              회사와 이용자 간에 발생한 분쟁에 관하여는 전자거래기본법,
-              전자상거래 등에서의 소비자보호에 관한 법률, 약관의 규제에 관한
-              법률 등 관련 법령에 따릅니다.
-            </p>
-
-            <div
-              style={{
-                marginTop: 40,
-                padding: "16px 0",
-                borderTop: "1px solid rgba(255,255,255,0.1)",
-                fontSize: 11,
-                color: "rgba(255,255,255,0.3)",
-              }}
-            >
-              상호 : 더존바이오 | 대표 : 박민성 | 사업자등록번호 : 787-31-01774
-              <br />
-              사업장소재지 : 인천광역시 연수구 인천타워대로 323, A동 31층
-              더블유엔73호(송도동, 송도 센트로드)
-              <br />
-              통신판매업신고번호 : 제 2025-인천연수구-2735 호<br />
-              고객센터 : 010-9942-7360 | 이메일 : me@thezonebio.com
-            </div>
-          </PolicyContent>
-        </PolicyOverlay>
       )}
 
       {/* Trial Flavor Selection Modal */}
@@ -4878,10 +4910,10 @@ function App() {
                       addToCart("trial", 1, opt.key);
                       setShowTrialModal(false);
                       if (!user) {
-                        setPendingAction(() => () => setShowCheckout(true));
+                        setPendingAction(() => () => goToCheckout());
                         setShowLoginModal(true);
                       } else {
-                        setShowCheckout(true);
+                        goToCheckout();
                       }
                     }}
                     style={{ opacity: isSoldOut ? 0.4 : 1, cursor: isSoldOut ? "not-allowed" : "pointer" }}
