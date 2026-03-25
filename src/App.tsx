@@ -2130,11 +2130,16 @@ function App() {
   const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(
     initialRoute.policy,
   );
+  // 결제 성공 파라미터 감지 → 즉시 처리중 상태로 시작
+  const initParams = new URLSearchParams(window.location.search);
+  const isPaymentSuccess = initParams.get("payment") === "success";
+
   const [orderComplete, setOrderComplete] = useState<{
     orderId: string;
     amount: number;
     paymentKey: string;
   } | null>(null);
+  const [paymentProcessing, setPaymentProcessing] = useState(isPaymentSuccess);
 
   // 결제 완료 URL 파라미터 감지 → 서버 승인 요청
   useEffect(() => {
@@ -2144,8 +2149,6 @@ function App() {
       const orderId = params.get("orderId") || "";
       const amount = parseInt(params.get("amount") || "0");
       const paymentKey = params.get("paymentKey") || "";
-      // URL 즉시 정리
-      window.history.replaceState(null, "", "/");
       // 서버에 결제 승인 요청
       fetch(`${API_URL}/api/payment/confirm`, {
         method: "POST",
@@ -2181,6 +2184,8 @@ function App() {
               trackPurchase(orderId, items, amount);
             }
             setOrderComplete({ orderId, amount, paymentKey });
+            setPaymentProcessing(false);
+            window.history.replaceState(null, "", "/order-complete");
             setCart([]);
             // 배송 정보 서버에 저장
             const savedShipping = JSON.parse(
@@ -2203,6 +2208,8 @@ function App() {
             sessionStorage.removeItem("shipping");
             sessionStorage.removeItem("cart");
           } else {
+            setPaymentProcessing(false);
+            window.history.replaceState(null, "", "/");
             alert(
               data.message ||
                 "결제 승인에 실패했습니다. 고객센터에 문의해주세요.",
@@ -2210,6 +2217,8 @@ function App() {
           }
         })
         .catch(() => {
+          setPaymentProcessing(false);
+          window.history.replaceState(null, "", "/");
           alert("결제 승인 중 오류가 발생했습니다. 고객센터에 문의해주세요.");
         });
     } else if (payment === "fail") {
@@ -2301,6 +2310,10 @@ function App() {
         setShowCheckoutRaw(false);
         return;
       }
+      if (path === "/order-complete") {
+        return; // 주문완료 페이지는 그대로 유지
+      }
+      setOrderComplete(null);
       setActiveProductRaw(null);
       setShowCheckoutRaw(false);
       setPolicyModalRaw(null);
@@ -3562,7 +3575,21 @@ function App() {
         </CheckoutOverlay>
       )}
 
-      {/* Order Complete */}
+      {/* Payment Processing */}
+      {paymentProcessing && !orderComplete && (
+        <OrderCompleteOverlay>
+          <OrderCheckIcon style={{ animation: "spin 1s linear infinite" }}>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8743a" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+          </OrderCheckIcon>
+          <OrderTitle>결제 확인 중</OrderTitle>
+          <OrderSub>잠시만 기다려주세요...</OrderSub>
+          <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+        </OrderCompleteOverlay>
+      )}
+
+      {/* Order Complete Page */}
       {orderComplete && (
         <OrderCompleteOverlay>
           <OrderCheckIcon>
@@ -3609,7 +3636,7 @@ function App() {
               </OrderInfoValue>
             </OrderInfoRow>
           </OrderInfoCard>
-          <OrderHomeBtn onClick={() => setOrderComplete(null)}>
+          <OrderHomeBtn onClick={() => { setOrderComplete(null); window.history.replaceState(null, "", "/"); }}>
             홈으로 돌아가기
           </OrderHomeBtn>
           <OrderContactNote>
