@@ -2222,7 +2222,9 @@ function App() {
   const [cart, setCartRaw] = useState<{ key: ProductKey; qty: number; option?: string }[]>(() => {
     try {
       const saved = localStorage.getItem("lockin_cart");
-      return saved ? JSON.parse(saved) : [];
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      return parsed.filter((i: any) => i.key && i.key in PRODUCTS);
     } catch { return []; }
   });
   const setCart: typeof setCartRaw = (val) => {
@@ -2478,6 +2480,7 @@ function App() {
 
   const cartTotal = cart.reduce((sum, i) => {
     const p = PRODUCTS[i.key];
+    if (!p) return sum;
     const price = parseInt(p.price.replace(/[^0-9]/g, ""));
     return sum + price * i.qty;
   }, 0);
