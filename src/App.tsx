@@ -1693,6 +1693,9 @@ const PolicyOverlay = styled.div`
   z-index: 1;
   -webkit-overflow-scrolling: touch;
   animation: ${fadeIn} 0.3s ease-out;
+  padding-top: 56px;
+  max-width: 780px;
+  margin: 0 auto;
 `;
 
 const PolicyClose = styled.button`
@@ -1970,6 +1973,9 @@ const PDOverlay = styled.div`
   animation: ${pdFadeIn} 0.3s ease-out;
   position: relative;
   z-index: 1;
+  padding-top: 56px;
+  max-width: 780px;
+  margin: 0 auto;
 `;
 
 const PDLayout = styled.div`
@@ -2427,6 +2433,9 @@ const CheckoutOverlay = styled.div`
   -webkit-overflow-scrolling: touch;
   animation: ${pdFadeIn} 0.3s ease-out;
   color: #fff;
+  padding-top: 56px;
+  max-width: 780px;
+  margin: 0 auto;
 `;
 
 const CheckoutLayout = styled.div`
@@ -2660,8 +2669,10 @@ const OrderCompleteOverlay = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 96px 24px 40px;
   box-sizing: border-box;
+  max-width: 780px;
+  margin: 0 auto;
 `;
 
 const OrderCheckIcon = styled.div`
