@@ -17,7 +17,6 @@ const API_URL = "https://bio-hacking-coffee-api.onrender.com";
 // 사용자 타입 정의
 interface User {
   id: string;
-  kakao_id: string;
   name: string | null;
   email: string | null;
   phone: string | null;
@@ -195,35 +194,64 @@ const LoginModalSub = styled.p`
   margin: 0 0 24px;
 `;
 
-const KakaoLoginBtn = styled.button`
+const LoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const LoginInput = styled.input`
   width: 100%;
-  background: #fee500;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  box-sizing: border-box;
+  &::placeholder { color: rgba(255, 255, 255, 0.4); }
+  &:focus { outline: none; border-color: #e8743a; }
+`;
+
+const LoginBtn = styled.button`
+  width: 100%;
+  background: #e8743a;
   border: none;
   border-radius: 8px;
   padding: 14px 20px;
   font-size: 15px;
   font-weight: 600;
-  color: #191919;
+  color: #fff;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  margin-top: 8px;
   transition: all 0.2s;
-  &:hover {
-    background: #f5dc00;
-  }
-  svg {
-    width: 20px;
-    height: 20px;
-  }
+  &:hover { background: #d4632e; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+`;
+
+const LoginToggle = styled.button`
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 16px;
+  text-decoration: underline;
+  &:hover { color: #fff; }
+`;
+
+const LoginError = styled.div`
+  color: #ff6b6b;
+  font-size: 12px;
+  text-align: left;
+  margin-top: -4px;
 `;
 
 const LoginModalClose = styled.button`
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.5);
-  margin-top: 16px;
+  margin-top: 12px;
   cursor: pointer;
   font-size: 13px;
   &:hover {
@@ -2619,6 +2647,12 @@ function App() {
     zip_code: "",
   });
   const [profileSaving, setProfileSaving] = useState(false);
+  
+  // 로그인 폼 상태
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [loginForm, setLoginForm] = useState({ email: "", password: "", name: "", phone: "" });
+  const [loginError, setLoginError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
 
   // 로그인 토큰 확인 및 사용자 정보 로드
   useEffect(() => {
@@ -2647,54 +2681,49 @@ function App() {
     }
   }, []);
 
-  // 카카오 로그인 콜백 처리
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const auth = params.get("auth");
-    const token = params.get("token");
-
-    if (auth === "success" && token) {
-      localStorage.setItem("auth_token", token);
-      // 사용자 정보 로드
-      fetch(`${API_URL}/api/auth/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((r) => r.json())
-        .then((userData: User) => {
-          setUser(userData);
-          setProfileForm({
-            name: userData.name || "",
-            phone: userData.phone || "",
-            address: userData.address || "",
-            address_detail: userData.address_detail || "",
-            zip_code: userData.zip_code || "",
-          });
-        });
-      // URL에서 파라미터 제거
-      params.delete("auth");
-      params.delete("token");
-      const clean = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
-      window.history.replaceState(null, "", clean);
-    } else if (auth === "error") {
-      alert("로그인에 실패했습니다. 다시 시도해주세요.");
-      params.delete("auth");
-      params.delete("message");
-      const clean = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
-      window.history.replaceState(null, "", clean);
-    }
-  }, []);
-
-  // 카카오 로그인 시작
-  const handleKakaoLogin = async () => {
+  // 로그인/회원가입 처리
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    setLoginLoading(true);
+    
     try {
-      const res = await fetch(`${API_URL}/api/auth/kakao`);
+      const endpoint = isRegisterMode ? "/api/auth/register" : "/api/auth/login";
+      const body = isRegisterMode 
+        ? { email: loginForm.email, password: loginForm.password, name: loginForm.name, phone: loginForm.phone }
+        : { email: loginForm.email, password: loginForm.password };
+      
+      const res = await fetch(`${API_URL}${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
+      
+      if (!res.ok) {
+        setLoginError(data.error || "오류가 발생했습니다.");
+        setLoginLoading(false);
+        return;
       }
+      
+      // 토큰 저장 및 사용자 정보 설정
+      localStorage.setItem("auth_token", data.token);
+      setUser(data.user);
+      setProfileForm({
+        name: data.user.name || "",
+        phone: data.user.phone || "",
+        address: data.user.address || "",
+        address_detail: data.user.address_detail || "",
+        zip_code: data.user.zip_code || "",
+      });
+      setShowLoginModal(false);
+      setLoginForm({ email: "", password: "", name: "", phone: "" });
+      setIsRegisterMode(false);
     } catch (error) {
-      alert("로그인 연결에 실패했습니다.");
+      setLoginError("서버 연결에 실패했습니다.");
     }
+    setLoginLoading(false);
   };
 
   // 로그아웃
@@ -3427,14 +3456,60 @@ function App() {
         <LoginModalOverlay onClick={() => setShowLoginModal(false)}>
           <LoginModalCard onClick={(e) => e.stopPropagation()}>
             <LoginModalTitle>로그인</LoginModalTitle>
-            <LoginModalSub>카카오 계정으로 간편하게 로그인하세요</LoginModalSub>
-            <KakaoLoginBtn onClick={handleKakaoLogin}>
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3C6.48 3 2 6.48 2 10.5c0 2.53 1.67 4.74 4.17 6.02-.13.47-.83 3.04-.87 3.27 0 0-.02.08.04.11.06.03.14.01.14.01.18-.03 2.14-1.4 3.12-2.06.46.07.93.15 1.4.15 5.52 0 10-3.48 10-7.5S17.52 3 12 3z"/>
-              </svg>
-              카카오로 시작하기
-            </KakaoLoginBtn>
-            <LoginModalClose onClick={() => setShowLoginModal(false)}>
+            <LoginModalSub>
+              {isRegisterMode ? "회원가입 후 이용하세요" : "이메일로 로그인하세요"}
+            </LoginModalSub>
+            <LoginForm onSubmit={handleLogin}>
+              <LoginInput
+                type="email"
+                placeholder="이메일"
+                value={loginForm.email}
+                onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                required
+              />
+              <LoginInput
+                type="password"
+                placeholder="비밀번호 (6자 이상)"
+                value={loginForm.password}
+                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                required
+                minLength={6}
+              />
+              {isRegisterMode && (
+                <>
+                  <LoginInput
+                    type="text"
+                    placeholder="이름 (선택)"
+                    value={loginForm.name}
+                    onChange={(e) => setLoginForm({ ...loginForm, name: e.target.value })}
+                  />
+                  <LoginInput
+                    type="tel"
+                    placeholder="전화번호 (선택)"
+                    value={loginForm.phone}
+                    onChange={(e) => setLoginForm({ ...loginForm, phone: e.target.value })}
+                  />
+                </>
+              )}
+              {loginError && <LoginError>{loginError}</LoginError>}
+              <LoginBtn type="submit" disabled={loginLoading}>
+                {loginLoading ? "처리 중..." : isRegisterMode ? "회원가입" : "로그인"}
+              </LoginBtn>
+            </LoginForm>
+            <LoginToggle
+              type="button"
+              onClick={() => {
+                setIsRegisterMode(!isRegisterMode);
+                setLoginError("");
+              }}
+            >
+              {isRegisterMode ? "이미 계정이 있으신가요? 로그인" : "계정이 없으신가요? 회원가입"}
+            </LoginToggle>
+            <LoginModalClose onClick={() => {
+              setShowLoginModal(false);
+              setLoginError("");
+              setLoginForm({ email: "", password: "", name: "", phone: "" });
+            }}>
               닫기
             </LoginModalClose>
           </LoginModalCard>
