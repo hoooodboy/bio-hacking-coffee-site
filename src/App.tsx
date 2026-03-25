@@ -3074,6 +3074,35 @@ function App() {
       .catch(() => {});
   }, []);
 
+  // 로그인 시 주문 내역 로드 (체험 키트 구매 여부 확인용)
+  useEffect(() => {
+    if (!user) {
+      setMyOrders([]);
+      return;
+    }
+    const token = localStorage.getItem("auth_token");
+    fetch(`${API_URL}/api/users/${user.id}/orders`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+      .then((r) => r.json())
+      .then((orders) => setMyOrders(orders))
+      .catch(() => {});
+  }, [user]);
+
+  // 체험 키트 구매 여부 확인
+  const hasTrialPurchase = myOrders.some(
+    (o) => o.order_name?.includes("체험") || o.order_name?.includes("100ml")
+  );
+
+  // 체험 키트 버튼 클릭 핸들러
+  const handleTrialClick = () => {
+    if (user && hasTrialPurchase) {
+      alert("이미 체험 키트를 구매하셨습니다.\n체험 키트는 1인 1회만 구매 가능합니다.");
+      return;
+    }
+    setShowTrialModal(true);
+  };
+
   // 로그인/회원가입 처리
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -4294,7 +4323,7 @@ function App() {
                       노루궁뎅이 버섯 × 스페셜티 콜드브루
                       <br />한 모금이면 차이를 압니다.
                     </BannerDesc>
-                    <BannerBtn onClick={() => setShowTrialModal(true)}>
+                    <BannerBtn onClick={handleTrialClick}>
                       지금 경험하기
                     </BannerBtn>
                     <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
@@ -4488,7 +4517,7 @@ function App() {
                       <br />
                       <strong>100ml 무료</strong>
                     </CtaText>
-                    <CtaButton onClick={() => setShowTrialModal(true)}>
+                    <CtaButton onClick={handleTrialClick}>
                       지금 경험하기
                     </CtaButton>
                     <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
