@@ -7,7 +7,6 @@ import {
   trackInitiateCheckout,
   trackPurchase,
   trackLead,
-  trackOutboundClick,
   trackSectionView,
   initScrollTracking,
   initTimeTracking,
