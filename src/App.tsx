@@ -2126,7 +2126,7 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false);
   const [showCheckout, setShowCheckoutRaw] = useState(initialRoute.checkout);
   const [isProcessing, setIsProcessing] = useState(false);
-  const payMethod = "EASY_PAY";
+  const payMethod = "CARD";
   const [policyModal, setPolicyModalRaw] = useState<"refund" | "terms" | null>(
     initialRoute.policy,
   );
