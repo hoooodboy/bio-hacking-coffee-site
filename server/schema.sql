@@ -55,7 +55,33 @@ create policy "Service role full access on orders"
   using (true)
   with check (true);
 
+-- 재고 테이블
+create table if not exists inventory (
+  id bigserial primary key,
+  product_key text unique not null,
+  product_name text not null,
+  stock integer not null default 0,
+  reserved integer not null default 0,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+create policy "Service role full access on inventory"
+  on inventory for all
+  using (true)
+  with check (true);
+
+alter table inventory enable row level security;
+
+-- 초기 재고 데이터
+insert into inventory (product_key, product_name, stock) values
+  ('trial-signature', '100ml 체험 키트 - Signature 디카페인', 30),
+  ('trial-house', '100ml 체험 키트 - House 카페인', 30),
+  ('trial-vibrant', '100ml 체험 키트 - Vibrant 산미', 30)
+on conflict (product_key) do nothing;
+
 -- 인덱스
 create index if not exists idx_orders_user_id on orders(user_id);
 create index if not exists idx_orders_order_id on orders(order_id);
 create index if not exists idx_orders_customer_phone on orders(customer_phone);
+create index if not exists idx_inventory_product_key on inventory(product_key);

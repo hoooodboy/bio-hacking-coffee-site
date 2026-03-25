@@ -570,31 +570,6 @@ const EventSection = styled.section`
   background: transparent;
   padding: 72px 24px 56px;
 `;
-const EventBanner = styled.div`
-  display: flex; gap: 0; border-radius: 0; overflow: hidden; margin-top: 40px; margin-bottom: 12px;
-`;
-const BannerImg = styled.div`
-  flex: 1; aspect-ratio: 1; background: #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center;
-`;
-const BannerInfo = styled.div`
-  flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 24px 20px; gap: 12px;
-`;
-const BannerTitle = styled.div`
-  font-family: "Instrument Serif", serif; font-size: 26px; font-weight: 400; color: #fff; line-height: 1.2;
-  em { font-style: italic; }
-  @media (min-width: 768px) { font-size: 32px; }
-`;
-const BannerDesc = styled.div`
-  font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.7); line-height: 1.5;
-  @media (min-width: 768px) { font-size: 15px; }
-`;
-const BannerBtn = styled.div`
-  display: inline-block; align-self: flex-start; padding: 8px 20px; border-radius: 40px;
-  background: rgba(255,255,255,0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.25); font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 13px; font-weight: 600; color: #fff; cursor: pointer;
-  @media (min-width: 768px) { font-size: 14px; padding: 10px 28px; }
-`;
 const BannerNote = styled.div`
   font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.4);
   @media (min-width: 768px) { font-size: 11px; }
@@ -1196,35 +1171,49 @@ const PRODUCTS = {
       },
     ],
   },
-  trial: {
-    name: "100ml 무료 체험",
-    sub: "이벤트",
-    image: "/event-hero.png",
-    bg: "#1a1a1a",
+  "trial-signature": {
+    name: "100ml 체험",
+    sub: "Signature 디카페인",
+    image: "/decaf.png",
+    bg: "#4a1a1a",
     price: "0원",
     origPrice: "0원",
     discount: "",
     specs: [
-      {
-        label: "WHAT YOU GET",
-        value:
-          "Signature(디카페인), House(카페인), Vibrant(산미) 각 100ml × 1병. 세 가지 블렌드를 모두 경험해보세요.",
-      },
-      {
-        label: "FOR WHO",
-        value:
-          "집중력 향상이 필요한 모든 분. 첫 구매 전 맛을 확인하고 싶은 분. 나에게 맞는 블렌드를 찾고 싶은 분.",
-      },
-      {
-        label: "INCLUDES",
-        value:
-          "3종 테이스팅 세트 · 테이스팅 가이드 · 14일 루틴 플래너",
-      },
-      {
-        label: "NOTE",
-        value:
-          "1인 1회 한정. 배송비 3,000원 별도 (3만원 이상 무료배송).",
-      },
+      { label: "WHAT YOU GET", value: "Signature 디카페인 100ml × 1병" },
+      { label: "FLAVOR", value: "노루궁뎅이 버섯의 깊은 풍미와 스페셜티 디카페인 원두의 부드러운 밸런스" },
+      { label: "FOR WHO", value: "카페인 없이 집중력을 원하는 분. 밤에도 마실 수 있는 커피를 찾는 분." },
+      { label: "NOTE", value: "1인 1회 한정. 배송비 3,000원 별도." },
+    ],
+  },
+  "trial-house": {
+    name: "100ml 체험",
+    sub: "House 카페인",
+    image: "/caffeine.png",
+    bg: "#1a3a5c",
+    price: "0원",
+    origPrice: "0원",
+    discount: "",
+    specs: [
+      { label: "WHAT YOU GET", value: "House 카페인 100ml × 1병" },
+      { label: "FLAVOR", value: "스페셜티 원두의 깔끔한 첫 맛, 노루궁뎅이 버섯이 더하는 깊은 여운" },
+      { label: "FOR WHO", value: "크래시 없는 에너지를 원하는 분. 선명한 집중력이 필요한 분." },
+      { label: "NOTE", value: "1인 1회 한정. 배송비 3,000원 별도." },
+    ],
+  },
+  "trial-vibrant": {
+    name: "100ml 체험",
+    sub: "Vibrant 산미",
+    image: "/acidity.png",
+    bg: "#3a2010",
+    price: "0원",
+    origPrice: "0원",
+    discount: "",
+    specs: [
+      { label: "WHAT YOU GET", value: "Vibrant 산미 100ml × 1병" },
+      { label: "FLAVOR", value: "밝은 산미와 과일 향이 감각을 깨우는 프리미엄 블렌드" },
+      { label: "FOR WHO", value: "생동감 넘치는 산미를 좋아하는 분. 감각적인 커피를 찾는 분." },
+      { label: "NOTE", value: "1인 1회 한정. 배송비 3,000원 별도." },
     ],
   },
 } as const;
@@ -2262,7 +2251,7 @@ function App() {
       });
       trackInitiateCheckout(items, cartTotal);
       // 무료체험인 경우 리드 트래킹
-      if (cart.some((i) => i.key === "trial")) {
+      if (cart.some((i) => i.key.startsWith("trial-"))) {
         trackLead(0);
       }
     } else {
@@ -2971,49 +2960,45 @@ function App() {
             <GrainCanvas ref={grainRef} />
             <SubPageContent>
               {/* Section 1: Event + Products */}
-              <EventSection ref={eventReveal.ref}>
+              <EventSection ref={eventReveal.ref} data-section="event">
                 <div css={revealUp(eventReveal.visible)}>
-                  <SecTitle>단 100개 한정</SecTitle>
+                  <SecTitle>100ml 체험 키트</SecTitle>
                   <SecSub>
-                    당신의 첫 번째 몰입.
+                    각 30개 한정.
                     <br />
-                    100ml, 배송비만 부담하세요.
+                    배송비만 부담하세요.
                   </SecSub>
                 </div>
-                <EventBanner>
-                  <BannerImg>
-                    <img
-                      src="/event-hero.png"
-                      alt="100ml 무료 체험"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </BannerImg>
-                  <BannerInfo>
-                    <BannerTitle>
-                      100ml <em>무료</em>
-                      <br />
-                      체험 이벤트
-                    </BannerTitle>
-                    <BannerDesc>
-                      노루궁뎅이 버섯 × 스페셜티 콜드브루
-                      <br />한 모금이면 차이를 압니다.
-                    </BannerDesc>
-                    <BannerBtn
-                      onClick={() => {
-                        setCart([{ key: "trial", qty: 1 }]);
-                        setCartOpen(false);
-                        setShowCheckout(true);
-                      }}
-                    >
-                      지금 경험하기
-                    </BannerBtn>
-                    <BannerNote>* 배송비 3,000원 · 1인 1회</BannerNote>
-                  </BannerInfo>
-                </EventBanner>
+                <GridRow style={{ marginTop: 32 }}>
+                  {(["trial-signature", "trial-house", "trial-vibrant"] as const).map((key) => {
+                    const p = PRODUCTS[key];
+                    return (
+                      <div
+                        key={key}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          setCart([{ key, qty: 1 }]);
+                          setCartOpen(false);
+                          setShowCheckout(true);
+                        }}
+                      >
+                        <GridImgBox bg={p.bg} style={{ overflow: "hidden" }}>
+                          <img
+                            src={p.image}
+                            alt={p.sub}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          />
+                        </GridImgBox>
+                        <GridLabel>
+                          <ItemName>{p.name}</ItemName>
+                          <ItemSub>{p.sub}</ItemSub>
+                          <SalePrice style={{ marginTop: 4 }}>무료 (배송비 3,000원)</SalePrice>
+                        </GridLabel>
+                      </div>
+                    );
+                  })}
+                </GridRow>
+                <BannerNote style={{ marginTop: 16, textAlign: "center" }}>* 1인 1회 한정</BannerNote>
               </EventSection>
 
               {/* Section 2: Flavors */}
@@ -3191,7 +3176,7 @@ function App() {
               <CtaBanner>
                 <CtaCard>
                   <CtaImg>
-                    <img src="/event-hero.png" alt="100ml 무료 체험" />
+                    <img src="/decaf.png" alt="100ml 체험 키트" />
                   </CtaImg>
                   <CtaInfo>
                     <CtaLabel>Free Trial</CtaLabel>
@@ -3200,18 +3185,17 @@ function App() {
                       <br />
                       지금이 기회입니다.
                       <br />
-                      <strong>100ml 무료</strong>
+                      <strong>3종 중 택1, 무료</strong>
                     </CtaText>
                     <CtaButton
                       onClick={() => {
-                        setCart([{ key: "trial", qty: 1 }]);
-                        setCartOpen(false);
-                        setShowCheckout(true);
+                        // 상단 체험 키트 섹션으로 스크롤
+                        document.querySelector('[data-section="event"]')?.scrollIntoView({ behavior: "smooth" });
                       }}
                     >
-                      지금 경험하기
+                      체험 키트 선택하기
                     </CtaButton>
-                    <CtaNote>* 배송비 3,000원 · 1인 1회</CtaNote>
+                    <CtaNote>* 배송비 3,000원 · 1인 1회 · 각 30개 한정</CtaNote>
                   </CtaInfo>
                 </CtaCard>
               </CtaBanner>
