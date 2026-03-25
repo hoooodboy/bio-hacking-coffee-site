@@ -2783,6 +2783,9 @@ function App() {
   const [loginForm, setLoginForm] = useState({ email: "", password: "", passwordConfirm: "", name: "", phone: "" });
   const [loginError, setLoginError] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
+  
+  // 체험 키트 재고 상태
+  const [trialStock, setTrialStock] = useState<Record<string, number>>({});
 
   // 로그인 토큰 확인 및 사용자 정보 로드
   useEffect(() => {
@@ -2809,6 +2812,22 @@ function App() {
           localStorage.removeItem("auth_token");
         });
     }
+  }, []);
+
+  // 체험 키트 재고 로드
+  useEffect(() => {
+    fetch(`${API_URL}/api/inventory`)
+      .then((r) => r.json())
+      .then((data: Array<{ product_key: string; stock: number }>) => {
+        const stockMap: Record<string, number> = {};
+        data.forEach((item) => {
+          if (item.product_key.startsWith("trial-")) {
+            stockMap[item.product_key.replace("trial-", "")] = item.stock;
+          }
+        });
+        setTrialStock(stockMap);
+      })
+      .catch(() => {});
   }, []);
 
   // 로그인/회원가입 처리
@@ -4854,25 +4873,36 @@ function App() {
             <TrialModalTitle>맛을 선택하세요</TrialModalTitle>
             <TrialModalSub>100ml 무료 체험 · 배송비 3,000원</TrialModalSub>
             <TrialOptionList>
-              {TRIAL_OPTIONS.map((opt) => (
-                <TrialOptionBtn
-                  key={opt.key}
-                  bg={opt.bg}
-                  onClick={() => {
-                    addToCart("trial", 1, opt.key);
-                    setShowTrialModal(false);
-                    if (!user) {
-                      setPendingAction(() => () => setShowCheckout(true));
-                      setShowLoginModal(true);
-                    } else {
-                      setShowCheckout(true);
-                    }
-                  }}
-                >
-                  <TrialOptionImg src={opt.image} alt={opt.label} />
-                  <TrialOptionLabel>{opt.label}</TrialOptionLabel>
-                </TrialOptionBtn>
-              ))}
+              {TRIAL_OPTIONS.map((opt) => {
+                const stock = trialStock[opt.key] ?? 0;
+                const isSoldOut = stock <= 0;
+                return (
+                  <TrialOptionBtn
+                    key={opt.key}
+                    bg={opt.bg}
+                    onClick={() => {
+                      if (isSoldOut) return;
+                      addToCart("trial", 1, opt.key);
+                      setShowTrialModal(false);
+                      if (!user) {
+                        setPendingAction(() => () => setShowCheckout(true));
+                        setShowLoginModal(true);
+                      } else {
+                        setShowCheckout(true);
+                      }
+                    }}
+                    style={{ opacity: isSoldOut ? 0.4 : 1, cursor: isSoldOut ? "not-allowed" : "pointer" }}
+                  >
+                    <TrialOptionImg src={opt.image} alt={opt.label} />
+                    <div style={{ flex: 1 }}>
+                      <TrialOptionLabel>{opt.label}</TrialOptionLabel>
+                      <div style={{ fontSize: 11, color: isSoldOut ? "#ff6b6b" : "rgba(255,255,255,0.5)", marginTop: 2 }}>
+                        {isSoldOut ? "품절" : `잔여 ${stock}개`}
+                      </div>
+                    </div>
+                  </TrialOptionBtn>
+                );
+              })}
             </TrialOptionList>
             <TrialModalClose onClick={() => setShowTrialModal(false)}>
               닫기
