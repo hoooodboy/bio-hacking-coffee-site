@@ -1209,7 +1209,28 @@ const PRODUCTS = {
     price: "0원",
     origPrice: "0원",
     discount: "",
-    specs: [],
+    specs: [
+      {
+        label: "WHAT YOU GET",
+        value:
+          "Signature(디카페인), House(카페인), Vibrant(산미) 각 100ml × 1병. 세 가지 블렌드를 모두 경험해보세요.",
+      },
+      {
+        label: "FOR WHO",
+        value:
+          "집중력 향상이 필요한 모든 분. 첫 구매 전 맛을 확인하고 싶은 분. 나에게 맞는 블렌드를 찾고 싶은 분.",
+      },
+      {
+        label: "INCLUDES",
+        value:
+          "3종 테이스팅 세트 · 테이스팅 가이드 · 14일 루틴 플래너",
+      },
+      {
+        label: "NOTE",
+        value:
+          "1인 1회 한정. 배송비 3,000원 별도 (3만원 이상 무료배송).",
+      },
+    ],
   },
 } as const;
 
