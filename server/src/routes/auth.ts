@@ -50,16 +50,20 @@ router.get("/kakao/callback", async (req: Request, res: Response) => {
 
   try {
     // 1. 카카오 토큰 발급
+    const tokenParams: Record<string, string> = {
+      grant_type: "authorization_code",
+      client_id: KAKAO_CLIENT_ID,
+      redirect_uri: KAKAO_REDIRECT_URI,
+      code: code as string,
+    };
+    // Client Secret은 선택사항
+    if (KAKAO_CLIENT_SECRET) {
+      tokenParams.client_secret = KAKAO_CLIENT_SECRET;
+    }
     const tokenRes = await fetch("https://kauth.kakao.com/oauth/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        grant_type: "authorization_code",
-        client_id: KAKAO_CLIENT_ID,
-        client_secret: KAKAO_CLIENT_SECRET,
-        redirect_uri: KAKAO_REDIRECT_URI,
-        code: code as string,
-      }),
+      body: new URLSearchParams(tokenParams),
     });
 
     const tokenData = await tokenRes.json() as { access_token?: string; error?: string };
