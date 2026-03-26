@@ -49,6 +49,19 @@ interface Order {
   created_at: string;
 }
 
+// 쿠폰 타입 정의
+interface Coupon {
+  id: number;
+  user_id: string;
+  coupon_type: string;
+  name: string;
+  discount_amount: number;
+  min_order_amount: number;
+  expires_at: string;
+  is_used: boolean;
+  used_at: string | null;
+}
+
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -599,6 +612,142 @@ const EmptyOrders = styled.div`
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
   padding: 40px 0;
+`;
+
+/* ─── Coupon Styles ─── */
+
+const CouponList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const CouponCard = styled.div<{ used?: boolean; expired?: boolean }>`
+  background: ${({ used, expired }) => (used || expired) ? '#1a1a1a' : 'linear-gradient(135deg, rgba(232,116,58,0.15) 0%, rgba(232,116,58,0.05) 100%)'};
+  border: 1px solid ${({ used, expired }) => (used || expired) ? 'rgba(255,255,255,0.1)' : 'rgba(232,116,58,0.3)'};
+  border-radius: 12px;
+  padding: 16px;
+  opacity: ${({ used, expired }) => (used || expired) ? 0.5 : 1};
+`;
+
+const CouponHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+`;
+
+const CouponName = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+`;
+
+const CouponBadge = styled.span<{ type: 'used' | 'expired' | 'active' }>`
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  background: ${({ type }) => 
+    type === 'used' ? 'rgba(255,255,255,0.1)' :
+    type === 'expired' ? 'rgba(255,100,100,0.2)' :
+    'rgba(232,116,58,0.3)'};
+  color: ${({ type }) => 
+    type === 'used' ? 'rgba(255,255,255,0.5)' :
+    type === 'expired' ? '#ff6b6b' :
+    '#e8743a'};
+`;
+
+const CouponDiscount = styled.div`
+  font-family: "Instrument Serif", serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #e8743a;
+  margin-bottom: 4px;
+`;
+
+const CouponCondition = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+`;
+
+const CouponExpiry = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 8px;
+`;
+
+const EmptyCoupons = styled.div`
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  padding: 40px 0;
+`;
+
+/* ─── Checkout Coupon Styles ─── */
+
+const CouponSelectSection = styled.div`
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+`;
+
+const CouponSelectTitle = styled.div`
+  font-family: "Roboto Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 12px;
+`;
+
+const CouponSelectList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const CouponSelectItem = styled.button<{ selected?: boolean; disabled?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px 14px;
+  background: ${({ selected }) => selected ? 'rgba(232,116,58,0.15)' : 'rgba(255,255,255,0.04)'};
+  border: 1px solid ${({ selected }) => selected ? 'rgba(232,116,58,0.5)' : 'rgba(255,255,255,0.08)'};
+  border-radius: 8px;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${({ disabled }) => disabled ? 0.5 : 1};
+  transition: all 0.2s;
+  &:hover:not(:disabled) {
+    background: ${({ selected }) => selected ? 'rgba(232,116,58,0.2)' : 'rgba(255,255,255,0.08)'};
+  }
+`;
+
+const CouponSelectName = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  color: #fff;
+`;
+
+const CouponSelectDiscount = styled.span`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8743a;
+`;
+
+const CouponSelectNone = styled.div`
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  padding: 16px;
 `;
 
 const LogoutBtn = styled.button`
@@ -2864,6 +3013,9 @@ function CheckoutPageContent({
   handlePayment,
   isProcessing,
   navigate,
+  myCoupons,
+  selectedCoupon,
+  setSelectedCoupon,
 }: {
   cart: { key: ProductKey; qty: number; option?: string }[];
   cartTotal: number;
@@ -2891,6 +3043,9 @@ function CheckoutPageContent({
   handlePayment: () => Promise<void>;
   isProcessing: boolean;
   navigate: ReturnType<typeof useNavigate>;
+  myCoupons: Coupon[];
+  selectedCoupon: Coupon | null;
+  setSelectedCoupon: React.Dispatch<React.SetStateAction<Coupon | null>>;
 }) {
   // Checkout abandoned tracking
   useEffect(() => {
@@ -2952,14 +3107,58 @@ function CheckoutPageContent({
               <span>배송비</span>
               <span>{cartTotal >= 30000 ? "무료" : "3,000원"}</span>
             </CheckoutTotalRow>
+            {selectedCoupon && (
+              <CheckoutTotalRow>
+                <span>쿠폰 할인</span>
+                <span style={{ color: '#e8743a' }}>-{selectedCoupon.discount_amount.toLocaleString()}원</span>
+              </CheckoutTotalRow>
+            )}
             <CheckoutGrandTotal>
               <span>총 결제금액</span>
               <span>
-                {(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}
+                {Math.max(0, cartTotal + (cartTotal >= 30000 ? 0 : 3000) - (selectedCoupon?.discount_amount || 0)).toLocaleString()}
                 원
               </span>
             </CheckoutGrandTotal>
           </CheckoutTotalBlock>
+
+          {/* 쿠폰 선택 */}
+          <CouponSelectSection>
+            <CouponSelectTitle>쿠폰 적용</CouponSelectTitle>
+            {myCoupons.filter(c => !c.is_used && new Date(c.expires_at) > new Date()).length === 0 ? (
+              <CouponSelectNone>사용 가능한 쿠폰이 없습니다</CouponSelectNone>
+            ) : (
+              <CouponSelectList>
+                {myCoupons
+                  .filter(c => !c.is_used && new Date(c.expires_at) > new Date())
+                  .map((coupon) => {
+                    const isDisabled = cartTotal < coupon.min_order_amount;
+                    const isSelected = selectedCoupon?.id === coupon.id;
+                    return (
+                      <CouponSelectItem
+                        key={coupon.id}
+                        selected={isSelected}
+                        disabled={isDisabled}
+                        onClick={() => {
+                          if (isDisabled) return;
+                          setSelectedCoupon(isSelected ? null : coupon);
+                        }}
+                      >
+                        <CouponSelectName>
+                          {coupon.name}
+                          {coupon.min_order_amount > 0 && (
+                            <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginLeft: '6px' }}>
+                              ({coupon.min_order_amount.toLocaleString()}원 이상)
+                            </span>
+                          )}
+                        </CouponSelectName>
+                        <CouponSelectDiscount>-{coupon.discount_amount.toLocaleString()}원</CouponSelectDiscount>
+                      </CouponSelectItem>
+                    );
+                  })}
+              </CouponSelectList>
+            )}
+          </CouponSelectSection>
         </CheckoutPreview>
 
         {/* Right: Shipping Form */}
@@ -3055,7 +3254,7 @@ function CheckoutPageContent({
           >
             {isProcessing
               ? "처리 중..."
-              : `${(cartTotal + (cartTotal >= 30000 ? 0 : 3000)).toLocaleString()}원 결제하기`}
+              : `${Math.max(0, cartTotal + (cartTotal >= 30000 ? 0 : 3000) - (selectedCoupon?.discount_amount || 0)).toLocaleString()}원 결제하기`}
           </CheckoutPayBtn>
         </CheckoutFormPanel>
       </CheckoutLayout>
@@ -3169,6 +3368,8 @@ function App() {
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [showMyPage, setShowMyPage] = useState(false);
   const [myOrders, setMyOrders] = useState<Order[]>([]);
+  const [myCoupons, setMyCoupons] = useState<Coupon[]>([]);
+  const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
   const [profileForm, setProfileForm] = useState({
     name: "",
     phone: "",
@@ -3248,6 +3449,19 @@ function App() {
     })
       .then((r) => r.json())
       .then((orders) => setMyOrders(orders))
+      .catch(() => {});
+  }, [user]);
+
+  // 로그인 시 쿠폰 로드
+  useEffect(() => {
+    if (!user) {
+      setMyCoupons([]);
+      setSelectedCoupon(null);
+      return;
+    }
+    fetch(`${API_URL}/api/coupons/user/${user.id}`)
+      .then((r) => r.json())
+      .then((coupons) => setMyCoupons(coupons || []))
       .catch(() => {});
   }, [user]);
 
@@ -3493,9 +3707,23 @@ function App() {
                 }),
               }).catch(() => {});
             }
+            // 쿠폰 사용 처리
+            const savedCoupon = sessionStorage.getItem("selected_coupon");
+            if (savedCoupon) {
+              try {
+                const coupon = JSON.parse(savedCoupon);
+                fetch(`${API_URL}/api/coupons/use`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ couponId: coupon.id, orderId }),
+                }).catch(() => {});
+              } catch {}
+            }
             sessionStorage.removeItem("shipping");
             sessionStorage.removeItem("cart");
             sessionStorage.removeItem("checkout_user_id");
+            sessionStorage.removeItem("selected_coupon");
+            setSelectedCoupon(null);
           } else {
             setPaymentProcessing(false);
             navigate("/", { replace: true });
@@ -3688,6 +3916,12 @@ function App() {
     // 배송 정보를 sessionStorage에 저장 (결제 후 서버 전송용)
     sessionStorage.setItem("shipping", JSON.stringify(shipping));
     sessionStorage.setItem("cart", JSON.stringify(cart));
+    // 쿠폰 정보 저장 (결제 후 사용 처리용)
+    if (selectedCoupon) {
+      sessionStorage.setItem("selected_coupon", JSON.stringify(selectedCoupon));
+    } else {
+      sessionStorage.removeItem("selected_coupon");
+    }
     // 로그인한 경우 userId 저장
     if (user) {
       sessionStorage.setItem("checkout_user_id", user.id);
@@ -3713,7 +3947,8 @@ function App() {
       const orderName =
         cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
       const SHIPPING_FEE = cartTotal >= 30000 ? 0 : 3000;
-      const totalAmount = cartTotal + SHIPPING_FEE;
+      const couponDiscount = selectedCoupon?.discount_amount || 0;
+      const totalAmount = Math.max(0, cartTotal + SHIPPING_FEE - couponDiscount);
       // UTM 파라미터를 successUrl에 포함
       const utm = getUtm();
       const utmQuery = Object.entries(utm)
@@ -4360,6 +4595,41 @@ function App() {
               </ProfileForm>
             </MyPageSection>
 
+            {/* 쿠폰 */}
+            <MyPageSection>
+              <MyPageSectionTitle>내 쿠폰 ({myCoupons.filter(c => !c.is_used && new Date(c.expires_at) > new Date()).length})</MyPageSectionTitle>
+              {myCoupons.length === 0 ? (
+                <EmptyCoupons>보유 중인 쿠폰이 없습니다</EmptyCoupons>
+              ) : (
+                <CouponList>
+                  {myCoupons.map((coupon) => {
+                    const isExpired = new Date(coupon.expires_at) < new Date();
+                    const badgeType = coupon.is_used ? 'used' : isExpired ? 'expired' : 'active';
+                    const badgeText = coupon.is_used ? '사용완료' : isExpired ? '만료됨' : '사용가능';
+                    return (
+                      <CouponCard key={coupon.id} used={coupon.is_used} expired={isExpired}>
+                        <CouponHeader>
+                          <CouponName>{coupon.name}</CouponName>
+                          <CouponBadge type={badgeType}>{badgeText}</CouponBadge>
+                        </CouponHeader>
+                        <CouponDiscount>{coupon.discount_amount.toLocaleString()}원</CouponDiscount>
+                        <CouponCondition>
+                          {coupon.min_order_amount > 0 
+                            ? `${coupon.min_order_amount.toLocaleString()}원 이상 구매 시` 
+                            : '제한 없음'}
+                        </CouponCondition>
+                        <CouponExpiry>
+                          {coupon.is_used 
+                            ? `사용일: ${new Date(coupon.used_at!).toLocaleDateString('ko-KR')}` 
+                            : `만료일: ${new Date(coupon.expires_at).toLocaleDateString('ko-KR')}`}
+                        </CouponExpiry>
+                      </CouponCard>
+                    );
+                  })}
+                </CouponList>
+              )}
+            </MyPageSection>
+
             {/* 주문 내역 */}
             <MyPageSection>
               <MyPageSectionTitle>주문 내역</MyPageSectionTitle>
@@ -4970,6 +5240,9 @@ function App() {
               handlePayment={handlePayment}
               isProcessing={isProcessing}
               navigate={navigate}
+              myCoupons={myCoupons}
+              selectedCoupon={selectedCoupon}
+              setSelectedCoupon={setSelectedCoupon}
             />
           }
         />

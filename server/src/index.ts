@@ -5,6 +5,7 @@ import { orderRouter } from "./routes/order";
 import { userRouter } from "./routes/user";
 import { inventoryRouter } from "./routes/inventory";
 import { authRouter } from "./routes/auth";
+import { couponRouter } from "./routes/coupon";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -33,6 +34,7 @@ app.use("/api/payment", paymentRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/users", userRouter);
 app.use("/api/inventory", inventoryRouter);
+app.use("/api/coupons", couponRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
