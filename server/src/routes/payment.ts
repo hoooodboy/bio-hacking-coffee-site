@@ -58,36 +58,44 @@ router.post("/confirm", async (req: Request, res: Response) => {
     }
 
     // 재고 차감 (cart 정보 기반)
+    console.log("Cart received:", JSON.stringify(cart));
     if (cart && Array.isArray(cart) && cart.length > 0) {
       const deductItems = cart.map((item: { key: string; qty: number; option?: string }) => {
         // 체험 키트의 경우 trial-{option} 형태로 저장
         const productKey = item.option ? `trial-${item.option}` : item.key;
+        console.log(`Deduct item: key=${item.key}, option=${item.option}, productKey=${productKey}, qty=${item.qty}`);
         return { productKey, quantity: item.qty };
       });
       
       // 재고 차감 요청 (내부 호출)
       try {
         for (const item of deductItems) {
-          const { data: current } = await supabase
+          console.log(`Looking for inventory: ${item.productKey}`);
+          const { data: current, error: fetchError } = await supabase
             .from("inventory")
             .select("stock")
             .eq("product_key", item.productKey)
             .single();
           
+          console.log(`Inventory fetch result: data=${JSON.stringify(current)}, error=${fetchError?.message}`);
+          
           if (current) {
-            await supabase
+            const { error: updateError } = await supabase
               .from("inventory")
               .update({
                 stock: current.stock - item.quantity,
                 updated_at: new Date().toISOString(),
               })
               .eq("product_key", item.productKey);
+            console.log(`Inventory update: ${item.productKey} ${current.stock} -> ${current.stock - item.quantity}, error=${updateError?.message}`);
           }
         }
       } catch (deductError) {
         console.error("Inventory deduct error:", deductError);
         // 재고 차감 실패해도 결제는 성공이므로 계속 진행
       }
+    } else {
+      console.log("No cart to deduct inventory from");
     }
 
     // Meta Conversions API — 서버 사이드 Purchase 이벤트
