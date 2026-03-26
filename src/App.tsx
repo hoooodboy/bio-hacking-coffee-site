@@ -3433,8 +3433,9 @@ function App() {
       const orderId = params.get("orderId") || "";
       const amount = parseInt(params.get("amount") || "0");
       const paymentKey = params.get("paymentKey") || "";
-      // 서버에 결제 승인 요청 (로그인한 경우 userId 포함)
+      // 서버에 결제 승인 요청 (로그인한 경우 userId 포함, cart 정보 포함)
       const savedUserId = sessionStorage.getItem("checkout_user_id") || "";
+      const savedCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
       fetch(`${API_URL}/api/payment/confirm`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -3443,6 +3444,7 @@ function App() {
           orderId,
           amount,
           userId: savedUserId || undefined,
+          cart: savedCart, // 상품 옵션 정보 포함
           fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || "",
           fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || "",
         }),
@@ -3699,10 +3701,15 @@ function App() {
         customerKey: window.TossPayments.ANONYMOUS,
       });
       const orderId = `LOCKIN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      const firstName =
-        cart.length > 0
-          ? `${PRODUCTS[cart[0].key].name} ${PRODUCTS[cart[0].key].sub}`
-          : "";
+      const getProductName = (item: { key: ProductKey; qty: number; option?: string }) => {
+        const p = PRODUCTS[item.key];
+        if (item.option) {
+          const opt = TRIAL_OPTIONS.find(o => o.key === item.option);
+          return opt ? `${p.name} (${opt.label})` : `${p.name} ${p.sub}`;
+        }
+        return `${p.name} ${p.sub}`;
+      };
+      const firstName = cart.length > 0 ? getProductName(cart[0]) : "";
       const orderName =
         cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
       const SHIPPING_FEE = cartTotal >= 30000 ? 0 : 3000;

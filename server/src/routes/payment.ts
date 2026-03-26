@@ -8,7 +8,7 @@ const TOSS_SECRET_KEY = process.env.TOSS_SECRET_KEY || "live_sk_Z1aOwX7K8m1AZNJm
 
 // 결제 승인
 router.post("/confirm", async (req: Request, res: Response) => {
-  const { paymentKey, orderId, amount, userId } = req.body;
+  const { paymentKey, orderId, amount, userId, cart } = req.body;
 
   if (!paymentKey || !orderId || !amount) {
     res.status(400).json({ error: "Missing required fields: paymentKey, orderId, amount" });
@@ -35,7 +35,7 @@ router.post("/confirm", async (req: Request, res: Response) => {
       return;
     }
 
-    // 결제 승인 성공 → DB에 주문 저장
+    // 결제 승인 성공 → DB에 주문 저장 (cart 정보 포함)
     const { error } = await supabase.from("orders").insert({
       order_id: orderId,
       payment_key: paymentKey,
@@ -48,6 +48,7 @@ router.post("/confirm", async (req: Request, res: Response) => {
       customer_phone: tossData.customerMobilePhone || "",
       customer_email: tossData.customerEmail || "",
       approved_at: tossData.approvedAt || new Date().toISOString(),
+      order_items: cart || null, // 상품 옵션 정보 (맛 선택 등)
       raw_data: tossData,
     });
 
