@@ -86,17 +86,22 @@ router.post("/register", async (req: Request, res: Response) => {
     const token = generateToken(userId, email);
 
     // 신규가입 쿠폰 자동 발급
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 30); // 30일 유효
-    await supabase.from("user_coupons").insert({
-      user_id: userId,
-      coupon_type: "welcome",
-      name: "신규가입 축하 쿠폰",
-      discount_amount: 3000,
-      min_order_amount: 0,
-      expires_at: expiresAt.toISOString(),
-      is_used: false,
-    }).catch((e) => console.error("Coupon issue failed:", e));
+    try {
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + 30); // 30일 유효
+      const { error: couponError } = await supabase.from("user_coupons").insert({
+        user_id: userId,
+        coupon_type: "welcome",
+        name: "신규가입 축하 쿠폰",
+        discount_amount: 3000,
+        min_order_amount: 0,
+        expires_at: expiresAt.toISOString(),
+        is_used: false,
+      });
+      if (couponError) console.error("Coupon issue failed:", couponError);
+    } catch (couponErr) {
+      console.error("Coupon issue failed:", couponErr);
+    }
 
     res.json({
       token,
