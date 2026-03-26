@@ -57,6 +57,39 @@ router.post("/confirm", async (req: Request, res: Response) => {
       // DB 저장 실패해도 결제는 성공이므로 200 반환
     }
 
+    // 재고 차감 (cart 정보 기반)
+    if (cart && Array.isArray(cart) && cart.length > 0) {
+      const deductItems = cart.map((item: { key: string; qty: number; option?: string }) => {
+        // 체험 키트의 경우 trial-{option} 형태로 저장
+        const productKey = item.option ? `trial-${item.option}` : item.key;
+        return { productKey, quantity: item.qty };
+      });
+      
+      // 재고 차감 요청 (내부 호출)
+      try {
+        for (const item of deductItems) {
+          const { data: current } = await supabase
+            .from("inventory")
+            .select("stock")
+            .eq("product_key", item.productKey)
+            .single();
+          
+          if (current) {
+            await supabase
+              .from("inventory")
+              .update({
+                stock: current.stock - item.quantity,
+                updated_at: new Date().toISOString(),
+              })
+              .eq("product_key", item.productKey);
+          }
+        }
+      } catch (deductError) {
+        console.error("Inventory deduct error:", deductError);
+        // 재고 차감 실패해도 결제는 성공이므로 계속 진행
+      }
+    }
+
     // Meta Conversions API — 서버 사이드 Purchase 이벤트
     sendPurchaseEvent({
       orderId,
