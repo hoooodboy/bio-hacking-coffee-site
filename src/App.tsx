@@ -3943,9 +3943,11 @@ function App() {
         }
         return `${p.name} ${p.sub}`;
       };
-      const firstName = cart.length > 0 ? getProductName(cart[0]) : "";
-      const orderName =
-        cart.length === 1 ? firstName : `${firstName} 외 ${cart.length - 1}건`;
+      // 모든 상품 정보 포함 (상품명 x수량)
+      const orderName = cart.map(item => {
+        const name = getProductName(item);
+        return `${name} x${item.qty}`;
+      }).join(', ');
       const SHIPPING_FEE = cartTotal >= 30000 ? 0 : 3000;
       const couponDiscount = selectedCoupon?.discount_amount || 0;
       const totalAmount = Math.max(0, cartTotal + SHIPPING_FEE - couponDiscount);
